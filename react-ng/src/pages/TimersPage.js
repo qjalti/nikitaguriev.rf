@@ -21,13 +21,14 @@ const CURRENT_DATE = moment();
  */
 const MOVED_TO_KRR = [2019, 6, 24, 8, 10];
 const MOVED_TO_KRR_DATE = moment(MOVED_TO_KRR);
-const YEARS_MK = CURRENT_DATE.diff(MOVED_TO_KRR_DATE, 'years');
+const DEPART_KRR_DATE = moment([2023, 9, 4, 19, 0]);
+const YEARS_MK = DEPART_KRR_DATE.diff(MOVED_TO_KRR_DATE, 'years');
 MOVED_TO_KRR_DATE.add(YEARS_MK, 'years');
-const MONTHS_MK = CURRENT_DATE.diff(MOVED_TO_KRR_DATE, 'months');
+const MONTHS_MK = DEPART_KRR_DATE.diff(MOVED_TO_KRR_DATE, 'months');
 MOVED_TO_KRR_DATE.add(MONTHS_MK, 'months');
-const DAYS_MK = CURRENT_DATE.diff(MOVED_TO_KRR_DATE, 'days');
+const DAYS_MK = DEPART_KRR_DATE.diff(MOVED_TO_KRR_DATE, 'days');
 MOVED_TO_KRR_DATE.add(DAYS_MK, 'days');
-const HOURS_MK = CURRENT_DATE.diff(MOVED_TO_KRR_DATE, 'hours');
+const HOURS_MK = DEPART_KRR_DATE.diff(MOVED_TO_KRR_DATE, 'hours');
 MOVED_TO_KRR_DATE.add(HOURS_MK, 'hours');
 
 /**
@@ -156,6 +157,34 @@ LAPTOP_DATE.add(DAYS_LP, 'days');
 const HOURS_LP = CURRENT_DATE.diff(LAPTOP_DATE, 'hours');
 LAPTOP_DATE.add(HOURS_LP, 'hours');
 
+/**
+ * Переехал в Москву
+ */
+const MOSCOW_ARRIVED = [2023, 9, 5, 13, 0];
+const MOSCOW_ARRIVED_DATE = moment(MOSCOW_ARRIVED);
+const YEARS_MA = CURRENT_DATE.diff(MOSCOW_ARRIVED_DATE, 'years');
+MOSCOW_ARRIVED_DATE.add(YEARS_MA, 'years');
+const MONTHS_MA = CURRENT_DATE.diff(MOSCOW_ARRIVED_DATE, 'months');
+MOSCOW_ARRIVED_DATE.add(MONTHS_MA, 'months');
+const DAYS_MA = CURRENT_DATE.diff(MOSCOW_ARRIVED_DATE, 'days');
+MOSCOW_ARRIVED_DATE.add(DAYS_MA, 'days');
+const HOURS_MA = CURRENT_DATE.diff(MOSCOW_ARRIVED_DATE, 'hours');
+MOSCOW_ARRIVED_DATE.add(HOURS_MA, 'hours');
+
+/**
+ * Аля сделала тату
+ */
+const ALYA_TATTOO = [2023, 9, 17, 22, 0];
+const ALYA_TATTOO_DATE = moment(ALYA_TATTOO);
+const YEARS_AT = CURRENT_DATE.diff(ALYA_TATTOO_DATE, 'years');
+ALYA_TATTOO_DATE.add(YEARS_AT, 'years');
+const MONTHS_AT = CURRENT_DATE.diff(ALYA_TATTOO_DATE, 'months');
+ALYA_TATTOO_DATE.add(MONTHS_AT, 'months');
+const DAYS_AT = CURRENT_DATE.diff(ALYA_TATTOO_DATE, 'days');
+ALYA_TATTOO_DATE.add(DAYS_AT, 'days');
+const HOURS_AT = CURRENT_DATE.diff(ALYA_TATTOO_DATE, 'hours');
+ALYA_TATTOO_DATE.add(HOURS_AT, 'hours');
+
 const TIMERS = [
   {
     id: 0,
@@ -239,13 +268,31 @@ const TIMERS = [
     date: BALDED,
   },
   {
-    id: 8,
+    id: 9,
     title: 'Возраст ноутбука',
     years: YEARS_LP,
     months: MONTHS_LP,
     days: DAYS_LP,
     hours: HOURS_LP,
     date: LAPTOP,
+  },
+  {
+    id: 10,
+    title: 'Переехал в Москву',
+    years: YEARS_MA,
+    months: MONTHS_MA,
+    days: DAYS_MA,
+    hours: HOURS_MA,
+    date: MOSCOW_ARRIVED,
+  },
+  {
+    id: 11,
+    title: 'Аля сделала тату',
+    years: YEARS_AT,
+    months: MONTHS_AT,
+    days: DAYS_AT,
+    hours: HOURS_AT,
+    date: ALYA_TATTOO,
   },
 ];
 
@@ -280,7 +327,7 @@ export const Timers = () => {
                             <Typography
                               variant="body2"
                             >
-                                ГОД
+                              ГОД
                             </Typography>
                             <Typography
                               variant="h6"
@@ -292,7 +339,7 @@ export const Timers = () => {
                             <Typography
                               variant="body2"
                             >
-                                МЕС
+                              МЕС
                             </Typography>
                             <Typography
                               variant="h6"
@@ -304,7 +351,7 @@ export const Timers = () => {
                             <Typography
                               variant="body2"
                             >
-                                ДНИ
+                              ДНИ
                             </Typography>
                             <Typography
                               variant="h6"
@@ -316,7 +363,7 @@ export const Timers = () => {
                             <Typography
                               variant="body2"
                             >
-                                ЧАС
+                              ЧАС
                             </Typography>
                             <Typography
                               variant="h6"
@@ -334,7 +381,7 @@ export const Timers = () => {
                             <Typography
                               variant="caption"
                             >
-                                (С {moment(el.date)
+                              (С {moment(el.date)
                                   .format('Do MMMM YYYY, kk:mm:ss')})
                             </Typography>
                           </Grid>

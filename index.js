@@ -36,7 +36,7 @@ APP.use(cors());
 APP.use(BODY_PARSER.json());
 
 /**
- * Prouction mode
+ * Production mode
  */
 if (process.env.NODE_ENV === 'production') {
   APP.use('/', express.static(PATH.join(__dirname, 'react-ng', 'build')));
