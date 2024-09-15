@@ -22,7 +22,7 @@ import {Index} from './pages/IndexPage';
 import {Resume} from './pages/ResumePage';
 import {Calc} from './pages/CalcPage';
 import {Move} from './pages/MovePage';
-import {Marika} from './pages/MarikaPage';
+import {Maria} from './pages/MariaPage';
 import {Alya} from './pages/AlyaPage';
 import {SFG} from './pages/SFGPage';
 import {StarSystems} from './pages/StarSystemPage';
@@ -33,6 +33,7 @@ import {FullScreen} from './pages/FullScreen';
 import {TES} from './pages/TESPage';
 import {GasCalc} from './pages/GasCalculatorPage';
 import {Wishlist} from './pages/WishlistPage';
+import {Temperature} from './pages/TemperaturePage';
 
 /**
  * MUI components
@@ -88,7 +89,7 @@ function App() {
                   <Route path="/resume" element={<Resume/>} exact/>
                   <Route path="/calc" element={<Calc/>} exact/>
                   <Route path="/move" element={<Move/>} exact/>
-                  <Route path="/marika" element={<Marika/>} exact/>
+                  <Route path="/maria" element={<Maria/>} exact/>
                   <Route path="/alya" element={<Alya/>} exact/>
                   <Route path="/sfg" element={<SFG/>} exact/>
                   <Route path="/star_systems" element={<StarSystems/>} exact/>
@@ -99,6 +100,7 @@ function App() {
                   <Route path="/TES" element={<TES/>} exact/>
                   <Route path="/gas_calc" element={<GasCalc/>} exact/>
                   <Route path="/wishlist" element={<Wishlist/>} exact/>
+                  <Route path="/temperature" element={<Temperature/>} exact/>
                 </Routes>
               </Container>
               <Footer/>

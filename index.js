@@ -4,13 +4,13 @@
 import express from 'express';
 import CONFIG from 'config';
 import BODY_PARSER from 'body-parser';
-import PATH from 'path';
 import cors from 'cors';
+import PATH from 'path';
 import pkg from 'pg';
 import {Server} from 'socket.io';
 import {dirname} from 'path';
 import {fileURLToPath} from 'url';
-import {Telegraf} from 'telegraf';
+// import {Telegraf} from 'telegraf';
 
 /**
  * Constants defination
@@ -21,8 +21,8 @@ const TELEGRAM_USER_ID = 738829247;
 /**
  * Telegraf settings
  */
-const BOT = new Telegraf('6598273809:AAGPoJYuU7rCf4A1OwgfpLsDNBq9Yf2vH8I');
-BOT.launch().then(r => console.log(r));
+/*const BOT = new Telegraf('6598273809:AAGPoJYuU7rCf4A1OwgfpLsDNBq9Yf2vH8I');
+BOT.launch().then(r => console.log(r));*/
 
 /**
  * Express settings
@@ -98,6 +98,21 @@ APP.post('/api/wishlist/select', async (req, res) => {
     },
   );
 });
+APP.post('/api/arduino/select', async (req, res) => {
+  const CLIENT = new Client(CONNECTION_DATA);
+  await CLIENT.connect();
+  const RESPONSE = await CLIENT.query(
+    `SELECT * FROM temperatures ORDER BY id DESC LIMIT 512`
+  );
+  await CLIENT.end();
+
+  res.json(
+    {
+      ok: true,
+      data: RESPONSE.rows,
+    },
+  );
+});
 
 APP.post('/api/wishlist/update', async (req, res) => {
 
@@ -128,7 +143,32 @@ APP.post('/api/wishlist/update', async (req, res) => {
   );
 });
 
-APP.post('/api/webhook/openai', async (req, res) => {
+APP.post('/api/arduino/get', async (req, res) => {
+
+  const {temperature} = req.body;
+
+  const CLIENT = new Client(CONNECTION_DATA);
+  await CLIENT.connect();
+  const RESPONSE = await CLIENT.query(
+    `INSERT INTO temperatures (temperature) VALUES (${temperature})`
+  );
+  await CLIENT.end();
+
+  IO.emit(
+    'arduinoEvent',
+  );
+
+  res.json(
+    {
+      ok: true,
+      message: 'Сообщение отправлено на модерацию',
+      alertColor: 'success',
+      data: 'TODO',
+    },
+  );
+});
+
+/*APP.post('/api/webhook/openai', async (req, res) => {
 
   const REQUEST_BODY = req.body;
 
@@ -143,7 +183,7 @@ More information: ${REQUEST_BODY.incident.shortlink}`);
 
   res.status(200);
 
-});
+});*/
 
 /**
  * WebSocket

@@ -35,7 +35,7 @@ import moment from 'moment';
 
 const SOCKET = io('https://xn--80aecimacmz9ato.xn--p1ai');
 
-const ACTUALITY_DATE = '23.06.2023';
+const ACTUALITY_DATE = '11.03.2024';
 
 export const Wishlist = () => {
   const [confirmationDialog, setConfirmationDialog] = useState(false);
@@ -84,11 +84,11 @@ export const Wishlist = () => {
   const updateData = async () => {
     setConfirmationDialog(false);
     await axios.post(
-        'https://xn--80aecimacmz9ato.xn--p1ai/api/wishlist/update',
-        {
-          elementId,
-          elementStatus,
-        },
+      'https://xn--80aecimacmz9ato.xn--p1ai/api/wishlist/update',
+      {
+        elementId,
+        elementStatus,
+      },
     );
   };
 
@@ -187,7 +187,6 @@ export const Wishlist = () => {
     data: PropTypes.object,
   };
 
-
   SOCKET.on('elementChanged', () => {
     selectData().then(() => false);
   });
@@ -212,6 +211,29 @@ export const Wishlist = () => {
           <Paper>
             <Container>
               <Grid
+                container
+                direction={'row'}
+                sx={{py: 2}}
+              >
+                <Grid item>
+                  <Grid
+                    container
+                    direction={'row'}
+                  >
+                    <Grid item>
+                      <Typography variant={'h4'}>Список желаний переехал:</Typography>
+                      <Link
+                        href={'https://docs.google.com/spreadsheets/d/1w9G7cG-la7cHqL_rDlJ7J72cw-Kfa5Wp221Ujyk02XM/edit?usp=sharing'}
+                        target={'_blank'}
+                        variant={'h4'}
+                      >
+                        Список желаний
+                      </Link>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+              {/*<Grid
                 container
                 direction={'row'}
                 sx={{py: 2}}
@@ -280,8 +302,8 @@ export const Wishlist = () => {
                     </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid
+              </Grid>*/}
+              {/*<Grid
                 container
                 direction={'row'}
                 sx={{py: 2}}
@@ -330,9 +352,9 @@ export const Wishlist = () => {
                     </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Divider/>
-              <Grid
+              </Grid>*/}
+              {/*<Divider/>*/}
+              {/*<Grid
                 container
                 direction={'row'}
                 sx={{py: 2}}
@@ -386,7 +408,7 @@ export const Wishlist = () => {
                                     >
                                       {parse(el.title)} <sup>
                                       (изм. {UPDATE_DATE})
-                                      </sup>
+                                    </sup>
                                     </ListItemText>
                                   </ListItemButton>
                                 </ListItem>
@@ -399,7 +421,7 @@ export const Wishlist = () => {
                     }
                   </Grid>
                 </Grid>
-              </Grid>
+              </Grid>*/}
             </Container>
           </Paper>
         </Box>
