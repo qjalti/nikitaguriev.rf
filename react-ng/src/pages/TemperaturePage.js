@@ -17,7 +17,9 @@ import {common} from '@mui/material/colors';
 import axios from 'axios';
 import {io} from 'socket.io-client';
 import moment from 'moment';
+import 'moment/locale/ru';
 // import {LineChart} from '@mui/x-charts/LineChart';
+moment.locale('ru');
 
 const SOCKET = io('https://xn--80aecimacmz9ato.xn--p1ai');
 
@@ -31,7 +33,15 @@ export const Temperature = () => {
     try {
       setLoading(true);
       const RESPONSE = await axios.post('https://xn--80aecimacmz9ato.xn--p1ai/api/arduino/select');
-      setElements(RESPONSE.data.data[0].temperature);
+      console.dir(RESPONSE);
+      const TEMPERATURE_DATE = moment(RESPONSE.data.data[0].timestamp);
+      console.log(TEMPERATURE_DATE);
+      setElements(
+        {
+          temperature: RESPONSE.data.data[0].temperature,
+          date: TEMPERATURE_DATE.fromNow()
+        }
+      );
       const TEMPERATURES = [];
       const TIMESTAMPS = [];
       RESPONSE.data.data.map((el) => {
@@ -86,22 +96,11 @@ export const Temperature = () => {
                   >
                     <Grid item>
                       <Typography variant={'h4'} align={'center'}>
-                        {elements}&deg;C
+                        {elements.temperature}&deg;C
                       </Typography>
-                      {/*<Button
-                        onClick={() => {
-                          axios.post('https://188.32.39.119:8090/led/on').then(r => false)
-                        }}
-                      >
-                        Turn LED ON
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          axios.post('https://188.32.39.119:8090/led/off').then(r => false)
-                        }}
-                      >
-                        Turn LED OFF
-                      </Button>*/}
+                      <Typography variant={'caption'} align={'center'}>
+                        ({elements.date})
+                      </Typography>
                     </Grid>
                   </Grid>
                 </Grid>
