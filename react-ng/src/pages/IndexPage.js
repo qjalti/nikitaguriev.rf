@@ -4,8 +4,8 @@
 /**
  * React
  */
-import React, {useContext} from 'react';
-import {Link as RouterLink} from 'react-router-dom';
+import React, {useContext, useEffect} from 'react';
+import {Link as RouterLink, useLocation} from 'react-router-dom';
 import {Context} from '../context';
 
 /**
@@ -30,12 +30,19 @@ import VolumeUpOutlinedIcon from '@mui/icons-material/VolumeUpOutlined';
 import TheatersOutlinedIcon from '@mui/icons-material/TheatersOutlined';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import CalendarMonthOutlinedIcon from
-    '@mui/icons-material/CalendarMonthOutlined';
+  '@mui/icons-material/CalendarMonthOutlined';
 /* import LocalGasStationOutlinedIcon from
   '@mui/icons-material/LocalGasStationOutlined';*/
 
 export const Index = () => {
   const {openSpeedDial} = useContext(Context);
+
+  const location = useLocation();
+  useEffect(() => {
+    if (location.search.includes('openSpeedDial=true')) {
+      openSpeedDial();
+    }
+  }, [location]);
 
   const LINKS = [
     {

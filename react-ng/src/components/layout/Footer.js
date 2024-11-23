@@ -35,7 +35,7 @@ const actions = [
   },
   {
     icon: <AlternateEmailOutlinedIcon/>,
-    name: 'E-Mail',
+    name: 'EMail',
     id: 'email',
     link: 'mailto:stig.guriev@gmail.com',
   },
@@ -63,7 +63,7 @@ export const Footer = () => {
     <div>
       <Backdrop open={speedDialState}/>
       <SpeedDial
-        ariaLabel="Контакты"
+        ariaLabel={'Контакты'}
         sx={{position: 'fixed', bottom: 16, right: 16}}
         icon={<SpeedDialIcon/>}
         onClose={closeSpeedDial}
@@ -75,6 +75,7 @@ export const Footer = () => {
             key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}
+            tooltipOpen
             onClick={closeSpeedDial}
             href={action.link}
             target="_blank"
