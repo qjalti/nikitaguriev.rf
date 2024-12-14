@@ -110,6 +110,6 @@ function App() {
       </Fragment>
     </Router>
   );
-}
+};
 
 export default App;
