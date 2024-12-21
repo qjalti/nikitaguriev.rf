@@ -72,7 +72,7 @@ const SERVER = APP.listen(PORT, () => {
  */
 const IO = new Server(SERVER, {
   cors: {
-    origin: ['https://xn--80aecimacmz9ato.xn--p1ai'],
+    origin: ['https://qjalti.ru'],
     methods: ['GET', 'POST'],
     credentials: true
   }

@@ -31,29 +31,27 @@ export const TimerPage = () => {
       in
     >
       <Box sx={{flexGrow: 1}}>
-        <ThemeProvider theme={darkTheme}>
-          <Paper
-            sx={{pb: 2}}
-          >
-            <Container>
-              <Grid
-                container
-                spacing={2}
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Grid item>
-                  <Typography gutterBottom>
+        <Paper
+          sx={{pb: 2}}
+        >
+          <Container>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid item>
+                <Typography gutterBottom>
                     Таймер
-                  </Typography>
-                  <Alert severity="warning">
+                </Typography>
+                <Alert severity="warning">
                     Страница находится в разработке. Повторите попытку позже
-                  </Alert>
-                </Grid>
+                </Alert>
               </Grid>
-            </Container>
-          </Paper>
-        </ThemeProvider>
+            </Grid>
+          </Container>
+        </Paper>
       </Box>
     </Grow>
   );

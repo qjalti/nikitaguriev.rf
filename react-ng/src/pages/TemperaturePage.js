@@ -11,7 +11,6 @@ import {
   Grow,
   Backdrop,
   CircularProgress,
-  Button
 } from '@mui/material';
 import {common} from '@mui/material/colors';
 import axios from 'axios';
@@ -21,26 +20,24 @@ import 'moment/locale/ru';
 // import {LineChart} from '@mui/x-charts/LineChart';
 moment.locale('ru');
 
-const SOCKET = io('https://xn--80aecimacmz9ato.xn--p1ai');
+const SOCKET = io('https://qjalti.ru');
 
 export const Temperature = () => {
   const [loading, setLoading] = useState(false);
   const [elements, setElements] = useState([]);
-  const [xElements, setXElements] = useState([]);
-  const [yElements, setYElements] = useState([]);
 
   const selectArduinoData = async () => {
     try {
       setLoading(true);
-      const RESPONSE = await axios.post('https://xn--80aecimacmz9ato.xn--p1ai/api/arduino/select');
+      const RESPONSE = await axios.post('https://qjalti.ru/api/arduino/select');
       console.dir(RESPONSE);
       const TEMPERATURE_DATE = moment(RESPONSE.data.data[0].timestamp);
       console.log(TEMPERATURE_DATE);
       setElements(
-        {
-          temperature: RESPONSE.data.data[0].temperature,
-          date: TEMPERATURE_DATE.fromNow()
-        }
+          {
+            temperature: RESPONSE.data.data[0].temperature,
+            date: TEMPERATURE_DATE.fromNow(),
+          },
       );
       const TEMPERATURES = [];
       const TIMESTAMPS = [];
@@ -48,8 +45,8 @@ export const Temperature = () => {
         TEMPERATURES.push(el.temperature);
         TIMESTAMPS.push(el.id);
       });
-      setXElements(TEMPERATURES);
-      setYElements(TIMESTAMPS);
+      // setXElements(TEMPERATURES);
+      // setYElements(TIMESTAMPS);
       setLoading(false);
     } catch (err) {
       console.log('Error! ', err.message);
@@ -99,7 +96,7 @@ export const Temperature = () => {
                         {elements.temperature}&deg;C
                       </Typography>
                       <Typography variant={'caption'} align={'center'}>
-                        ({elements.date})
+                          ({elements.date})
                       </Typography>
                     </Grid>
                   </Grid>
@@ -111,7 +108,7 @@ export const Temperature = () => {
                 sx={{py: 2}}
               >
                 <Grid item>
-                  {/*<LineChart
+                  {/* <LineChart
                     xAxis={[{data: yElements}]}
                     series={[
                       {

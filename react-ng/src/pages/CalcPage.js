@@ -1,3 +1,4 @@
+/*
 import React, {useState, useEffect} from 'react';
 import {
   Box,
@@ -20,33 +21,33 @@ import CalculateOutlinedIcon from '@mui/icons-material/CalculateOutlined';
 import ClearAllOutlinedIcon from '@mui/icons-material/ClearAllOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 
-import {useCookies} from 'react-cookie';
+// import {useCookies} from 'react-cookie';
 
 export const Calc = () => {
-  /**
+  /!**
    * Блок определения хуков
-   */
+   *!/
   const [a, setA] = useState('A');
   const [b, setB] = useState('B');
   const [c, setC] = useState('C');
   const [x, setX] = useState('X');
   const [y, setY] = useState('Y');
   const [z, setZ] = useState('Z');
-  const [cookies, setCookie, removeCookie] = useCookies(
+  /!* const [cookies, setCookie, removeCookie] = useCookies(
       ['cookie-name'],
-  );
+  );*!/
   const [counter, setCounter] = useState(
-    cookies.calculates ? cookies.calculates.length : 0,
+      // cookies.calculates ? cookies.calculates.length : 0,
   );
-  const [history, setHistory] = useState(cookies.calculates ?? []);
+  // const [history, setHistory] = useState(cookies.calculates ?? []);
   const [openExample, setOpenExample] = useState(true);
   const [openFormula, setOpenFormula] = useState(true);
 
-  /**
+  /!**
    * Блок пользовательских функций
    * @param {string} variable String
    * @return {string} Formatted string
-   */
+   *!/
   const checkComma = (variable) => {
     return variable.replace(',', '.');
   };
@@ -56,7 +57,7 @@ export const Calc = () => {
   };
 
   const saveHistory = () => {
-    setHistory((prevHistory) => {
+    /!* setHistory((prevHistory) => {
       const CURRENT_DATE = new Date();
       const NEW_DATE = new Date(
           CURRENT_DATE.setMonth(CURRENT_DATE.getMonth() + 3),
@@ -77,7 +78,7 @@ export const Calc = () => {
           a, b, c, x, y, z, counter,
         },
       ];
-    });
+    });*!/
   };
 
   const calculateX = () => {
@@ -398,3 +399,4 @@ export const Calc = () => {
     </Grow>
   );
 };
+*/

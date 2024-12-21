@@ -3,9 +3,7 @@
  */
 import React, {useState} from 'react';
 import {
-  createTheme,
   Box,
-  ThemeProvider,
   Container,
   Grid,
   Typography,
@@ -72,18 +70,6 @@ import cf053 from '../img/cf_053.jpg';
 import cf054 from '../img/cf_054.jpg';
 import cf055 from '../img/cf_055.jpg';
 import cf056 from '../img/cf_056.jpg';
-
-/**
- * Блок кастомизации MUI
- */
-const darkTheme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#1565C0',
-    },
-  },
-});
 
 const FILMS = [
   cf001,
@@ -174,82 +160,80 @@ export const ChooseFilm = () => {
       in
     >
       <Box sx={{flexGrow: 1}}>
-        <ThemeProvider theme={darkTheme}>
-          <Paper>
-            <Container>
-              <Grid
-                container
-                direction={'row'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                sx={{p: 2}}
-              >
-                <Grid item>
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                  >
+        <Paper>
+          <Container>
+            <Grid
+              container
+              direction={'row'}
+              justifyContent={'center'}
+              alignItems={'center'}
+              sx={{p: 2}}
+            >
+              <Grid item>
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                >
                     Советник фильмов
-                  </Typography>
-                  <Link
-                    href="https://www.ivi.ru/collections/badcomedian-ivi10"
-                    target={'_blank'}
-                  >
+                </Typography>
+                <Link
+                  href="https://www.ivi.ru/collections/badcomedian-ivi10"
+                  target={'_blank'}
+                >
                     BadComedian рекомендует: Лучшие фильмы десятилетия
-                  </Link>
-                </Grid>
+                </Link>
               </Grid>
-              <Grid
-                container
-                spacing={2}
-                justifyContent="center"
-                alignItems="center"
-                sx={{mb: 2}}
-              >
-                <Grid item>
-                  <Alert severity="info">Всего 56 фильмов</Alert>
-                </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+              sx={{mb: 2}}
+            >
+              <Grid item>
+                <Alert severity="info">Всего 56 фильмов</Alert>
               </Grid>
-              <Grid
-                container
-                spacing={2}
-                justifyContent="center"
-                alignItems="center"
-                sx={{mb: 2}}
-              >
-                <Grid item>
-                  <Grow
-                    in={growState}
-                    timeout={300}
-                  >
-                    <Box
-                      component="img"
-                      sx={{borderRadius: 2}}
-                      src={filmImg}
-                      alt="Постер фильма"
-                    />
-                  </Grow>
-                </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+              sx={{mb: 2}}
+            >
+              <Grid item>
+                <Grow
+                  in={growState}
+                  timeout={300}
+                >
+                  <Box
+                    component="img"
+                    sx={{borderRadius: 2}}
+                    src={filmImg}
+                    alt="Постер фильма"
+                  />
+                </Grow>
               </Grid>
-              <Grid
-                container
-                spacing={2}
-                justifyContent="center"
-                alignItems="center"
-                sx={{mb: 2}}
-              >
-                <Grid item>
-                  <Button
-                    onClick={chooseFilm}
-                    sx={{mb: 2}}
-                  >
+            </Grid>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+              sx={{mb: 2}}
+            >
+              <Grid item>
+                <Button
+                  onClick={chooseFilm}
+                  sx={{mb: 2}}
+                >
                     Посоветовать фильм
-                  </Button>
-                </Grid>
+                </Button>
               </Grid>
-            </Container>
-          </Paper>
-        </ThemeProvider>
+            </Grid>
+          </Container>
+        </Paper>
       </Box>
     </Grow>
   );

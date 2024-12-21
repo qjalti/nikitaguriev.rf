@@ -3,27 +3,13 @@
  */
 import React, {useState} from 'react';
 import {
-  createTheme,
   Box,
-  ThemeProvider,
   Container,
   Grid,
   Typography,
   Alert,
   Paper, Grow, Button,
 } from '@mui/material';
-
-/**
- * Блок кастомизации MUI
- */
-const darkTheme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#1565C0',
-    },
-  },
-});
 
 const STAR_SYSTEMS = [
   'Alpha Centauri',
@@ -99,68 +85,66 @@ export const StarSystems = () => {
       in
     >
       <Box>
-        <ThemeProvider theme={darkTheme}>
-          <Paper>
-            <Container>
-              <Grid
-                container
-                direction={'row'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                sx={{p: 2}}
-              >
-                <Grid item>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    alignItems="center"
-                    sx={{pb: 2}}
-                  >
-                    <Grid item>
-                      <Alert
-                        severity="info"
-                      >
+        <Paper>
+          <Container>
+            <Grid
+              container
+              direction={'row'}
+              justifyContent={'center'}
+              alignItems={'center'}
+              sx={{p: 2}}
+            >
+              <Grid item>
+                <Grid
+                  container
+                  justifyContent="center"
+                  alignItems="center"
+                  sx={{pb: 2}}
+                >
+                  <Grid item>
+                    <Alert
+                      severity="info"
+                    >
                         Всего {STAR_SYSTEMS.length} звездных систем
-                      </Alert>
-                    </Grid>
+                    </Alert>
                   </Grid>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <Grid item>
-                      <Grow
-                        in={grow}
+                </Grid>
+                <Grid
+                  container
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <Grow
+                      in={grow}
+                    >
+                      <Typography
+                        variant="h4"
+                        gutterBottom
                       >
-                        <Typography
-                          variant="h4"
-                          gutterBottom
-                        >
-                          {starSystem}
-                        </Typography>
-                      </Grow>
-                    </Grid>
+                        {starSystem}
+                      </Typography>
+                    </Grow>
                   </Grid>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <Grid item>
-                      <Button
-                        size="large"
-                        onClick={changeStarSystem}
-                      >
+                </Grid>
+                <Grid
+                  container
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <Button
+                      size="large"
+                      onClick={changeStarSystem}
+                    >
                         Сменить
-                      </Button>
-                    </Grid>
+                    </Button>
                   </Grid>
                 </Grid>
               </Grid>
-            </Container>
-          </Paper>
-        </ThemeProvider>
+            </Grid>
+          </Container>
+        </Paper>
       </Box>
     </Grow>
   );

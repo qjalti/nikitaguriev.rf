@@ -3,26 +3,12 @@
  */
 import React from 'react';
 import {
-  createTheme,
   Box,
-  ThemeProvider,
   Container,
   Grid, Typography, Alert, AlertTitle, Paper, Grow,
 } from '@mui/material';
 import moment from 'moment';
 import 'moment/locale/ru';
-
-/**
- * Блок кастомизации MUI
- */
-const darkTheme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#1565C0',
-    },
-  },
-});
 
 /**
  * Блок настройки MOMENT
@@ -78,246 +64,244 @@ export const Alya = () => {
       in
     >
       <Box sx={{flexGrow: 1}}>
-        <ThemeProvider theme={darkTheme}>
-          <Paper
-            sx={{pb: 2}}
-          >
-            <Container>
-              <Grid
-                container
-                spacing={2}
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Grid item xs={12} md={6}>
-                  <Box>
-                    <Alert severity="info">
-                      <AlertTitle>Восстановление общения</AlertTitle>
-                      <Grid
-                        container
-                        spacing={2}
-                        sx={{textAlign: 'center'}}
-                      >
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
+        <Paper
+          sx={{pb: 2}}
+        >
+          <Container>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid item xs={12} md={6}>
+                <Box>
+                  <Alert severity="info">
+                    <AlertTitle>Восстановление общения</AlertTitle>
+                    <Grid
+                      container
+                      spacing={2}
+                      sx={{textAlign: 'center'}}
+                    >
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
                             ГОД
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                          >
-                            {YEARS_FMSG}
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
-                            МЕС
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                          >
-                            {MONTHS_FMSG}
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
-                            ДНИ
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                          >
-                            {DAYS_FMSG}
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
-                            ЧАС
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                          >
-                            {HOURS_FMSG}
-                          </Typography>
-                        </Grid>
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                        >
+                          {YEARS_FMSG}
+                        </Typography>
                       </Grid>
-                      <Grid
-                        container
-                        spacing={2}
-                        sx={{textAlign: 'center'}}
-                      >
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
+                            МЕС
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                        >
+                          {MONTHS_FMSG}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
+                            ДНИ
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                        >
+                          {DAYS_FMSG}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
+                            ЧАС
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                        >
+                          {HOURS_FMSG}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={2}
+                      sx={{textAlign: 'center'}}
+                    >
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
                             (С {moment(FIRST_MESSAGE)
-                                .format('Do MMMM YYYY, HH:mm:ss')})
-                          </Typography>
-                        </Grid>
+                              .format('Do MMMM YYYY, HH:mm:ss')})
+                        </Typography>
                       </Grid>
-                    </Alert>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Box>
-                    <Alert severity="info">
-                      <AlertTitle>Первое сообщение</AlertTitle>
-                      <Grid
-                        container
-                        spacing={2}
-                        sx={{textAlign: 'center'}}
-                      >
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
-                            ГОД
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                          >
-                            {YEARS_VFMSG}
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
-                            МЕС
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                          >
-                            {MONTHS_VFMSG}
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
-                            ДНИ
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                          >
-                            {DAYS_VFMSG}
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
-                            ЧАС
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                          >
-                            {HOURS_VFMSG}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                      <Grid
-                        container
-                        spacing={2}
-                        sx={{textAlign: 'center'}}
-                      >
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
-                            (С {moment(VERY_FIRST_MSG)
-                                .format('Do MMMM YYYY, HH:mm:ss')})
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Alert>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Box>
-                    <Alert severity="info">
-                      <AlertTitle>Приезжает в Краснодар</AlertTitle>
-                      <Grid
-                        container
-                        spacing={2}
-                        sx={{textAlign: 'center'}}
-                      >
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
-                            ГОД
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                          >
-                            {YEARS_RKRR}
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
-                            МЕС
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                          >
-                            {MONTHS_RKRR}
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
-                            ДНИ
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                          >
-                            {DAYS_RKRR}
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
-                            ЧАС
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                          >
-                            {HOURS_RKRR}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                      <Grid
-                        container
-                        spacing={2}
-                        sx={{textAlign: 'center'}}
-                      >
-                        <Grid item>
-                          <Typography
-                            variant="caption"
-                          >
-                            (С {moment(REACH_KRR)
-                                .format('Do MMMM YYYY, HH:mm:ss')})
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Alert>
-                  </Box>
-                </Grid>
+                    </Grid>
+                  </Alert>
+                </Box>
               </Grid>
-            </Container>
-          </Paper>
-        </ThemeProvider>
+              <Grid item xs={12} md={6}>
+                <Box>
+                  <Alert severity="info">
+                    <AlertTitle>Первое сообщение</AlertTitle>
+                    <Grid
+                      container
+                      spacing={2}
+                      sx={{textAlign: 'center'}}
+                    >
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
+                            ГОД
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                        >
+                          {YEARS_VFMSG}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
+                            МЕС
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                        >
+                          {MONTHS_VFMSG}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
+                            ДНИ
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                        >
+                          {DAYS_VFMSG}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
+                            ЧАС
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                        >
+                          {HOURS_VFMSG}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={2}
+                      sx={{textAlign: 'center'}}
+                    >
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
+                            (С {moment(VERY_FIRST_MSG)
+                              .format('Do MMMM YYYY, HH:mm:ss')})
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Alert>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box>
+                  <Alert severity="info">
+                    <AlertTitle>Приезжает в Краснодар</AlertTitle>
+                    <Grid
+                      container
+                      spacing={2}
+                      sx={{textAlign: 'center'}}
+                    >
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
+                            ГОД
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                        >
+                          {YEARS_RKRR}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
+                            МЕС
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                        >
+                          {MONTHS_RKRR}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
+                            ДНИ
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                        >
+                          {DAYS_RKRR}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
+                            ЧАС
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                        >
+                          {HOURS_RKRR}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={2}
+                      sx={{textAlign: 'center'}}
+                    >
+                      <Grid item>
+                        <Typography
+                          variant="caption"
+                        >
+                            (С {moment(REACH_KRR)
+                              .format('Do MMMM YYYY, HH:mm:ss')})
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Alert>
+                </Box>
+              </Grid>
+            </Grid>
+          </Container>
+        </Paper>
       </Box>
     </Grow>
   );

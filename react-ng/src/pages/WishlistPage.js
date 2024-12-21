@@ -8,49 +8,49 @@ import {
   Container,
   Grid,
   Typography,
-  Alert,
+  // Alert,
   Paper,
   Grow,
-  AlertTitle,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  ListItemIcon,
-  Checkbox,
+  // AlertTitle,
+  // List,
+  // ListItem,
+  // ListItemButton,
+  // ListItemText,
+  // ListItemIcon,
+  // Checkbox,
   Backdrop,
   CircularProgress,
   Divider,
-  IconButton,
+  // IconButton,
   Link,
 } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import {green, common} from '@mui/material/colors';
+// import CheckIcon from '@mui/icons-material/Check';
+// import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+// import {green, common} from '@mui/material/colors';
 import axios from 'axios';
 import {io} from 'socket.io-client';
 import parse from 'html-react-parser';
 import {Dialog} from '../components/ui-kit/Dialog.js';
-import moment from 'moment';
+// import moment from 'moment';
 
-const SOCKET = io('https://xn--80aecimacmz9ato.xn--p1ai');
+const SOCKET = io('https://qjalti.ru');
 
-const ACTUALITY_DATE = '11.03.2024';
+// const ACTUALITY_DATE = '11.03.2024';
 
 export const Wishlist = () => {
   const [confirmationDialog, setConfirmationDialog] = useState(false);
   const [detailsDialog, setDetailsDialog] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [elements, setElements] = useState([]);
+  // const [elements, setElements] = useState([]);
   const [elementId, setElementId] = useState();
-  const [elementStatus, setElementStatus] = useState();
-  const [detailsDialogData, setDDData] = useState();
+  // const [elementStatus, setElementStatus] = useState();
+  // const [detailsDialogData, setDDData] = useState();
 
   const selectData = async () => {
     try {
       setLoading(true);
-      const RESPONSE = await axios.post('https://xn--80aecimacmz9ato.xn--p1ai/api/wishlist/select');
-      setElements(RESPONSE.data.data);
+      // const RESPONSE = await axios.post('https://qjalti.ru/api/wishlist/select');
+      // setElements(RESPONSE.data.data);
       setLoading(false);
     } catch (err) {
       console.log('Error! ', err.message);
@@ -71,32 +71,32 @@ export const Wishlist = () => {
     setDetailsDialog(false);
   };
 
-  const detailsHandler = () => {
+  /* const detailsHandler = () => {
     setDetailsDialog(true);
-  };
+  };*/
 
-  const checkBoxHandler = async (evt) => {
+  /* const checkBoxHandler = async (evt) => {
     setElementId(evt.target.id);
     setElementStatus(evt.target.checked);
     setConfirmationDialog(true);
-  };
+  };*/
 
   const updateData = async () => {
     setConfirmationDialog(false);
     await axios.post(
-      'https://xn--80aecimacmz9ato.xn--p1ai/api/wishlist/update',
-      {
-        elementId,
-        elementStatus,
-      },
+        'https://qjalti.ru/api/wishlist/update',
+        {
+          elementId,
+          // elementStatus,
+        },
     );
   };
 
-  const showDetails = (data) => {
+  /* const showDetails = (data) => {
     detailsHandler();
     const SELECTED_ELEMENT = elements.find((item) => item.id === data.id);
     setDDData(SELECTED_ELEMENT);
-  };
+  };*/
 
   const ConfirmationDialog = () => {
     return (
@@ -194,10 +194,10 @@ export const Wishlist = () => {
   return (
     <>
       <ConfirmationDialog/>
-      <DetailsDialog data={detailsDialogData}/>
+      {/* <DetailsDialog data={detailsDialogData}/>*/}
       <Backdrop
         sx={{
-          color: common.white,
+          // color: common.white,
           zIndex: (theme) => theme.zIndex.drawer + 1,
         }}
         open={loading}
@@ -221,19 +221,21 @@ export const Wishlist = () => {
                     direction={'row'}
                   >
                     <Grid item>
-                      <Typography variant={'h4'}>Список желаний переехал:</Typography>
+                      <Typography variant={'h4'}>
+                          Список желаний переехал:
+                      </Typography>
                       <Link
-                        href={'https://docs.google.com/spreadsheets/d/1w9G7cG-la7cHqL_rDlJ7J72cw-Kfa5Wp221Ujyk02XM/edit?usp=sharing'}
+                        href={'https://bit.ly/3P4nIu2'}
                         target={'_blank'}
                         variant={'h4'}
                       >
-                        Список желаний
+                          Список желаний
                       </Link>
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-              {/*<Grid
+              {/* <Grid
                 container
                 direction={'row'}
                 sx={{py: 2}}
@@ -303,7 +305,7 @@ export const Wishlist = () => {
                   </Grid>
                 </Grid>
               </Grid>*/}
-              {/*<Grid
+              {/* <Grid
                 container
                 direction={'row'}
                 sx={{py: 2}}
@@ -353,8 +355,8 @@ export const Wishlist = () => {
                   </Grid>
                 </Grid>
               </Grid>*/}
-              {/*<Divider/>*/}
-              {/*<Grid
+              {/* <Divider/>*/}
+              {/* <Grid
                 container
                 direction={'row'}
                 sx={{py: 2}}

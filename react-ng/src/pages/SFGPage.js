@@ -3,9 +3,8 @@
  */
 import React from 'react';
 import {
-  createTheme,
+  // createTheme,
   Box,
-  ThemeProvider,
   Container,
   Grid,
   Typography,
@@ -509,18 +508,6 @@ const SOUNDS = [
   },
 ];
 
-/**
- * Блок кастомизации MUI
- */
-const darkTheme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#1565C0',
-    },
-  },
-});
-
 export const SFG = () => {
   let soundsCounter = 0;
   return (
@@ -528,57 +515,55 @@ export const SFG = () => {
       in
     >
       <Box sx={{flexGrow: 1}}>
-        <ThemeProvider theme={darkTheme}>
-          <Container sx={{textAlign: 'center'}}>
-            <Grid
-              container
-              spacing={2}
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Grid item>
-                {SOUNDS.map((sounds) => {
-                  soundsCounter++;
-                  return (
-                    <Accordion key={soundsCounter}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon/>}
-                      >
-                        <Typography>{sounds.category_name}</Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Box
-                          component="img"
-                          src={sounds.category_image}
-                          sx={{mb: 2}}
-                        />
-                        {sounds.sounds.map((sound) => (
-                          <>
-                            <Typography gutterBottom>
-                              {sound.text}
-                            </Typography>
-                            <Box
-                              component="audio"
-                              src={sound.src}
-                              controls
-                            />
-                          </>
-                        ))}
-                      </AccordionDetails>
-                    </Accordion>
-                  );
-                })}
-                <Button
-                  sx={{mt: 2}}
-                  href="https://t.me/NikitaGuriev"
-                  target="_blank"
-                >
+        <Container sx={{textAlign: 'center'}}>
+          <Grid
+            container
+            spacing={2}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Grid item>
+              {SOUNDS.map((sounds) => {
+                soundsCounter++;
+                return (
+                  <Accordion key={soundsCounter}>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon/>}
+                    >
+                      <Typography>{sounds.category_name}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Box
+                        component="img"
+                        src={sounds.category_image}
+                        sx={{mb: 2}}
+                      />
+                      {sounds.sounds.map((sound) => (
+                        <>
+                          <Typography gutterBottom>
+                            {sound.text}
+                          </Typography>
+                          <Box
+                            component="audio"
+                            src={sound.src}
+                            controls
+                          />
+                        </>
+                      ))}
+                    </AccordionDetails>
+                  </Accordion>
+                );
+              })}
+              <Button
+                sx={{mt: 2}}
+                href="https://t.me/NikitaGuriev"
+                target="_blank"
+              >
                   Предложить добавить новые звуки
-                </Button>
-              </Grid>
+              </Button>
             </Grid>
-          </Container>
-        </ThemeProvider>
+          </Grid>
+        </Container>
       </Box>
     </Grow>
   );

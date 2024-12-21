@@ -5,7 +5,7 @@ import React from 'react';
 import {
   createTheme,
   Box,
-  ThemeProvider,
+  // ThemeProvider,
   Container,
   Grid, Typography, Alert, AlertTitle, Paper, Grow,
 } from '@mui/material';
@@ -15,14 +15,14 @@ import 'moment/locale/ru';
 /**
  * Блок кастомизации MUI
  */
-const darkTheme = createTheme({
+/* const darkTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
       main: '#1565C0',
     },
   },
-});
+});*/
 
 /**
  * Блок настройки MOMENT
@@ -108,100 +108,98 @@ export const Marika = () => {
       in
     >
       <Box sx={{flexGrow: 1}}>
-        <ThemeProvider theme={darkTheme}>
-          <Paper
-            sx={{pb: 2}}
-          >
-            <Container>
-              <Grid
-                container
-                spacing={2}
-                justifyContent="center"
-                alignItems="center"
-              >
-                {
-                  TIMERS.map((el) => (
-                    <Grid item xs={12} md={6} key={el.id}>
-                      <Box>
-                        <Alert severity="info">
-                          <AlertTitle>{el.title}</AlertTitle>
-                          <Grid
-                            container
-                            spacing={2}
-                            sx={{textAlign: 'center'}}
-                          >
-                            <Grid item>
-                              <Typography
-                                variant="body2"
-                              >
-                                ГОД
-                              </Typography>
-                              <Typography
-                                variant="h6"
-                              >
-                                {el.years}
-                              </Typography>
-                            </Grid>
-                            <Grid item>
-                              <Typography
-                                variant="body2"
-                              >
-                                МЕС
-                              </Typography>
-                              <Typography
-                                variant="h6"
-                              >
-                                {el.months}
-                              </Typography>
-                            </Grid>
-                            <Grid item>
-                              <Typography
-                                variant="body2"
-                              >
-                                ДНИ
-                              </Typography>
-                              <Typography
-                                variant="h6"
-                              >
-                                {el.days}
-                              </Typography>
-                            </Grid>
-                            <Grid item>
-                              <Typography
-                                variant="body2"
-                              >
-                                ЧАС
-                              </Typography>
-                              <Typography
-                                variant="h6"
-                              >
-                                {el.hours}
-                              </Typography>
-                            </Grid>
+        <Paper
+          sx={{pb: 2}}
+        >
+          <Container>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+            >
+              {
+                TIMERS.map((el) => (
+                  <Grid item xs={12} md={6} key={el.id}>
+                    <Box>
+                      <Alert severity="info">
+                        <AlertTitle>{el.title}</AlertTitle>
+                        <Grid
+                          container
+                          spacing={2}
+                          sx={{textAlign: 'center'}}
+                        >
+                          <Grid item>
+                            <Typography
+                              variant="body2"
+                            >
+                                    ГОД
+                            </Typography>
+                            <Typography
+                              variant="h6"
+                            >
+                              {el.years}
+                            </Typography>
                           </Grid>
-                          <Grid
-                            container
-                            spacing={2}
-                            sx={{textAlign: 'center'}}
-                          >
-                            <Grid item>
-                              <Typography
-                                variant="caption"
-                              >
-                                (С {moment(el.date)
-                                    .format('Do MMMM YYYY, kk:mm:ss')})
-                              </Typography>
-                            </Grid>
+                          <Grid item>
+                            <Typography
+                              variant="body2"
+                            >
+                                    МЕС
+                            </Typography>
+                            <Typography
+                              variant="h6"
+                            >
+                              {el.months}
+                            </Typography>
                           </Grid>
-                        </Alert>
-                      </Box>
-                    </Grid>
-                  ))
-                }
-              </Grid>
-            </Container>
-          </Paper>
-        </ThemeProvider>
+                          <Grid item>
+                            <Typography
+                              variant="body2"
+                            >
+                                    ДНИ
+                            </Typography>
+                            <Typography
+                              variant="h6"
+                            >
+                              {el.days}
+                            </Typography>
+                          </Grid>
+                          <Grid item>
+                            <Typography
+                              variant="body2"
+                            >
+                                    ЧАС
+                            </Typography>
+                            <Typography
+                              variant="h6"
+                            >
+                              {el.hours}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid
+                          container
+                          spacing={2}
+                          sx={{textAlign: 'center'}}
+                        >
+                          <Grid item>
+                            <Typography
+                              variant="caption"
+                            >
+                                    (С {moment(el.date)
+                                  .format('Do MMMM YYYY, kk:mm:ss')})
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </Alert>
+                    </Box>
+                  </Grid>
+                ))
+              }
+            </Grid>
+          </Container>
+        </Paper>
       </Box>
     </Grow>
   );

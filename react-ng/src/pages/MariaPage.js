@@ -5,7 +5,7 @@ import React from 'react';
 import {
   createTheme,
   Box,
-  ThemeProvider,
+  // ThemeProvider,
   Container,
   Grid, Typography, Alert, AlertTitle, Paper, Grow,
 } from '@mui/material';
@@ -15,14 +15,14 @@ import 'moment/locale/ru';
 /**
  * Блок кастомизации MUI
  */
-const darkTheme = createTheme({
+/* const darkTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
       main: '#1565C0',
     },
   },
-});
+});*/
 
 /**
  * Блок настройки MOMENT
@@ -65,25 +65,41 @@ const BROKE_UP_DATE = [2022, 3, 19, 19, 25];
 const RESTORED_COMMUNICATION = [2023, 9, 11, 22, 33];
 const BROKE_UP_MOMENT = moment(BROKE_UP_DATE);
 const RESTORED_COMMUNICATION_MOMENT = moment(RESTORED_COMMUNICATION);
-const YEARS_BUP = RESTORED_COMMUNICATION_MOMENT.diff(BROKE_UP_MOMENT, 'years');
+const YEARS_BUP = RESTORED_COMMUNICATION_MOMENT.diff(
+    BROKE_UP_MOMENT, 'years',
+);
 BROKE_UP_MOMENT.add(YEARS_BUP, 'years');
-const MONTHS_BUP = RESTORED_COMMUNICATION_MOMENT.diff(BROKE_UP_MOMENT, 'months');
+const MONTHS_BUP = RESTORED_COMMUNICATION_MOMENT.diff(
+    BROKE_UP_MOMENT, 'months',
+);
 BROKE_UP_MOMENT.add(MONTHS_BUP, 'months');
-const DAYS_BUP = RESTORED_COMMUNICATION_MOMENT.diff(BROKE_UP_MOMENT, 'days');
+const DAYS_BUP = RESTORED_COMMUNICATION_MOMENT.diff(
+    BROKE_UP_MOMENT, 'days',
+);
 BROKE_UP_MOMENT.add(DAYS_BUP, 'days');
-const HOURS_BUP = RESTORED_COMMUNICATION_MOMENT.diff(BROKE_UP_MOMENT, 'hours');
+const HOURS_BUP = RESTORED_COMMUNICATION_MOMENT.diff(
+    BROKE_UP_MOMENT, 'hours',
+);
 BROKE_UP_MOMENT.add(HOURS_BUP, 'hours');
 
 /**
  * Обшение после расставания
  */
-const YEARS_RC = CURRENT_DATE.diff(RESTORED_COMMUNICATION_MOMENT, 'years');
+const YEARS_RC = CURRENT_DATE.diff(
+    RESTORED_COMMUNICATION_MOMENT, 'years',
+);
 RESTORED_COMMUNICATION_MOMENT.add(YEARS_RC, 'years');
-const MONTHS_RC = CURRENT_DATE.diff(RESTORED_COMMUNICATION_MOMENT, 'months');
+const MONTHS_RC = CURRENT_DATE.diff(
+    RESTORED_COMMUNICATION_MOMENT, 'months',
+);
 RESTORED_COMMUNICATION_MOMENT.add(MONTHS_RC, 'months');
-const DAYS_RC = CURRENT_DATE.diff(RESTORED_COMMUNICATION_MOMENT, 'days');
+const DAYS_RC = CURRENT_DATE.diff(
+    RESTORED_COMMUNICATION_MOMENT, 'days',
+);
 RESTORED_COMMUNICATION_MOMENT.add(DAYS_RC, 'days');
-const HOURS_RC = CURRENT_DATE.diff(RESTORED_COMMUNICATION_MOMENT, 'hours');
+const HOURS_RC = CURRENT_DATE.diff(
+    RESTORED_COMMUNICATION_MOMENT, 'hours',
+);
 RESTORED_COMMUNICATION_MOMENT.add(HOURS_RC, 'hours');
 
 const TIMERS = [
@@ -213,7 +229,7 @@ export const Maria = () => {
                               variant="caption"
                             >
                               (С {moment(el.date)
-                              .format('Do MMMM YYYY, kk:mm')})
+                                  .format('Do MMMM YYYY, kk:mm')})
                             </Typography>
                           </Grid>
                         </Grid>
