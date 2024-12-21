@@ -39,6 +39,7 @@ import {TES} from './pages/TESPage';
 import {GasCalc} from './pages/GasCalculatorPage';
 import {Wishlist} from './pages/WishlistPage';
 import {Temperature} from './pages/TemperaturePage';
+import {LightRope} from './components/layout/LightRope';
 
 /**
  * Root React element
@@ -83,6 +84,11 @@ function App() {
     setSpeedDialState(true);
   };
 
+  /**
+   * Проверка на то, что сейчас декабрь
+    */
+  const isDecember = new Date().getMonth() === 11;
+
   return (
     <Router>
       <Fragment>
@@ -94,6 +100,7 @@ function App() {
           }}
         >
           <ThemeProvider theme={theme}>
+            {isDecember && <LightRope />}
             <Box
               sx={{
                 bgcolor: (theme) => theme.palette.background.default,

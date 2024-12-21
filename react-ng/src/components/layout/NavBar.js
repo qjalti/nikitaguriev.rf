@@ -18,11 +18,15 @@ import {Link as RouterLink} from 'react-router-dom';
  * @constructor
  */
 export const NavBar = () => {
+  /**
+   * Проверка на то, что сейчас декабрь
+   */
+  const isDecember = new Date().getMonth() === 11;
   return (
     <Box>
       <AppBar position={'static'}>
         <Container>
-          <Toolbar>
+          <Toolbar sx={isDecember ? {pt: 6} : {}}>
             <Avatar
               variant={'square'}
               src={favicon}
@@ -37,7 +41,7 @@ export const NavBar = () => {
                 variant={'h6'}
                 sx={{color: grey[50], textDecoration: 'none'}}
               >
-                qjalti.ru
+                  qjalti.ru
               </Typography>
             </Link>
           </Toolbar>
