@@ -12,45 +12,44 @@ import {
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import
-AlternateEmailOutlinedIcon
+import AlternateEmailOutlinedIcon
   from '@mui/icons-material/AlternateEmailOutlined';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 
 const actions = [
   {
-    icon: <PhoneInTalkOutlinedIcon />,
+    icon: <PhoneInTalkOutlinedIcon/>,
     name: 'Phone',
     id: 'phone',
     link: 'tel:+79883857654',
   },
   {
-    icon: <TelegramIcon />,
+    icon: <TelegramIcon/>,
     name: 'Telegram',
     id: 'telegram',
     link: 'https://t.me/qjalti',
   },
   {
-    icon: <WhatsAppIcon />,
+    icon: <WhatsAppIcon/>,
     name: 'WhatsApp',
     id: 'whatsapp',
     link: 'https://wa.me/79883857654',
   },
   {
-    icon: <AlternateEmailOutlinedIcon />,
+    icon: <AlternateEmailOutlinedIcon/>,
     name: 'EMail',
     id: 'email',
     link: 'mailto:stig.guriev@gmail.com',
   },
   {
-    icon: <InstagramIcon />,
+    icon: <InstagramIcon/>,
     name: 'Instagram',
     id: 'instagram',
     link: 'https://instagram.com/qjalti',
   },
   {
-    icon: <YouTubeIcon />,
+    icon: <YouTubeIcon/>,
     name: 'YouTube',
     id: 'youtube',
     link: 'https://www.youtube.com/@qjalti',
@@ -74,11 +73,11 @@ export const Footer = () => {
 
   return (
     <div>
-      <Backdrop open={speedDialState} />
+      <Backdrop open={speedDialState}/>
       <SpeedDial
         ariaLabel={'Контакты'}
         sx={{position: 'fixed', bottom: 16, right: 16}}
-        icon={<SpeedDialIcon />}
+        icon={<SpeedDialIcon/>}
         onClose={closeSpeedDial}
         open={speedDialState}
         onClick={handleToggleSpeedDial}
@@ -97,7 +96,7 @@ export const Footer = () => {
         ))}
       </SpeedDial>
 
-      <Box sx={{pb: 10}} />
+      <Box sx={{pb: 10}}/>
 
       {/* <Paper
         sx={{position: 'fixed', bottom: 0, left: 0, right: 0}}

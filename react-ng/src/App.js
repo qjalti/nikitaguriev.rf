@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {
   useMediaQuery,
@@ -19,13 +19,14 @@ import {Context} from './context';
 import {NavBar} from './components/layout/NavBar';
 import {Footer} from './components/layout/Footer';
 import {BackButton} from './components/ui-kit/BackButton';
+import {ThemeButton} from './components/ui-kit/ThemeButton';
 
 /**
  * Pages
  */
 import {Index} from './pages/IndexPage';
 import {Resume} from './pages/ResumePage';
-import {Calc} from './pages/CalcPage';
+// import {Calc} from './pages/CalcPage';
 import {Move} from './pages/MovePage';
 import {Maria} from './pages/MariaPage';
 import {Alya} from './pages/AlyaPage';
@@ -47,17 +48,43 @@ import {LightRope} from './components/layout/LightRope';
  * @constructor
  */
 function App() {
+  /**
+   * December check
+   */
+  const isDecember = new Date().getMonth() === 11;
+
+  /**
+   * Theming
+   */
+
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const savedTheme = localStorage.getItem('theme');
+
+  const [darkThemeStatus, setDarkThemeStatus] = useState(
+      savedTheme === 'dark' || (savedTheme === null && prefersDarkMode),
+  );
+
+  const toDarkTheme = () => setDarkThemeStatus(true);
+  const toLightTheme = () => setDarkThemeStatus(false);
+
+  useEffect(() => {
+    if (savedTheme === 'light') {
+      toLightTheme();
+    }
+    if (savedTheme === 'dark') {
+      toDarkTheme();
+    }
+  }, [savedTheme]);
 
   // Create themes
   const lightTheme = createTheme({
     palette: {
       mode: 'light',
       primary: {
-        main: '#1565C0',
+        main: isDecember ? '#D32F2F' : '#1565C0',
       },
       background: {
-        default: '#fafafa',
+        default: isDecember ? '#2E7D32' : '#FAFAFA',
       },
     },
   });
@@ -66,15 +93,15 @@ function App() {
     palette: {
       mode: 'dark',
       primary: {
-        main: '#1565C0',
+        main: isDecember ? '#B71C1C' : '#1565C0',
       },
       background: {
-        default: '#121212',
+        default: isDecember ? '#1B5E20' : '#121212',
       },
     },
   });
 
-  const theme = prefersDarkMode ? darkTheme : lightTheme;
+  const theme = darkThemeStatus ? darkTheme : lightTheme;
 
   const [speedDialState, setSpeedDialState] = useState(false);
   const closeSpeedDial = () => {
@@ -84,11 +111,6 @@ function App() {
     setSpeedDialState(true);
   };
 
-  /**
-   * Проверка на то, что сейчас декабрь
-    */
-  const isDecember = new Date().getMonth() === 11;
-
   return (
     <Router>
       <Fragment>
@@ -97,10 +119,13 @@ function App() {
             closeSpeedDial,
             openSpeedDial,
             speedDialState,
+            toDarkTheme,
+            toLightTheme,
+            darkThemeStatus,
           }}
         >
           <ThemeProvider theme={theme}>
-            {isDecember && <LightRope />}
+            {isDecember && <LightRope/>}
             <Box
               sx={{
                 bgcolor: (theme) => theme.palette.background.default,
@@ -114,8 +139,6 @@ function App() {
                     path="/" element={<Index/>} exact/>
                   <Route
                     path="/resume" element={<Resume/>} exact/>
-                  <Route
-                    path="/calc" element={<Calc/>} exact/>
                   <Route
                     path="/move" element={<Move/>} exact/>
                   <Route
@@ -146,6 +169,7 @@ function App() {
               </Container>
               <Footer/>
               <BackButton/>
+              <ThemeButton/>
             </Box>
           </ThemeProvider>
         </Context.Provider>
