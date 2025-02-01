@@ -1,9 +1,9 @@
 {
   "id": "stig.guriev@gmail.com",
   "name": "Личный сайт Никиты Гуриева",
-  "short_name": "НикитаГуриев.рф",
+  "short_name": "qjalti.ru",
   "theme_color": "#1565C0",
-  "background_color": "#ffffff",
+  "background_color": "#fafafa",
   "display": "standalone",
   "orientation": "portrait",
   "start_url": ".",

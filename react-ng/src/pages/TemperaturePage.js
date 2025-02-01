@@ -88,14 +88,14 @@ export const Temperature = () => {
                   <Grid
                     container
                     direction={'row'}
-                    justifyContent={'center'}
+                    justifyContent={'flex-start'}
                     alignItems={'center'}
                   >
                     <Grid item>
-                      <Typography variant={'h4'} align={'center'}>
+                      <Typography variant={'h4'}>
                         {elements.temperature}&deg;C
                       </Typography>
-                      <Typography variant={'caption'} align={'center'}>
+                      <Typography variant={'caption'}>
                           ({elements.date})
                       </Typography>
                     </Grid>

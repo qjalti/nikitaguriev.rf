@@ -41,7 +41,7 @@ export const NavBar = () => {
                 variant={'h6'}
                 sx={{color: grey[50], textDecoration: 'none'}}
               >
-                qjalti.ru
+                  qjalti.ru
               </Typography>
             </Link>
           </Toolbar>
