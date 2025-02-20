@@ -224,9 +224,9 @@ export const ChooseFilm = () => {
                     component={'img'}
                     sx={{
                       borderRadius: 2,
-                      display: isImageLoaded ?
-                        'block' :
-                        'none',
+                      opacity: isImageLoaded ?
+                        1 :
+                        0,
                     }}
                     src={filmImg}
                     alt={'Постер фильма'}
