@@ -141,17 +141,30 @@ export const ChooseFilm = () => {
    */
   const [filmImg, setFilmImg] = useState(randomInteger());
   const [growState, setGrowState] = useState(true);
+  const [isImageLoaded, setIsImageLoaded] = useState(true);
 
   /**
    * Блок пользовательских функций
    */
   const chooseFilm = () => {
-    setGrowState((prev) => !prev);
+    setGrowState(false);
+    setIsImageLoaded(false);
+
     setTimeout(() => {
-      setFilmImg(randomInteger());
-    }, 300);
-    setTimeout(() => {
-      setGrowState((prev) => !prev);
+      const newFilmImg = randomInteger();
+      const img = new Image();
+      img.src = newFilmImg;
+
+      img.onload = () => {
+        setFilmImg(newFilmImg);
+        setIsImageLoaded(true);
+        setGrowState(true);
+      };
+
+      img.onerror = () => {
+        console.error('Ошибка загрузки изображения');
+        setIsImageLoaded(true);
+      };
     }, 300);
   };
 
@@ -171,35 +184,35 @@ export const ChooseFilm = () => {
             >
               <Grid item>
                 <Typography
-                  variant="h6"
+                  variant={'h6'}
                   gutterBottom
                 >
-                    Советник фильмов
+                  Советник фильмов
                 </Typography>
                 <Link
                   href="https://www.ivi.ru/collections/badcomedian-ivi10"
                   target={'_blank'}
                 >
-                    BadComedian рекомендует: Лучшие фильмы десятилетия
+                  BadComedian рекомендует: Лучшие фильмы десятилетия
                 </Link>
               </Grid>
             </Grid>
             <Grid
               container
               spacing={2}
-              justifyContent="center"
-              alignItems="center"
+              justifyContent={'center'}
+              alignItems={'center'}
               sx={{mb: 2}}
             >
               <Grid item>
-                <Alert severity="info">Всего 56 фильмов</Alert>
+                <Alert severity={'info'}>Всего 56 фильмов</Alert>
               </Grid>
             </Grid>
             <Grid
               container
               spacing={2}
-              justifyContent="center"
-              alignItems="center"
+              justifyContent={'center'}
+              alignItems={'center'}
               sx={{mb: 2}}
             >
               <Grid item>
@@ -208,10 +221,15 @@ export const ChooseFilm = () => {
                   timeout={300}
                 >
                   <Box
-                    component="img"
-                    sx={{borderRadius: 2}}
+                    component={'img'}
+                    sx={{
+                      borderRadius: 2,
+                      display: isImageLoaded ?
+                        'block' :
+                        'none',
+                    }}
                     src={filmImg}
-                    alt="Постер фильма"
+                    alt={'Постер фильма'}
                   />
                 </Grow>
               </Grid>
@@ -219,8 +237,8 @@ export const ChooseFilm = () => {
             <Grid
               container
               spacing={2}
-              justifyContent="center"
-              alignItems="center"
+              justifyContent={'center'}
+              alignItems={'center'}
               sx={{mb: 2}}
             >
               <Grid item>
@@ -228,7 +246,7 @@ export const ChooseFilm = () => {
                   onClick={chooseFilm}
                   sx={{mb: 2}}
                 >
-                    Посоветовать фильм
+                  Посоветовать фильм
                 </Button>
               </Grid>
             </Grid>
