@@ -9,7 +9,7 @@ import {
   Link,
 } from '@mui/material';
 import {grey} from '@mui/material/colors';
-import favicon from './programmer.png';
+import favicon from './programmer.webp';
 import {Link as RouterLink} from 'react-router-dom';
 
 /**
@@ -41,7 +41,7 @@ export const NavBar = () => {
                 variant={'h6'}
                 sx={{color: grey[50], textDecoration: 'none'}}
               >
-                  qjalti.ru
+                qjalti.ru
               </Typography>
             </Link>
           </Toolbar>
