@@ -30,7 +30,7 @@ export const BackButton = () => {
         <Fab
           color={'primary'}
           aria-label={'back'}
-          sx={{position: 'fixed', bottom: 16, right: 160}}
+          sx={{position: 'fixed', bottom: 16 * 6, right: 160}}
           onClick={() => navigate(-1)}
         >
           <ArrowBackIcon/>

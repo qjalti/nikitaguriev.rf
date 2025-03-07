@@ -20,10 +20,10 @@ export const ThemeButton = () => {
   const changeTheme = () => {
     if (darkThemeStatus) {
       toLightTheme();
-      localStorage.setItem('theme', 'light'); // Сохраняем выбранную тему
+      localStorage.setItem('theme', 'light');
     } else {
       toDarkTheme();
-      localStorage.setItem('theme', 'dark'); // Сохраняем выбранную тему
+      localStorage.setItem('theme', 'dark');
     }
   };
 
@@ -33,7 +33,7 @@ export const ThemeButton = () => {
         <Fab
           color={'primary'}
           aria-label={'theme'}
-          sx={{position: 'fixed', bottom: 16, right: 88}}
+          sx={{position: 'fixed', bottom: 16 * 6, right: 88}}
           onClick={changeTheme}
         >
           {darkThemeStatus ? <LightModeIcon/> : <DarkModeIcon/>}
