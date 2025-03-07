@@ -7,9 +7,6 @@ import {
   SpeedDialIcon,
   SpeedDialAction,
   Backdrop,
-  Typography,
-  Link,
-  Paper,
 } from '@mui/material';
 
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -98,35 +95,6 @@ export const Footer = () => {
           />
         ))}
       </SpeedDial>
-
-      <Box
-        component={'footer'}
-        sx={{
-          backgroundColor: (theme) => theme.palette.background.paper,
-          position: 'fixed',
-          bottom: 0,
-          minWidth: '100vw',
-        }}
-      >
-        <Paper
-          sx={{
-            p: 4,
-          }}
-        >
-          <Typography
-            variant={'body2'}
-            color={'text.secondary'}
-            align={'center'}
-          >
-            <Link
-              href={'https://www.flaticon.com/free-icons/programmer'}
-              title={'programmer icons'}
-            >
-              Programmer icons created by Freepik - Flaticon
-            </Link>
-          </Typography>
-        </Paper>
-      </Box>
 
       <Box sx={{pb: 10}}/>
 

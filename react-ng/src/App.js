@@ -5,7 +5,7 @@ import {
   createTheme,
   ThemeProvider,
   Box,
-  Container,
+  Container, Paper, Typography, Link,
 } from '@mui/material';
 
 /**
@@ -133,7 +133,10 @@ function App() {
               }}
             >
               <NavBar/>
-              <Container sx={{mt: 2}}>
+              <Container sx={{
+                mt: 2,
+                minHeight: '100vh',
+              }}>
                 <Routes>
                   <Route
                     path="/" element={<Index/>} exact/>
@@ -170,6 +173,34 @@ function App() {
               <Footer/>
               <BackButton/>
               <ThemeButton/>
+              <Box
+                component={'footer'}
+                sx={{
+                  backgroundColor: (theme) => theme.palette.background.paper,
+                  position: 'relative',
+                  bottom: 0,
+                  left: 0,
+                }}
+              >
+                <Paper
+                  sx={{
+                    p: 4,
+                  }}
+                >
+                  <Typography
+                    variant={'body2'}
+                    color={'text.secondary'}
+                    align={'center'}
+                  >
+                    <Link
+                      href={'https://www.flaticon.com/free-icons/programmer'}
+                      title={'programmer icons'}
+                    >
+                      Programmer icons created by Freepik - Flaticon
+                    </Link>
+                  </Typography>
+                </Paper>
+              </Box>
             </Box>
           </ThemeProvider>
         </Context.Provider>
