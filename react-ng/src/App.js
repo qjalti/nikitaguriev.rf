@@ -64,8 +64,24 @@ function App() {
       savedTheme === 'dark' || (savedTheme === null && prefersDarkMode),
   );
 
-  const toDarkTheme = () => setDarkThemeStatus(true);
-  const toLightTheme = () => setDarkThemeStatus(false);
+  const updateMetaThemeColor = (color) => {
+    let metaThemeColor = document.querySelector('meta[name=\'theme-color\']');
+    if (!metaThemeColor) {
+      metaThemeColor = document.createElement('meta');
+      metaThemeColor.name = 'theme-color';
+      document.head.appendChild(metaThemeColor);
+    }
+    metaThemeColor.content = color;
+  };
+
+  const toDarkTheme = () => {
+    updateMetaThemeColor('#121212'); //
+    setDarkThemeStatus(true);
+  };
+  const toLightTheme = () => {
+    updateMetaThemeColor('#1565C0'); //
+    setDarkThemeStatus(false);
+  };
 
   useEffect(() => {
     if (savedTheme === 'light') {
@@ -196,7 +212,7 @@ function App() {
                       href={'https://www.flaticon.com/free-icons/programmer'}
                       title={'programmer icons'}
                     >
-                      Programmer icons created by Freepik - Flaticon
+                        Programmer icons created by Freepik - Flaticon
                     </Link>
                   </Typography>
                 </Paper>
