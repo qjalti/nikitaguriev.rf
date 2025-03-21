@@ -9,50 +9,64 @@ import {
   Backdrop,
 } from '@mui/material';
 
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TelegramIcon from '@mui/icons-material/Telegram';
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import AlternateEmailOutlinedIcon
-  from '@mui/icons-material/AlternateEmailOutlined';
-import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import {
+  Instagram,
+  Telegram,
+  WhatsApp,
+  AlternateEmailOutlined,
+  PhoneInTalkOutlined,
+  YouTube,
+  GitHub,
+} from '@mui/icons-material';
 
 const actions = [
   {
-    icon: <PhoneInTalkOutlinedIcon/>,
+    icon: <PhoneInTalkOutlined/>,
     name: 'Phone',
     id: 'phone',
     link: 'tel:+79883857654',
   },
   {
-    icon: <TelegramIcon/>,
+    icon: <Telegram/>,
     name: 'Telegram',
     id: 'telegram',
     link: 'https://t.me/qjalti',
   },
   {
-    icon: <WhatsAppIcon/>,
+    icon: <WhatsApp/>,
     name: 'WhatsApp',
     id: 'whatsapp',
     link: 'https://wa.me/79883857654',
   },
   {
-    icon: <AlternateEmailOutlinedIcon/>,
+    icon: <AlternateEmailOutlined/>,
     name: 'EMail',
     id: 'email',
     link: 'mailto:stig.guriev@gmail.com',
   },
   {
-    icon: <InstagramIcon/>,
+    icon: <PhoneInTalkOutlined/>,
     name: 'Instagram',
     id: 'instagram',
     link: 'https://instagram.com/qjalti',
   },
   {
-    icon: <YouTubeIcon/>,
+    icon: <YouTube/>,
     name: 'YouTube',
     id: 'youtube',
     link: 'https://www.youtube.com/@qjalti',
+  },
+  {
+    icon: <Instagram/>,
+    name: 'Instagram',
+    id: 'instagram',
+    link: 'https://instagram.com/qjalti',
+  },
+  {
+    icon: <GitHub/>,
+    name: 'GitHub',
+    id: 'github',
+    link: 'https://github.com/qjalti',
   },
 ];
 
