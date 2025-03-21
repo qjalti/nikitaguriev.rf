@@ -75,7 +75,7 @@ function App() {
   };
 
   const toDarkTheme = () => {
-    updateMetaThemeColor('#121212'); //
+    updateMetaThemeColor('#272727'); //
     setDarkThemeStatus(true);
   };
   const toLightTheme = () => {
