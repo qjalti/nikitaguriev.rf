@@ -46,8 +46,8 @@ const AVATAR_SIZES = 192;
 const MINIMUM_SALARY = false;
 const NAME = 'Никита';
 const SURNAME = 'Гуриев';
-const ADDRESS_FL = `Героев-разведчиков улица, Дом 17`;
-const ADDRESS_SL = `350028 Краснодар`;
+const ADDRESS_FL = `Краснобогатырская улица, д. 75 к. 2`;
+const ADDRESS_SL = `107076 Москва`;
 const EMAIL = 'stig.guriev@gmail.com';
 const INTERESTS = [
   {
@@ -60,18 +60,22 @@ const INTERESTS = [
   },
   {
     key: 2,
-    title: 'Фотография',
+    title: 'Астрономия',
   },
   {
     key: 3,
-    title: 'Путешествия',
+    title: 'Фотография',
   },
   {
     key: 4,
+    title: 'Путешествия',
+  },
+  {
+    key: 5,
     title: 'Видеосъемка',
   },
 ];
-const IS_SEARCH_FOR_JOB = true;
+const IS_SEARCH_FOR_JOB = false;
 const MY_AGE = moment().diff('1993-03-17', 'years');
 const MARITAL_STATUS = 'Холост, детей нет';
 
@@ -141,7 +145,7 @@ export const Resume = () => {
                       <Button
                         startIcon={<TelegramIcon/>}
                         color="info"
-                        href="tg://resolve?domain=NikitaGuriev"
+                        href="https://t.me/qjalti"
                       >
                         Telegram
                       </Button>

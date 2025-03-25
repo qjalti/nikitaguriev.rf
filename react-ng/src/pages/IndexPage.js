@@ -33,6 +33,7 @@ import CalendarMonthOutlinedIcon from
   '@mui/icons-material/CalendarMonthOutlined';
 /* import LocalGasStationOutlinedIcon from
   '@mui/icons-material/LocalGasStationOutlined';*/
+import {ArticleOutlined} from '@mui/icons-material';
 
 export const Index = () => {
   const {openSpeedDial} = useContext(Context);
@@ -54,6 +55,11 @@ export const Index = () => {
       link_title: 'Резюме (HH)',
       link_href: 'https://hh.ru/resume/c4715b44ff0bfe67390039ed1f63394f725256',
       icon: <PictureAsPdfOutlinedIcon fontSize={'large'}/>,
+    },,
+    {
+      link_title: 'Резюме',
+      to: '/resume',
+      icon: <ArticleOutlined fontSize={'large'}/>,
     },
     /* {
       link_title: 'Калькулятор',

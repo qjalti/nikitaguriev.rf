@@ -45,12 +45,6 @@ const actions = [
     link: 'mailto:stig.guriev@gmail.com',
   },
   {
-    icon: <PhoneInTalkOutlined/>,
-    name: 'Instagram',
-    id: 'instagram',
-    link: 'https://instagram.com/qjalti',
-  },
-  {
     icon: <YouTube/>,
     name: 'YouTube',
     id: 'youtube',
