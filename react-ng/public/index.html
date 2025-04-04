@@ -34,7 +34,7 @@
     <meta property="og:title" content="qjalti — личный сайт разработчика"/>
     <meta property="og:description"
           content="Личный сайт разработчика qjalti. Резюме, портфолио и полезные инструменты для программистов"/>
-    <meta property="og:image" content="assets/me_new.jpg"/>
+    <meta property="og:image" content="/assets/me_new.jpg"/>
     <meta property="og:url" content="https://qjalti.ru/"/>
     <meta property="og:type" content="website"/>
     <meta property="og:locale" content="ru_RU"/>
@@ -45,7 +45,7 @@
     <meta name="twitter:title" content="qjalti — личный сайт разработчика"/>
     <meta name="twitter:description"
           content="Личный сайт разработчика qjalti. Резюме, портфолио и полезные инструменты для программистов"/>
-    <meta name="twitter:image" content="assets/profile.jpg"/>
+    <meta name="twitter:image" content="/assets/me_new.jpg"/>
     <!-- Twitter Cards end -->
 
     <!-- Robots start -->
@@ -63,19 +63,41 @@
     <link rel="canonical" href="https://qjalti.ru/">
 
     <link rel="apple-touch-icon" href="programmer.webp"/>
+
+
+    <!-- JSON-LD разметка -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Никита Гуриев",
+            "url": "https://qjalti.ru",
+            "image": "https://qjalti.ru/assets/me_new.jpg",
+            "jobTitle": "Full-stack разработчик",
+            "telephone": "+79883857654",
+            "email": "qjalti@gmail.com",
+            "sameAs": [
+                "https://github.com/qjalti",
+                "https://instagram.com/qjalti/",
+                "https://youtube.com/@qjalti",
+                "https://t.me/qjalti"
+            ]
+        }
+    </script>
+
     <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    manifest.json provides metadata used when your web app is installed on a
+    user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <!--  <link rel="manifest" href="/manifest.json"/>-->
     <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    Notice the use of %PUBLIC_URL% in the tags above.
+    It will be replaced with the URL of the `public` folder during the build.
+    Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
+    Unlike "/favicon.ico" or "favicon.ico", "favicon.ico" will
+    work correctly both with client-side routing and a non-root public URL.
+    Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>
         qjalti — Личный сайт разработчика, резюме и полезные инструменты
