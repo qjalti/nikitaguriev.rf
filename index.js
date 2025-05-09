@@ -180,8 +180,6 @@ APP.post('/api/arduino/get', async (req, res) => {
 
 APP.post('/api/webcam7/detections', upload.single('image'), async (req, res) => {
 
-  const REQUEST_BODY = req.body;
-
   if (!req.file) {
     return res.status(400).send('Файл не найден');
   }
@@ -199,23 +197,6 @@ APP.post('/api/webcam7/detections', upload.single('image'), async (req, res) => 
     console.error('Ошибка отправки:', err);
     res.status(500).send('Ошибка отправки');
   }
-
-  await BOT.telegram.sendMessage(
-      TELEGRAM_MY_USER_ID,
-      `GET`
-  );
-
-//   await BOT.telegram.sendMessage(
-//       TELEGRAM_MY_USER_ID,
-//       `Status indicator: ${REQUEST_BODY.page.status_indicator}
-// Status description: ${REQUEST_BODY.page.status_description}
-// Incident name: ${REQUEST_BODY.incident.name}
-// Incident status: ${REQUEST_BODY.incident.status}
-// Incident impact: ${REQUEST_BODY.incident.impact}
-// More information: ${REQUEST_BODY.incident.shortlink}`);
-
-  res.status(200);
-
 });
 
 /**
