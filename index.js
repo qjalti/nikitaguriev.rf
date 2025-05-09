@@ -188,7 +188,7 @@ APP.post('/api/webcam7/detections', upload.single('image'), async (req, res) => 
 
   try {
     await BOT.telegram.sendPhoto(
-        TELEGRAM_USER_ID,
+        TELEGRAM_MY_USER_ID,
         {
           source: Buffer.from(req.file.buffer),
           filename: req.file.originalname || 'image.jpg'
@@ -201,12 +201,12 @@ APP.post('/api/webcam7/detections', upload.single('image'), async (req, res) => 
   }
 
   await BOT.telegram.sendMessage(
-      TELEGRAM_USER_ID,
+      TELEGRAM_MY_USER_ID,
       `GET`
   );
 
 //   await BOT.telegram.sendMessage(
-//       TELEGRAM_USER_ID,
+//       TELEGRAM_MY_USER_ID,
 //       `Status indicator: ${REQUEST_BODY.page.status_indicator}
 // Status description: ${REQUEST_BODY.page.status_description}
 // Incident name: ${REQUEST_BODY.incident.name}
