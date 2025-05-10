@@ -10,6 +10,7 @@ import {
   Alert,
   Paper, Link, Button, Grow,
 } from '@mui/material';
+import {Helmet} from 'react-helmet-async';
 
 /**
  * Импорт изображений
@@ -169,90 +170,119 @@ export const ChooseFilm = () => {
   };
 
   return (
-    <Grow
-      in
-    >
-      <Box sx={{flexGrow: 1}}>
-        <Paper>
-          <Container>
-            <Grid
-              container
-              direction={'row'}
-              justifyContent={'center'}
-              alignItems={'center'}
-              sx={{p: 2}}
-            >
-              <Grid item>
-                <Typography
-                  variant={'h6'}
-                  gutterBottom
-                >
-                  Советник фильмов
-                </Typography>
-                <Link
-                  href="https://www.ivi.ru/collections/badcomedian-ivi10"
-                  target={'_blank'}
-                >
-                  BadComedian рекомендует: Лучшие фильмы десятилетия
-                </Link>
+    <>
+      <Helmet>
+        {/* Основная информация */}
+        <title>Что посмотреть? — Получи случайный фильм по нажатию</title>
+        <meta name="description"
+          content="Не знаешь, что посмотреть? Нажми на кнопку и получи случайную рекомендацию фильма. Просто, быстро и интересно!"/>
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website"/>
+        <meta property="og:title"
+          content="Что посмотреть? — Рандомный фильм за секунду"/>
+        <meta property="og:description"
+          content="Угадай, какой фильм выпадет тебе сегодня! Один клик — и вечер уже запланирован."/>
+        <meta property="og:url" content="https://qjalti.ru/choose-film"/>
+        <meta property="og:image"
+          content="https://qjalti.ru/programmer.webp"/>
+        <meta property="og:locale" content="ru_RU"/>
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:title"
+          content="Что посмотреть? — Рандомный фильм по кнопке"/>
+        <meta name="twitter:description"
+          content="Нажми на кнопку — получи идею для киновечера. Это весело!"/>
+        <meta name="twitter:image"
+          content="https://qjalti.ru/programmer.webp"/>
+      </Helmet>
+
+      <Grow
+        in
+      >
+        <Box sx={{flexGrow: 1}}>
+          <Paper>
+            <Container>
+              <Grid
+                container
+                direction={'row'}
+                justifyContent={'center'}
+                alignItems={'center'}
+                sx={{p: 2}}
+              >
+                <Grid item>
+                  <Typography
+                    variant={'h6'}
+                    gutterBottom
+                  >
+                      Советник фильмов
+                  </Typography>
+                  <Link
+                    href="https://www.ivi.ru/collections/badcomedian-ivi10"
+                    target={'_blank'}
+                  >
+                      BadComedian рекомендует: Лучшие фильмы десятилетия
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid
-              container
-              spacing={2}
-              justifyContent={'center'}
-              alignItems={'center'}
-              sx={{mb: 2}}
-            >
-              <Grid item>
-                <Alert severity={'info'}>Всего 56 фильмов</Alert>
+              <Grid
+                container
+                spacing={2}
+                justifyContent={'center'}
+                alignItems={'center'}
+                sx={{mb: 2}}
+              >
+                <Grid item>
+                  <Alert severity={'info'}>Всего 56 фильмов</Alert>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid
-              container
-              spacing={2}
-              justifyContent={'center'}
-              alignItems={'center'}
-              sx={{mb: 2}}
-            >
-              <Grid item>
-                <Grow
-                  in={growState}
-                  timeout={300}
-                >
-                  <Box
-                    component={'img'}
-                    sx={{
-                      borderRadius: 2,
-                      opacity: isImageLoaded ?
-                        1 :
-                        0,
-                    }}
-                    src={filmImg}
-                    alt={'Постер фильма'}
-                  />
-                </Grow>
+              <Grid
+                container
+                spacing={2}
+                justifyContent={'center'}
+                alignItems={'center'}
+                sx={{mb: 2}}
+              >
+                <Grid item>
+                  <Grow
+                    in={growState}
+                    timeout={300}
+                  >
+                    <Box
+                      component={'img'}
+                      sx={{
+                        borderRadius: 2,
+                        opacity: isImageLoaded ?
+                                1 :
+                                0,
+                      }}
+                      src={filmImg}
+                      alt={'Постер фильма'}
+                    />
+                  </Grow>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid
-              container
-              spacing={2}
-              justifyContent={'center'}
-              alignItems={'center'}
-              sx={{mb: 2}}
-            >
-              <Grid item>
-                <Button
-                  onClick={chooseFilm}
-                  sx={{mb: 2}}
-                >
-                  Посоветовать фильм
-                </Button>
+              <Grid
+                container
+                spacing={2}
+                justifyContent={'center'}
+                alignItems={'center'}
+                sx={{mb: 2}}
+              >
+                <Grid item>
+                  <Button
+                    onClick={chooseFilm}
+                    sx={{mb: 2}}
+                  >
+                      Посоветовать фильм
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
-          </Container>
-        </Paper>
-      </Box>
-    </Grow>
+            </Container>
+          </Paper>
+        </Box>
+      </Grow>
+    </>
   );
 };

@@ -7,6 +7,7 @@
 import React, {useContext, useEffect} from 'react';
 import {Link as RouterLink, useLocation} from 'react-router-dom';
 import {Context} from '../context';
+import {Helmet} from 'react-helmet-async';
 
 /**
  * MUI
@@ -55,7 +56,7 @@ export const Index = () => {
       link_title: 'Резюме (HH)',
       link_href: 'https://hh.ru/resume/c4715b44ff0bfe67390039ed1f63394f725256',
       icon: <PictureAsPdfOutlinedIcon fontSize={'large'}/>,
-    },,
+    }, ,
     {
       link_title: 'Резюме',
       to: '/resume',
@@ -116,145 +117,174 @@ export const Index = () => {
   let linksCounter = 0;
 
   return (
-    <Grow
-      in
-    >
-      <Box sx={{flexGrow: 1}}>
-        <Paper
-          sx={{pb: 2}}
-        >
-          <Container>
-            <Grid
-              container
-              direction={'row'}
-              justifyContent={'center'}
-              alignItems={'center'}
-              sx={{p: 2}}
-            >
+    <>
+      <Helmet>
+        {/* Основная информация */}
+        <title>Личная страница — ссылки, резюме, проекты, связь</title>
+        <meta name="description"
+          content="Моя персональная страница: проекты, резюме, ссылки на HeadHunter, LinkedIn, сайт памяти отца, PDF-резюме и способы связи."/>
 
-              {LINKS.map((el) => {
-                linksCounter++;
-                return (
-                  <Grid item xs={6} sm={4} key={linksCounter}>
-                    <Box sx={{textAlign: 'center'}}>
-                      <ButtonBase
-                        sx={{py: 1, px: 2, borderRadius: 2}}
-                        focusRipple
-                      >
-                        {el.to &&
-                        <Link
-                          component={RouterLink}
-                          to={el.to}
-                          underline="none"
+        {/* Open Graph */}
+        <meta property="og:type" content="website"/>
+        <meta property="og:title"
+          content="Персональная страница — резюме, проекты и контакты"/>
+        <meta property="og:description"
+          content="Все важные ссылки в одном месте: резюме, профили, мои проекты, сайт памяти Гуриева Олега, PDF-документ и способы связи."/>
+        <meta property="og:url" content="https://qjalti.ru/"/>
+        <meta property="og:image"
+          content="https://qjalti.ru/programmer.webp"/>
+        <meta property="og:locale" content="ru_RU"/>
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:title"
+          content="Моя страница — всё обо мне и немного больше"/>
+        <meta name="twitter:description"
+          content="Быстрый доступ к резюме, HeadHunter, LinkedIn, личным проектам и связи со мной. Также ссылка на сайт памяти Гуриева Олега."/>
+        <meta name="twitter:image"
+          content="https://qjalti.ru/programmer.webp"/>
+      </Helmet>
+
+      <Grow
+        in
+      >
+        <Box sx={{flexGrow: 1}}>
+          <Paper
+            sx={{pb: 2}}
+          >
+            <Container>
+              <Grid
+                container
+                direction={'row'}
+                justifyContent={'center'}
+                alignItems={'center'}
+                sx={{p: 2}}
+              >
+
+                {LINKS.map((el) => {
+                  linksCounter++;
+                  return (
+                    <Grid item xs={6} sm={4} key={linksCounter}>
+                      <Box sx={{textAlign: 'center'}}>
+                        <ButtonBase
+                          sx={{py: 1, px: 2, borderRadius: 2}}
+                          focusRipple
                         >
-                          <Grid
-                            container
-                            justifyContent={'center'}
-                            alignItems={'center'}
-                          >
-                            <Grid item>
-                              <IconButton
-                                disableRipple
-                                aria-label={'Contacts'}
-                                color={'primary'}
-                              >
-                                {el.icon}
-                              </IconButton>
-                            </Grid>
-                          </Grid>
-                          <Grid
-                            container
-                            justifyContent={'center'}
-                            alignItems={'center'}
-                          >
-                            <Grid item>
-                              <Typography variant={'button'}>
-                                {el.link_title}
-                              </Typography>
-                            </Grid>
-                          </Grid>
-                        </Link>
-                        }
-                        {el.link_href &&
-                        <Link
-                          href={el.link_href}
-                          underline={'none'}
-                          target={'_blank'}
-                        >
-                          <Grid
-                            container
-                            justifyContent={'center'}
-                            alignItems={'center'}
-                          >
-                            <Grid item>
-                              <IconButton
-                                disableRipple
-                                aria-label={'Contacts'}
-                                color={'primary'}
-                                size={'large'}
-                              >
-                                {el.icon}
-                              </IconButton>
-                            </Grid>
-                          </Grid>
-                          <Grid
-                            container
-                            justifyContent={'center'}
-                            alignItems={'center'}
-                          >
-                            <Grid item>
-                              <Typography variant={'button'}>
-                                {el.link_title}
-                              </Typography>
-                            </Grid>
-                          </Grid>
-                        </Link>
-                        }
-                        {el.action &&
-                        <Link
-                          component={RouterLink}
-                          to={'/'}
-                          underline="none"
-                          onClick={el.action}
-                        >
-                          <Grid
-                            container
-                            justifyContent={'center'}
-                            alignItems={'center'}
-                          >
-                            <Grid item>
-                              <IconButton
-                                disableRipple
-                                aria-label={'Contacts'}
-                                color={'primary'}
-                                size={'large'}
-                              >
-                                {el.icon}
-                              </IconButton>
-                            </Grid>
-                          </Grid>
-                          <Grid
-                            container
-                            justifyContent={'center'}
-                            alignItems={'center'}
-                          >
-                            <Grid item>
-                              <Typography variant={'button'}>
-                                {el.link_title}
-                              </Typography>
-                            </Grid>
-                          </Grid>
-                        </Link>
-                        }
-                      </ButtonBase>
-                    </Box>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Container>
-        </Paper>
-      </Box>
-    </Grow>
+                          {el.to &&
+                                  <Link
+                                    component={RouterLink}
+                                    to={el.to}
+                                    underline="none"
+                                  >
+                                    <Grid
+                                      container
+                                      justifyContent={'center'}
+                                      alignItems={'center'}
+                                    >
+                                      <Grid item>
+                                        <IconButton
+                                          disableRipple
+                                          aria-label={'Contacts'}
+                                          color={'primary'}
+                                        >
+                                          {el.icon}
+                                        </IconButton>
+                                      </Grid>
+                                    </Grid>
+                                    <Grid
+                                      container
+                                      justifyContent={'center'}
+                                      alignItems={'center'}
+                                    >
+                                      <Grid item>
+                                        <Typography variant={'button'}>
+                                          {el.link_title}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Link>
+                          }
+                          {el.link_href &&
+                                  <Link
+                                    href={el.link_href}
+                                    underline={'none'}
+                                    target={'_blank'}
+                                  >
+                                    <Grid
+                                      container
+                                      justifyContent={'center'}
+                                      alignItems={'center'}
+                                    >
+                                      <Grid item>
+                                        <IconButton
+                                          disableRipple
+                                          aria-label={'Contacts'}
+                                          color={'primary'}
+                                          size={'large'}
+                                        >
+                                          {el.icon}
+                                        </IconButton>
+                                      </Grid>
+                                    </Grid>
+                                    <Grid
+                                      container
+                                      justifyContent={'center'}
+                                      alignItems={'center'}
+                                    >
+                                      <Grid item>
+                                        <Typography variant={'button'}>
+                                          {el.link_title}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Link>
+                          }
+                          {el.action &&
+                                  <Link
+                                    component={RouterLink}
+                                    to={'/'}
+                                    underline="none"
+                                    onClick={el.action}
+                                  >
+                                    <Grid
+                                      container
+                                      justifyContent={'center'}
+                                      alignItems={'center'}
+                                    >
+                                      <Grid item>
+                                        <IconButton
+                                          disableRipple
+                                          aria-label={'Contacts'}
+                                          color={'primary'}
+                                          size={'large'}
+                                        >
+                                          {el.icon}
+                                        </IconButton>
+                                      </Grid>
+                                    </Grid>
+                                    <Grid
+                                      container
+                                      justifyContent={'center'}
+                                      alignItems={'center'}
+                                    >
+                                      <Grid item>
+                                        <Typography variant={'button'}>
+                                          {el.link_title}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Link>
+                          }
+                        </ButtonBase>
+                      </Box>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Container>
+          </Paper>
+        </Box>
+      </Grow>
+    </>
   );
 };

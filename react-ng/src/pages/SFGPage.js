@@ -13,6 +13,7 @@ import {
   AccordionDetails, Grow, Button,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {Helmet} from 'react-helmet-async';
 
 /**
  * DotA 2
@@ -511,60 +512,88 @@ const SOUNDS = [
 export const SFG = () => {
   let soundsCounter = 0;
   return (
-    <Grow
-      in
-    >
-      <Box sx={{flexGrow: 1}}>
-        <Container sx={{textAlign: 'center'}}>
-          <Grid
-            container
-            spacing={2}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Grid item>
-              {SOUNDS.map((sounds) => {
-                soundsCounter++;
-                return (
-                  <Accordion key={soundsCounter}>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon/>}
-                    >
-                      <Typography>{sounds.category_name}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Box
-                        component="img"
-                        src={sounds.category_image}
-                        sx={{mb: 2}}
-                      />
-                      {sounds.sounds.map((sound) => (
-                        <>
-                          <Typography gutterBottom>
-                            {sound.text}
-                          </Typography>
-                          <Box
-                            component="audio"
-                            src={sound.src}
-                            controls
-                          />
-                        </>
-                      ))}
-                    </AccordionDetails>
-                  </Accordion>
-                );
-              })}
-              <Button
-                sx={{mt: 2}}
-                href="https://t.me/NikitaGuriev"
-                target="_blank"
-              >
-                  Предложить добавить новые звуки
-              </Button>
+    <>
+      <Helmet>
+        {/* Базовая информация */}
+        <title>Звуки из видеоигр — слушай онлайн</title>
+        <meta name="description"
+          content="Коллекция звуков, фраз и музыки из популярных игр — от ностальгических до современных. Слушай онлайн, делись и вдохновляйся!"/>
+
+        {/* Open Graph для соцсетей */}
+        <meta property="og:type" content="website"/>
+        <meta property="og:title"
+          content="Звуки из видеоигр — слушай онлайн"/>
+        <meta property="og:description"
+          content="Фразы, звуки и музыка из любимых игр: от старых хитов до новых релизов. Всё в одном месте."/>
+        <meta property="og:url" content="https://qjalti.ru/sfg"/>
+        <meta property="og:image"
+          content="https://qjalti.ru/programmer.webp"/>
+        <meta property="og:locale" content="ru_RU"/>
+
+        {/* Twitter-карточка */}
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:title"
+          content="Звуки из видеоигр — слушай онлайн"/>
+        <meta name="twitter:description"
+          content="Огромная коллекция игровых звуков и музыки. Вспомни любимые моменты из игр!"/>
+        <meta name="twitter:image"
+          content="https://qjalti.ru/programmer.webp"/>
+      </Helmet>
+      <Grow
+        in
+      >
+        <Box sx={{flexGrow: 1}}>
+          <Container sx={{textAlign: 'center'}}>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid item>
+                {SOUNDS.map((sounds) => {
+                  soundsCounter++;
+                  return (
+                    <Accordion key={soundsCounter}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon/>}
+                      >
+                        <Typography>{sounds.category_name}</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Box
+                          component="img"
+                          src={sounds.category_image}
+                          sx={{mb: 2}}
+                        />
+                        {sounds.sounds.map((sound) => (
+                          <>
+                            <Typography gutterBottom>
+                              {sound.text}
+                            </Typography>
+                            <Box
+                              component="audio"
+                              src={sound.src}
+                              controls
+                            />
+                          </>
+                        ))}
+                      </AccordionDetails>
+                    </Accordion>
+                  );
+                })}
+                <Button
+                  sx={{mt: 2}}
+                  href="https://t.me/NikitaGuriev"
+                  target="_blank"
+                >
+                    Предложить добавить новые звуки
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-      </Box>
-    </Grow>
+          </Container>
+        </Box>
+      </Grow>
+    </>
   );
 };

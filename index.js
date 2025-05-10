@@ -22,8 +22,10 @@ const TELEGRAM_MY_USER_ID = 738829247;
 /**
  * Telegraf settings
  */
-const BOT = new Telegraf(CONFIG.get('qjaltiAPIToken'));
-BOT.launch().then(r => console.log(r));
+if (process.env.NODE_ENV !== 'development') {
+  const BOT = new Telegraf(CONFIG.get('qjaltiAPIToken'));
+  BOT.launch().then(r => console.log(r));
+}
 
 /**
  * Multer

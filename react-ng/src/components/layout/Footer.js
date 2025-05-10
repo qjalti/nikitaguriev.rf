@@ -84,7 +84,7 @@ export const Footer = () => {
       <Backdrop open={speedDialState}/>
       <SpeedDial
         ariaLabel={'Контакты'}
-        sx={{position: 'fixed', bottom: 16 * 6, right: 16}}
+        sx={{position: 'fixed', bottom: 16, right: 16}}
         icon={<SpeedDialIcon/>}
         onClose={closeSpeedDial}
         open={speedDialState}

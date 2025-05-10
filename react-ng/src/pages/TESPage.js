@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import moment from 'moment';
 import 'moment/locale/ru';
+import {Helmet} from 'react-helmet-async';
 
 /**
  * Блок настройки MOMENT
@@ -55,41 +56,70 @@ ${CURRENT_DAY_TES}, ${CURRENT_DATE_NATURE} ${CURRENT_MONTH_TES}`;
   const CURRENT_DATE_FORMATTED = CURRENT_DATE.format('dddd, D MMMM');
 
   return (
-    <Grow
-      in
-    >
-      <Box sx={{flexGrow: 1}}>
-        <Paper>
-          <Container>
-            <Grid
-              container
-              direction={'row'}
-              justifyContent={'center'}
-              alignItems={'center'}
-              sx={{p: 2}}
-            >
-              <Grid item xs={12} md={6}>
-                <Box
-                  sx={{textAlign: 'center'}}
-                >
-                  <Typography
-                    variant="h5"
-                    gutterBottom
+    <>
+      <Helmet>
+        {/* Основная информация */}
+        <title>Дата в стиле The Elder Scrolls — сегодня в Тамриэле</title>
+        <meta name="description"
+          content="Узнай, какой сегодня день по календарю Тамриэля. Лордас, Второе Зерно, Вечный Средний Мороз — окунись в атмосферу The Elder Scrolls."/>
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website"/>
+        <meta property="og:title"
+          content="Календарь Tamriel — текущая дата по Elder Scrolls"/>
+        <meta property="og:description"
+          content="Отображение текущей даты в формате мира The Elder Scrolls. Отлично подойдёт для фанатов, ролевиков и разработчиков."/>
+        <meta property="og:url" content="https://qjalti.ru/tes"/>
+        <meta property="og:image"
+          content="https://qjalti.ru/programmer.webp"/>
+        <meta property="og:locale" content="ru_RU"/>
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:title"
+          content="Сегодня в Тамриэле — дата в стиле Elder Scrolls"/>
+        <meta name="twitter:description"
+          content="В какой мы нынче день по тамриэльскому летоисчислению? Узнай, как звучит дата сегодня в мире Skyrim и Morrowind."/>
+        <meta name="twitter:image"
+          content="https://qjalti.ru/programmer.webp"/>
+      </Helmet>
+
+      <Grow
+        in
+      >
+        <Box sx={{flexGrow: 1}}>
+          <Paper>
+            <Container>
+              <Grid
+                container
+                direction={'row'}
+                justifyContent={'center'}
+                alignItems={'center'}
+                sx={{p: 2}}
+              >
+                <Grid item xs={12} md={6}>
+                  <Box
+                    sx={{textAlign: 'center'}}
                   >
-                    {CURRENT_DATE_FORMATTED}
-                  </Typography>
-                  <Typography
-                    variant="h5"
-                    gutterBottom
-                  >
-                    {CURRENT_DATE_TES}
-                  </Typography>
-                </Box>
+                    <Typography
+                      variant="h5"
+                      gutterBottom
+                    >
+                      {CURRENT_DATE_FORMATTED}
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      gutterBottom
+                    >
+                      {CURRENT_DATE_TES}
+                    </Typography>
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
-          </Container>
-        </Paper>
-      </Box>
-    </Grow>
+            </Container>
+          </Paper>
+        </Box>
+      </Grow>
+    </>
   );
 };
