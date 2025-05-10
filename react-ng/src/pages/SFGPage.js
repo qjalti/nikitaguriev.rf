@@ -516,6 +516,7 @@ export const SFG = () => {
       <Helmet>
         {/* Базовая информация */}
         <title>Звуки из видеоигр — слушай онлайн</title>
+        <meta name="title" content="Звуки из видеоигр — слушай онлайн"/>
         <meta name="description"
           content="Коллекция звуков, фраз и музыки из популярных игр — от ностальгических до современных. Слушай онлайн, делись и вдохновляйся!"/>
 
@@ -524,18 +525,19 @@ export const SFG = () => {
         <meta property="og:title"
           content="Звуки из видеоигр — слушай онлайн"/>
         <meta property="og:description"
-          content="Фразы, звуки и музыка из любимых игр: от старых хитов до новых релизов. Всё в одном месте."/>
+          content="Коллекция звуков, фраз и музыки из популярных игр — от ностальгических до современных. Слушай онлайн, делись и вдохновляйся!"/>
         <meta property="og:url" content="https://qjalti.ru/sfg"/>
         <meta property="og:image"
           content="https://qjalti.ru/programmer.webp"/>
         <meta property="og:locale" content="ru_RU"/>
+        <meta property="og:site_name" content="qjalti.ru"/>
 
         {/* Twitter-карточка */}
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title"
           content="Звуки из видеоигр — слушай онлайн"/>
         <meta name="twitter:description"
-          content="Огромная коллекция игровых звуков и музыки. Вспомни любимые моменты из игр!"/>
+          content="Коллекция звуков, фраз и музыки из популярных игр — от ностальгических до современных. Слушай онлайн, делись и вдохновляйся!"/>
         <meta name="twitter:image"
           content="https://qjalti.ru/programmer.webp"/>
       </Helmet>

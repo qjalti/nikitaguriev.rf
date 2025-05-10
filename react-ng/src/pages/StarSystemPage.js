@@ -86,27 +86,29 @@ export const StarSystems = () => {
       <Helmet>
         {/* Основная информация */}
         <title>Названия ближайших звёзд — генератор и список</title>
+        <meta name="title" content="Названия ближайших звёзд — генератор и список"/>
         <meta name="description"
           content="Ищешь красивое название? Посмотри на звёзды! Этот сервис показывает названия ближайших звёзд и помогает выбрать вдохновляющее имя."/>
 
         {/* Open Graph */}
         <meta property="og:type" content="website"/>
         <meta property="og:title"
-          content="Генератор звёздных названий — вдохновение от космоса"/>
+          content="Названия ближайших звёзд — генератор и список"/>
         <meta property="og:description"
-          content="Просто нажми, чтобы увидеть новую звезду. Реальные названия ближайших светил — для игр, проектов и фантазий."/>
+          content="Ищешь красивое название? Посмотри на звёзды! Этот сервис показывает названия ближайших звёзд и помогает выбрать вдохновляющее имя."/>
         <meta property="og:url"
           content="https://qjalti.ru/star-system"/>
         <meta property="og:image"
           content="https://qjalti.ru/programmer.webp"/>
         <meta property="og:locale" content="ru_RU"/>
+        <meta property="og:site_name" content="qjalti.ru"/>
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title"
-          content="Названия ближайших звёзд — генератор идей"/>
+          content="Названия ближайших звёзд — генератор и список"/>
         <meta name="twitter:description"
-          content="Когда не знаешь, как назвать персонажа, корабль или проект — спроси у звёзд. Один клик — одно имя."/>
+          content="Ищешь красивое название? Посмотри на звёзды! Этот сервис показывает названия ближайших звёзд и помогает выбрать вдохновляющее имя."/>
         <meta name="twitter:image"
           content="https://qjalti.ru/programmer.webp"/>
       </Helmet>

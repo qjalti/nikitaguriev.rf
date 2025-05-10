@@ -121,26 +121,29 @@ export const Index = () => {
       <Helmet>
         {/* Основная информация */}
         <title>Личная страница — ссылки, резюме, проекты, связь</title>
+        <meta name="title"
+          content="Личная страница — ссылки, резюме, проекты, связь"/>
         <meta name="description"
           content="Моя персональная страница: проекты, резюме, ссылки на HeadHunter, LinkedIn, сайт памяти отца, PDF-резюме и способы связи."/>
 
         {/* Open Graph */}
         <meta property="og:type" content="website"/>
         <meta property="og:title"
-          content="Персональная страница — резюме, проекты и контакты"/>
+          content="Личная страница — ссылки, резюме, проекты, связь"/>
         <meta property="og:description"
-          content="Все важные ссылки в одном месте: резюме, профили, мои проекты, сайт памяти Гуриева Олега, PDF-документ и способы связи."/>
+          content="Моя персональная страница: проекты, резюме, ссылки на HeadHunter, LinkedIn, сайт памяти отца, PDF-резюме и способы связи."/>
         <meta property="og:url" content="https://qjalti.ru/"/>
         <meta property="og:image"
           content="https://qjalti.ru/programmer.webp"/>
         <meta property="og:locale" content="ru_RU"/>
+        <meta property="og:site_name" content="qjalti.ru"/>
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title"
-          content="Моя страница — всё обо мне и немного больше"/>
+          content="Личная страница — ссылки, резюме, проекты, связь"/>
         <meta name="twitter:description"
-          content="Быстрый доступ к резюме, HeadHunter, LinkedIn, личным проектам и связи со мной. Также ссылка на сайт памяти Гуриева Олега."/>
+          content="Моя персональная страница: проекты, резюме, ссылки на HeadHunter, LinkedIn, сайт памяти отца, PDF-резюме и способы связи."/>
         <meta name="twitter:image"
           content="https://qjalti.ru/programmer.webp"/>
       </Helmet>

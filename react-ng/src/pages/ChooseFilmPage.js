@@ -174,26 +174,29 @@ export const ChooseFilm = () => {
       <Helmet>
         {/* Основная информация */}
         <title>Что посмотреть? — Получи случайный фильм по нажатию</title>
+        <meta name="title"
+          content="Что посмотреть? — Получи случайный фильм по нажатию"/>
         <meta name="description"
           content="Не знаешь, что посмотреть? Нажми на кнопку и получи случайную рекомендацию фильма. Просто, быстро и интересно!"/>
 
         {/* Open Graph */}
         <meta property="og:type" content="website"/>
         <meta property="og:title"
-          content="Что посмотреть? — Рандомный фильм за секунду"/>
+          content="Что посмотреть? — Получи случайный фильм по нажатию"/>
         <meta property="og:description"
-          content="Угадай, какой фильм выпадет тебе сегодня! Один клик — и вечер уже запланирован."/>
+          content="Не знаешь, что посмотреть? Нажми на кнопку и получи случайную рекомендацию фильма. Просто, быстро и интересно!"/>
         <meta property="og:url" content="https://qjalti.ru/choose-film"/>
         <meta property="og:image"
           content="https://qjalti.ru/programmer.webp"/>
         <meta property="og:locale" content="ru_RU"/>
+        <meta property="og:site_name" content="qjalti.ru"/>
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title"
-          content="Что посмотреть? — Рандомный фильм по кнопке"/>
+          content="Что посмотреть? — Получи случайный фильм по нажатию"/>
         <meta name="twitter:description"
-          content="Нажми на кнопку — получи идею для киновечера. Это весело!"/>
+          content="Не знаешь, что посмотреть? Нажми на кнопку и получи случайную рекомендацию фильма. Просто, быстро и интересно!"/>
         <meta name="twitter:image"
           content="https://qjalti.ru/programmer.webp"/>
       </Helmet>
