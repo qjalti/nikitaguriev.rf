@@ -84,28 +84,25 @@ export const Resume = () => {
   return (
     <>
       <Helmet>
-        <Helmet>
-          <title>Резюме — Никита Гуриев</title>
-          <meta name="description"
-            content="Личное резюме Никиты Гуриева — Fullstack-разработчика с опытом в Bitrix24, Node.js, React, MongoDB и других технологиях."/>
+        <title>Резюме — Никита Гуриев</title>
+        <meta name="description"
+          content="Личное резюме Никиты Гуриева — Fullstack-разработчика с опытом в Bitrix24, Node.js, React, MongoDB и других технологиях."/>
 
-          <meta property="og:type" content="profile"/>
-          <meta property="og:title" content="Никита Гуриев — Резюме"/>
-          <meta property="og:description"
-            content="Fullstack-разработчик. Опыт с Bitrix24, MongoDB, Node.js, React, GraphQL. Открыт к сотрудничеству."/>
-          <meta property="og:url" content="https://qjalti.ru/resume"/>
-          <meta property="og:image"
-            content="https://qjalti.ru/programmer.webp"/>
-          <meta property="og:locale" content="ru_RU"/>
+        <meta property="og:type" content="profile"/>
+        <meta property="og:title" content="Никита Гуриев — Резюме"/>
+        <meta property="og:description"
+          content="Fullstack-разработчик. Опыт с Bitrix24, MongoDB, Node.js, React, GraphQL. Открыт к сотрудничеству."/>
+        <meta property="og:url" content="https://qjalti.ru/resume"/>
+        <meta property="og:image"
+          content="https://qjalti.ru/programmer.webp"/>
+        <meta property="og:locale" content="ru_RU"/>
 
-          <meta name="twitter:card" content="summary_large_image"/>
-          <meta name="twitter:title" content="Никита Гуриев — Резюме"/>
-          <meta name="twitter:description"
-            content="Fullstack-разработчик с опытом в современных веб-технологиях. Открыт к новым проектам."/>
-          <meta name="twitter:image"
-            content="https://qjalti.ru/programmer.webp"/>
-        </Helmet>
-
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:title" content="Никита Гуриев — Резюме"/>
+        <meta name="twitter:description"
+          content="Fullstack-разработчик с опытом в современных веб-технологиях. Открыт к новым проектам."/>
+        <meta name="twitter:image"
+          content="https://qjalti.ru/programmer.webp"/>
       </Helmet>
       <Grow
         in
