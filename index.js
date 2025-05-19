@@ -114,7 +114,7 @@ APP.post('/api/arduino/select', async (req, res) => {
   const RESPONSE = await CLIENT.query(
       `SELECT *
        FROM temperatures
-       ORDER BY id DESC LIMIT 512`
+       ORDER BY id DESC LIMIT 96`
   );
   await CLIENT.end();
 
