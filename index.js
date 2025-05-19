@@ -96,7 +96,8 @@ APP.post('/api/wishlist/select', async (req, res) => {
   const RESPONSE = await CLIENT.query(
       `SELECT *
        FROM wishlist
-       ORDER BY checked ASC, last_update DESC`
+       ORDER BY checked ASC, last_update DESC
+       LIMIT 96`
   );
   await CLIENT.end();
 
