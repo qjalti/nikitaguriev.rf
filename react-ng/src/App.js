@@ -40,7 +40,6 @@ import {TES} from './pages/TESPage';
 import {GasCalc} from './pages/GasCalculatorPage';
 import {Wishlist} from './pages/WishlistPage';
 import {Temperature} from './pages/TemperaturePage';
-import {Page404} from './pages/404Page';
 
 import {LightRope} from './components/layout/LightRope';
 
@@ -186,7 +185,6 @@ function App() {
                     path="/wishlist" element={<Wishlist/>} exact/>
                   <Route
                     path="/temperature" element={<Temperature/>} exact/>
-                  <Route path="*" element={<Page404/>}/>
                 </Routes>
               </Container>
               <Footer/>
