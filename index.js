@@ -49,7 +49,7 @@ APP.use(BODY_PARSER.json());
  */
 if (process.env.NODE_ENV === 'production') {
   APP.use('/', express.static(PATH.join(__dirname, 'react-ng', 'build')));
-  APP.get('rod_game', (req, res) => {
+  APP.get('/rod_game', (req, res) => {
     res.sendFile(PATH.resolve(__dirname, 'react-ng', 'build', 'whoami.html'));
   });
   APP.get('*', (req, res) => {
