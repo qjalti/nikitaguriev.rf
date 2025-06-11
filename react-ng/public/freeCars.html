@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>АвтоВолейбол</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 800px;
+        margin: 20px auto;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+      }
+
+      .car {
+        background: white;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .car h3 {
+        margin-bottom: 10px;
+      }
+
+      .car-diagram {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+        justify-items: center;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .seat {
+        padding: 10px;
+        background: #e0e0e0;
+        border-radius: 6px;
+        min-width: 140px;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .seat.taken {
+        background: #f88;
+        cursor: not-allowed;
+      }
+
+      .seat.free {
+        background: #8f8;
+      }
+
+      form {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      input,
+      select,
+      button {
+        padding: 8px;
+        font-size: 1em;
+      }
+
+      button.reset {
+        background: #ff6666;
+        color: white;
+        border: none;
+        border-radius: 5px;
+      }
+
+      .label {
+        font-size: 0.85em;
+        color: #444;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>🚘 АвтоВолейбол</h1>
+    <div id="carContainer"></div>
+    <h2>📋 Запись</h2>
+    <form id="joinForm">
+      <input type="text" id="passengerName" placeholder="Ваше имя" required />
+      <select id="carSelect"></select>
+      <select id="seatSelect"></select>
+      <button type="submit">Записаться</button>
+    </form>
+    <button class="reset" onclick="resetAll()">
+      🔄 Очистить все записи (вручную)
+    </button>
+
+    <script>
+      const cars = [
+        {
+          id: 1,
+          driver: 'Алексей',
+          seats: {
+            front: null,
+            'back-left': null,
+            'back-middle': null,
+            'back-right': null,
+          },
+        },
+        {
+          id: 2,
+          driver: 'Марина',
+          seats: {
+            front: null,
+            'back-left': null,
+            'back-middle': null,
+            'back-right': null,
+          },
+        },
+        {
+          id: 3,
+          driver: 'Дима',
+          seats: {
+            front: null,
+            'back-left': null,
+            'back-middle': null,
+            'back-right': null,
+          },
+        },
+      ];
+
+      const seatLabels = {
+        front: 'Пассажир спереди',
+        'back-left': 'Сзади слева',
+        'back-middle': 'Сзади центр (менее комфортно)',
+        'back-right': 'Сзади справа',
+      };
+
+      const localKey = 'carpoolData';
+
+      function loadData() {
+        const saved = localStorage.getItem(localKey);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          parsed.forEach((dataCar, i) => {
+            cars[i].seats = dataCar.seats;
+          });
+        }
+      }
+
+      function saveData() {
+        localStorage.setItem(localKey, JSON.stringify(cars));
+      }
+
+      function renderCars() {
+        const container = document.getElementById('carContainer');
+        container.innerHTML = '';
+        cars.forEach((car) => {
+          const div = document.createElement('div');
+          div.className = 'car';
+          div.innerHTML = `<h3>Машина ${car.id} — Водитель: ${car.driver}</h3>`;
+
+          const seatsDiv = document.createElement('div');
+          seatsDiv.className = 'car-diagram';
+
+          // Схема: задний ряд (3 места)
+          ['back-left', 'back-middle', 'back-right'].forEach((seat) => {
+            const seatDiv = document.createElement('div');
+            seatDiv.className = 'seat';
+            seatDiv.innerHTML =
+              `<div class="label">${seatLabels[seat]}</div>` +
+              (car.seats[seat] || 'Свободно');
+            seatDiv.classList.add(car.seats[seat] ? 'taken' : 'free');
+            seatsDiv.appendChild(seatDiv);
+          });
+
+          // Промежуток
+          const gap = document.createElement('div');
+          gap.style.gridColumn = '2 / span 1';
+          seatsDiv.appendChild(gap);
+
+          // Переднее пассажирское место
+          const frontDiv = document.createElement('div');
+          frontDiv.className = 'seat';
+          frontDiv.innerHTML =
+            `<div class="label">${seatLabels['front']}</div>` +
+            (car.seats['front'] || 'Свободно');
+          frontDiv.classList.add(car.seats['front'] ? 'taken' : 'free');
+          frontDiv.style.gridColumn = '2 / span 1';
+          seatsDiv.appendChild(frontDiv);
+
+          div.appendChild(seatsDiv);
+          container.appendChild(div);
+        });
+
+        const carSelect = document.getElementById('carSelect');
+        carSelect.innerHTML = cars
+          .map(
+            (car) =>
+              `<option value="${car.id}">Машина ${car.id} (${car.driver})</option>`
+          )
+          .join('');
+
+        const seatSelect = document.getElementById('seatSelect');
+        seatSelect.innerHTML = Object.keys(seatLabels)
+          .map((seat) => `<option value="${seat}">${seatLabels[seat]}</option>`)
+          .join('');
+      }
+
+      document
+        .getElementById('joinForm')
+        .addEventListener('submit', function (e) {
+          e.preventDefault();
+          const name = document.getElementById('passengerName').value.trim();
+          const carId = parseInt(document.getElementById('carSelect').value);
+          const seat = document.getElementById('seatSelect').value;
+
+          const car = cars.find((c) => c.id === carId);
+          if (car.seats[seat]) {
+            alert('Это место уже занято.');
+            return;
+          }
+
+          for (let s in car.seats) {
+            if (car.seats[s] === name) {
+              alert('Вы уже записаны в эту машину.');
+              return;
+            }
+          }
+
+          car.seats[seat] = name;
+          saveData();
+          renderCars();
+          this.reset();
+        });
+
+      function resetAll() {
+        if (!confirm('Очистить все записи?')) return;
+        cars.forEach((car) => {
+          for (let seat in car.seats) {
+            car.seats[seat] = null;
+          }
+        });
+        saveData();
+        renderCars();
+      }
+
+      setInterval(() => {
+        const now = new Date();
+        if (
+          now.getDay() === 3 &&
+          now.getHours() === 22 &&
+          now.getMinutes() === 0
+        ) {
+          resetAll();
+        }
+      }, 60000);
+
+      loadData();
+      renderCars();
+    </script>
+  </body>
+</html>
