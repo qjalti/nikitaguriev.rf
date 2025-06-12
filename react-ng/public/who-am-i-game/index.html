@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4V8QXNX9G8"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-4V8QXNX9G8');
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="language" content="Russian" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#151218" />
+    <title>Who am I</title>
+    <meta
+      name="keywords"
+      content="игра угадай кто ты, who am i, угадай персонажа, игра на лбу, угадай кто я, киноперсонажи, игра с записками, игры для компании, логические игры, развлекательные игры"
+    />
+    <meta
+      name="description"
+      content="Игра «Who am I» – головоломка, где тебе нужно отгадать, кто из знаменитостей или киноперсонажей написан у тебя на лбу"
+    />
+    <link rel="image_src" href="card-games.webp" />
+
+    <!-- Robots start -->
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <!-- Robots end -->
+
+    <!-- Author tags start -->
+    <meta name="author" content="qjalti" />
+    <meta name="copyright" content="© 2019 qjalti. Все права защищены" />
+    <!-- Author tags end -->
+
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="apple-touch-icon" href="card-games.webp" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Who am I" />
+    <meta
+      property="og:description"
+      content="Игра «Who am I» – головоломка, где тебе нужно отгадать, кто из знаменитостей или киноперсонажей написан у тебя на лбу"
+    />
+    <meta property="og:url" content="https://qjalti.ru/rod_game" />
+    <meta property="og:image" content="https://qjalti.ru/card-games.webp" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content="qjalti.ru" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Who am I" />
+    <meta
+      name="twitter:description"
+      content="Игра «Who am I» – головоломка, где тебе нужно отгадать, кто из знаменитостей или киноперсонажей написан у тебя на лбу"
+    />
+    <meta name="twitter:image" content="https://qjalti.ru/card-games.webp" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.cdnfonts.com/css/sf-pro-display"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        transition: all 125ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+      }
+
+      body {
+        font-family: 'SF Pro Display', sans-serif !important;
+        background: rgba(21, 18, 24, 1) !important;
+        color: rgba(255, 255, 255, 0.875) !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-size: 40px;
+      }
+
+      .game-container {
+        padding: 16px;
+        text-align: center;
+        max-width: 90vw;
+        max-height: 90vh;
+        width: 100%;
+      }
+
+      .btn {
+        font-size: 24px !important;
+        padding: 16px 24px;
+        border: none;
+        border-radius: 16px;
+        background-color: rgba(88, 86, 214, 0.875);
+        color: rgba(255, 255, 255, 0.875);
+        cursor: pointer;
+        margin-top: 16px;
+      }
+
+      .btn:hover {
+        filter: brightness(1.25);
+      }
+
+      input {
+        padding: 24px;
+        font-size: 24px !important;
+        margin: 24px 0;
+        border-radius: 16px;
+        border: 4px solid rgba(85, 85, 85, 0.6875);
+        background-color: rgba(21, 19, 24, 0.6875);
+        color: rgba(255, 255, 255, 0.6875);
+        width: 80%;
+        outline: none;
+      }
+
+      input:focus {
+        border: 4px solid rgba(50, 173, 230, 0.875);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .character {
+        margin: 16px 0;
+        color: rgba(255, 255, 255, 1) !important;
+        font-size: 48px !important;
+      }
+
+      .end-game-btn {
+        background: rgba(255, 69, 58, 0.875);
+      }
+    </style>
+  </head>
+
+  <body onclick="enterFullscreen()">
+    <div class="game-container">
+      <div id="setup">
+        <span>Введите количество игроков:</span>
+        <input type="number" id="playerCount" min="2" max="20" />
+        <button class="btn" onclick="initGame()">Начать игру</button>
+      </div>
+      <div id="game" class="hidden">
+        <span id="turnText"></span>
+        <div id="timerText"></div>
+        <div class="character" id="characterName"></div>
+        <button class="btn" id="showBtn" onclick="startShow()">
+          Показать персонажа
+        </button>
+        <button class="btn hidden" id="nextBtn" onclick="skipToNext()">
+          Следующий игрок
+        </button>
+        <button class="btn end-game-btn" onclick="endGame()">
+          Завершить игру
+        </button>
+      </div>
+      <div id="end" class="hidden">
+        <p>Игра завершена</p>
+        <button class="btn" onclick="restartGame()">Начать заново</button>
+      </div>
+    </div>
+    <script src="script.min.js"></script>
+  </body>
+</html>
