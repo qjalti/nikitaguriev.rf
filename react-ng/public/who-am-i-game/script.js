@@ -22,7 +22,7 @@ let playerCount = 0;
 let currentPlayer = 1;
 let assignedCharacters = [];
 let gameActive = false;
-let characterTimer, revealTimer;
+let characterTimer; let revealTimer;
 
 function initGame() {
   const input = document.getElementById('playerCount');
@@ -57,14 +57,14 @@ function startShow() {
   document.getElementById('showBtn').classList.add('hidden');
   let countdown = 3;
   document.getElementById(
-    'timerText'
+      'timerText',
   ).innerText = `Показ через ${countdown} секунд...`;
 
   characterTimer = setInterval(() => {
     countdown--;
     if (countdown > 0) {
       document.getElementById(
-        'timerText'
+          'timerText',
       ).innerText = `Показ через ${countdown} секунд...`;
     } else {
       clearInterval(characterTimer);
@@ -80,7 +80,7 @@ function revealCharacter() {
 
   let secondsLeft = 59;
   document.getElementById(
-    'timerText'
+      'timerText',
   ).innerText = `Осталось времени: ${secondsLeft} сек.`;
   document.getElementById('nextBtn').classList.remove('hidden');
 
@@ -88,7 +88,7 @@ function revealCharacter() {
     secondsLeft--;
     if (secondsLeft > 0) {
       document.getElementById(
-        'timerText'
+          'timerText',
       ).innerText = `Осталось времени: ${secondsLeft} сек.`;
     } else {
       clearInterval(revealTimer);
@@ -120,7 +120,7 @@ function restartGame() {
 }
 
 function shuffleArray(array) {
-  let arr = array.slice();
+  const arr = array.slice();
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
