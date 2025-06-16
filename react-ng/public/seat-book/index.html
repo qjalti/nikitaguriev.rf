@@ -232,6 +232,7 @@
         color: 'Белая',
       },
       seats: {
+        'driver': true,
         'front': null,
         'back-left': null,
         'back-middle': null,
@@ -250,6 +251,7 @@
         color: 'Чёрная',
       },
       seats: {
+        'driver': true,
         'front': null,
         'back-left': null,
         'back-middle': null,
@@ -268,6 +270,7 @@
         color: 'Голубая',
       },
       seats: {
+        'driver': true,
         'front': null,
         'back-left': null,
         'back-middle': null,
@@ -277,7 +280,8 @@
   ];
 
   const seatLabels = {
-    'front': 'Пассажир спереди',
+    'driver': 'Водитель',
+    'front': 'Спереди',
     'back-left': 'Сзади слева',
     'back-middle': 'Сзади центр (менее комфортно)',
     'back-right': 'Сзади справа',
@@ -312,34 +316,44 @@
       const seatsDiv = document.createElement('div');
       seatsDiv.className = 'car-diagram';
 
-      // Схема: задний ряд (3 места)
-      ['back-left', 'back-middle', 'back-right'].forEach((seat) => {
-        const seatDiv = document.createElement('div');
-        seatDiv.className = 'seat';
-        seatDiv.innerHTML =
-            `<div class="label">${seatLabels[seat]}</div>` +
-            (car.seats[seat] || 'Свободно');
-        seatDiv.classList.add(car.seats[seat] ? 'taken' : 'free');
-        seatsDiv.appendChild(seatDiv);
-      });
+      const frontSeats = document.createElement('div');
+      frontSeats.classList.add('front-seats');
+
+      // Переднее пассажирское место
+      const frontDiv = document.createElement('div');
+      frontDiv.className = 'seat';
+      frontDiv.innerHTML =
+          `<div class="label">${seatLabels['front']}</div>`;
+      frontDiv.classList.add(car.seats['front'] ? 'taken' : 'free');
+      frontDiv.style.gridColumn = '2 / span 1';
+      frontSeats.appendChild(frontDiv);
+
+      // Водительское место
+      const driverDiv = document.createElement('div');
+      driverDiv.className = 'seat';
+      driverDiv.innerHTML =
+          `<div class="label">${seatLabels['driver']}</div>`;
+      driverDiv.classList.add(car.seats['driver'] ? 'taken' : 'free');
+      driverDiv.style.gridColumn = '2 / span 1';
+      frontSeats.appendChild(driverDiv);
+
+      div.appendChild(seatsDiv);
+      container.appendChild(div);
 
       // Промежуток
       const gap = document.createElement('div');
       gap.style.gridColumn = '2 / span 1';
       seatsDiv.appendChild(gap);
 
-      // Переднее пассажирское место
-      const frontDiv = document.createElement('div');
-      frontDiv.className = 'seat';
-      frontDiv.innerHTML =
-          `<div class="label">${seatLabels['front']}</div>` +
-          (car.seats['front'] || 'Свободно');
-      frontDiv.classList.add(car.seats['front'] ? 'taken' : 'free');
-      frontDiv.style.gridColumn = '2 / span 1';
-      seatsDiv.appendChild(frontDiv);
-
-      div.appendChild(seatsDiv);
-      container.appendChild(div);
+      // Схема: задний ряд (3 места)
+      ['back-left', 'back-middle', 'back-right'].forEach((seat) => {
+        const seatDiv = document.createElement('div');
+        seatDiv.className = 'seat';
+        seatDiv.innerHTML =
+            `<div class="label">${seatLabels[seat]}</div>`;
+        seatDiv.classList.add(car.seats[seat] ? 'taken' : 'free');
+        seatsDiv.appendChild(seatDiv);
+      });
     });
 
     const carSelect = document.getElementById('carSelect');

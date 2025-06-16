@@ -40,6 +40,7 @@ import {TES} from './pages/TESPage';
 import {GasCalc} from './pages/GasCalculatorPage';
 import {Wishlist} from './pages/WishlistPage';
 import {Temperature} from './pages/TemperaturePage';
+import {SeatBook} from './pages/SeatBookPage';
 
 import {LightRope} from './components/layout/LightRope';
 
@@ -185,6 +186,9 @@ function App() {
                     path="/wishlist" element={<Wishlist/>} exact/>
                   <Route
                     path="/temperature" element={<Temperature/>} exact/>
+                  <Route
+                    path={'/seat_book'} element={<SeatBook/>} exact
+                  />
                 </Routes>
               </Container>
               <Footer/>
