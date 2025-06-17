@@ -2,7 +2,6 @@
  * Блок подключения модулей/импортов
  */
 import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
 import {
   Box,
   Container,
@@ -24,6 +23,12 @@ import {
   IconButton,
   Link,
   Button,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  DialogTitle,
+  TextField,
 } from '@mui/material';
 // import CheckIcon from '@mui/icons-material/Check';
 // import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -31,7 +36,6 @@ import {
 import axios from 'axios';
 import {io} from 'socket.io-client';
 import parse from 'html-react-parser';
-import {Dialog} from '../components/ui-kit/Dialog.js';
 // import moment from 'moment';
 import {
   DirectionsCar,
@@ -41,13 +45,10 @@ import {
 
 const SOCKET = io('https://qjalti.ru');
 
-// const ACTUALITY_DATE = '11.03.2024';
-
 export const SeatBook = () => {
   const [confirmationDialog, setConfirmationDialog] = useState(false);
-  const [detailsDialog, setDetailsDialog] = useState(false);
   const [loading, setLoading] = useState(false);
-  // const [elements, setElements] = useState([]);
+  const [elements, setElements] = useState([]);
   const [elementId, setElementId] = useState();
   // const [elementStatus, setElementStatus] = useState();
   // const [detailsDialogData, setDDData] = useState();
@@ -55,8 +56,11 @@ export const SeatBook = () => {
   const selectData = async () => {
     try {
       setLoading(true);
-      // const RESPONSE = await axios.post('https://qjalti.ru/api/wishlist/select');
-      // setElements(RESPONSE.data.data);
+      const RESPONSE = await axios.post('https://qjalti.ru/api/seat_book/select');
+      // const DATA = JSON.parse(RESPONSE.data.data[0].data);
+      console.log(RESPONSE.data.data[0].data.seats);
+      // console.log(DATA);
+      setElements(RESPONSE.data.data);
       setLoading(false);
     } catch (err) {
       console.log('Error! ', err.message);
@@ -73,14 +77,6 @@ export const SeatBook = () => {
     setConfirmationDialog(false);
   };
 
-  const detailsDialogClose = () => {
-    setDetailsDialog(false);
-  };
-
-  /* const detailsHandler = () => {
-    setDetailsDialog(true);
-  };*/
-
   /* const checkBoxHandler = async (evt) => {
     setElementId(evt.target.id);
     setElementStatus(evt.target.checked);
@@ -88,109 +84,71 @@ export const SeatBook = () => {
   };*/
 
   const updateData = async () => {
-    setConfirmationDialog(false);
-    await axios.post(
-        'https://qjalti.ru/api/wishlist/update',
-        {
-          elementId,
-        // elementStatus,
-        },
-    );
+    // setConfirmationDialog(false);
+    // await axios.post(
+    //     'https://qjalti.ru/api/wishlist/update',
+    //     {
+    //       elementId,
+    //     // elementStatus,
+    //     },
+    // );
   };
-
-  /* const showDetails = (data) => {
-    detailsHandler();
-    const SELECTED_ELEMENT = elements.find((item) => item.id === data.id);
-    setDDData(SELECTED_ELEMENT);
-  };*/
 
   const ConfirmationDialog = () => {
     return (
       <Dialog
         open={confirmationDialog}
         onClose={confirmationDialogClose}
-        dialogTitle={'Подтверждение'}
-        dialogContentText={'Вы действительно хотите вычеркнуть этот пункт?'}
-        agreeButtonText={'Да'}
-        disagreeButtonText={'Отмена'}
+        PaperProps={{
+          component: 'form',
+          onSubmit: (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.currentTarget);
+            const formJson = Object.fromEntries(formData.entries());
+            const passengerName = formJson.passengerName;
+            console.log(passengerName);
+            confirmationDialogClose();
+          },
+        }}
         agreeButtonHandler={updateData}
         disagreeButtonHandler={confirmationDialogClose}
-      />
+        agreeButtonText={'Забронировать'}
+        disagreeButtonText={'Отмена'}
+        dialogTitle={'Бронирование'}
+      >
+        <DialogTitle>Бронирование</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+              Введите Ваше имя:
+          </DialogContentText>
+          <TextField
+            autoFocus
+            required
+            id={'name'}
+            name={'passengerName'}
+            label={'Имя'}
+            type={'text'}
+            fullWidth
+            variant={'standard'}
+            sx={{mt: 2}}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={confirmationDialogClose}
+            color={'error'}
+          >
+              Отмена
+          </Button>
+          <Button
+            type={'submit'}
+            color={'success'}
+          >
+              Забронировать
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
-  };
-
-  const DetailsDialog = ({data}) => {
-    const DialogContentText = () => (
-      <Grid container>
-        <Grid item>
-          <Grid container>
-            <Grid item>
-              <Typography variant={'h6'}>
-                {parse(data.title)}
-              </Typography>
-            </Grid>
-          </Grid>
-          {
-            data.links && (() => {
-              const LINKS = JSON.parse(data.links);
-              return (
-                <>
-                  <Divider textAlign={'left'}>Ссылки:</Divider>
-                  {LINKS.map((el) => (
-                    <Grid item key={el.id}>
-                      <Link
-                        href={el.link}
-                        target={'_blank'}
-                      >
-                        {el.title}
-                      </Link> <sup>[{el.id}]</sup>
-                    </Grid>
-                  ))}
-                </>
-              );
-            })()
-          }
-
-          {
-            data.hints && (
-              <Grid container>
-                <Grid item>
-                  <Divider textAlign={'left'}>Комментарий:</Divider>
-                  <Typography>
-                    {parse(data.hints)}
-                  </Typography>
-                </Grid>
-              </Grid>
-            )
-          }
-
-          {
-            !data.hints && !data.links && (
-              <Typography>Подробностей нет</Typography>
-            )
-          }
-        </Grid>
-      </Grid>
-    );
-
-    if (data) {
-      return (
-        <Dialog
-          open={detailsDialog}
-          onClose={detailsDialogClose}
-          dialogTitle={'Подробности'}
-          dialogContentText={<DialogContentText/>}
-          agreeButtonText={'ОК'}
-          disagreeButtonText={'Закрыть'}
-          agreeButtonHandler={detailsDialogClose}
-          disagreeButtonHandler={detailsDialogClose}
-        />
-      );
-    }
-  };
-
-  DetailsDialog.propTypes = {
-    data: PropTypes.object,
   };
 
   SOCKET.on('elementChanged', () => {
@@ -211,50 +169,55 @@ export const SeatBook = () => {
         driver: false,
         front: true,
         left_back: true,
-        left_center: true,
-        left_right: true,
+        center_back: true,
+        right_back: true,
       },
     },
-    {
-      id: 2,
-      name: 'Виталий Светашов',
-      number: '79265786314',
-      car: {
-        color: 'Серебристая',
-        number: 'Т 244 АР 790',
-        model: 'Mazda CX-7',
-      },
-      seats: {
-        driver: false,
-        front: true,
-        left_back: true,
-        left_center: true,
-        left_right: true,
-      },
-    },
-    {
-      id: 3,
-      name: 'Александра Воронина',
-      number: '79091666647',
-      car: {
-        color: 'Чёрная',
-        number: 'О 000 ОО 000',
-        model: 'Nissan X-Trail',
-      },
-      seats: {
-        driver: false,
-        front: true,
-        left_back: true,
-        left_center: true,
-        left_right: true,
-      },
-    },
+    // {
+    //   id: 2,
+    //   name: 'Виталий Светашов',
+    //   number: '79265786314',
+    //   car: {
+    //     color: 'Серебристая',
+    //     number: 'Т 244 АР 790',
+    //     model: 'Mazda CX-7',
+    //   },
+    //   seats: {
+    //     driver: false,
+    //     front: true,
+    //     left_back: true,
+    //     center_back: true,
+    //     right_back: true,
+    //   },
+    // },
+    // {
+    //   id: 3,
+    //   name: 'Александра Воронина',
+    //   number: '79091666647',
+    //   car: {
+    //     color: 'Чёрная',
+    //     number: 'О 000 ОО 000',
+    //     model: 'Nissan X-Trail',
+    //   },
+    //   seats: {
+    //     driver: false,
+    //     front: true,
+    //     left_back: true,
+    //     center_back: true,
+    //     right_back: true,
+    //   },
+    // },
   ];
+
+  const bookSeat = (driverId, seatName) => {
+    console.log('driverId: ', driverId);
+    console.log('seatName: ', seatName);
+    setConfirmationDialog(true);
+  };
 
   return (
     <>
       <ConfirmationDialog/>
-      {/* <DetailsDialog data={detailsDialogData}/>*/}
       <Backdrop
         sx={{
           // color: common.white,
@@ -292,7 +255,7 @@ export const SeatBook = () => {
                       <Typography
                         variant={'h4'}
                       >
-                        Seat Book
+                          Seat Book
                       </Typography>
                     </Grid>
                   </Grid>
@@ -304,10 +267,10 @@ export const SeatBook = () => {
                       <Typography
                         variant={'h6'}
                       >
-                        Машина №{driver.id}
+                            Машина №{driver.id}
                       </Typography>
                       <Typography>
-                        Водитель: {driver.name}
+                            Водитель: {driver.name}
                         <Link href={`tel:+${driver.number}`}>
                           <IconButton
                             sx={{mx: 0.5}}
@@ -344,13 +307,16 @@ export const SeatBook = () => {
                         >
                           <Button
                             color={
-                              driver.seats.driver ?
-                                'success' :
-                                'error'
+                                    driver.seats.driver ?
+                                        'success' :
+                                        'error'
                             }
                             fullWidth
+                            variant={'outlined'}
+                            disabled
+                            sx={{py: 2}}
                           >
-                            Водитель
+                                Водитель
                           </Button>
                         </Grid>
                         <Grid
@@ -359,21 +325,27 @@ export const SeatBook = () => {
                         >
                           <Button
                             color={
-                              driver.seats.front ?
-                                'success' :
-                                'error'
+                                    driver.seats.front ?
+                                        'success' :
+                                        'error'
                             }
                             fullWidth
+                            variant={'outlined'}
+                            onClick={() => {
+                              bookSeat(driver.id, 'front');
+                            }}
+                            sx={{py: 2}}
                           >
-                            Спереди
+                                Спереди
                           </Button>
                         </Grid>
                       </Grid>
                       <Grid
                         container
+                        spacing={2}
                         justifyContent={'center'}
                         alignItems={'center'}
-                        sx={{my: 2}}
+                        sx={{mt: 1, mb: 4}}
                       >
                         <Grid
                           item
@@ -381,13 +353,18 @@ export const SeatBook = () => {
                         >
                           <Button
                             fullWidth
+                            variant={'outlined'}
                             color={
-                              driver.seats.left_back ?
-                                'success' :
-                                'error'
+                                    driver.seats.left_back ?
+                                        'success' :
+                                        'error'
                             }
+                            onClick={() => {
+                              bookSeat(driver.id, 'left_back');
+                            }}
+                            sx={{py: 2}}
                           >
-                            Сзади слева
+                                Сзади слева
                           </Button>
                         </Grid>
                         <Grid
@@ -396,13 +373,18 @@ export const SeatBook = () => {
                         >
                           <Button
                             fullWidth
+                            variant={'outlined'}
                             color={
-                              driver.seats.left_center ?
-                                'success' :
-                                'error'
+                                    driver.seats.center_back ?
+                                        'success' :
+                                        'error'
                             }
+                            onClick={() => {
+                              bookSeat(driver.id, 'center_back');
+                            }}
+                            sx={{py: 2}}
                           >
-                            Сзади центр
+                                Сзади центр
                           </Button>
                         </Grid>
                         <Grid
@@ -411,18 +393,23 @@ export const SeatBook = () => {
                         >
                           <Button
                             fullWidth
+                            variant={'outlined'}
                             color={
-                              driver.seats.left_right ?
-                                'success' :
-                                'error'
+                                    driver.seats.right_back ?
+                                        'success' :
+                                        'error'
                             }
+                            onClick={() => {
+                              bookSeat(driver.id, 'right_back');
+                            }}
+                            sx={{py: 2}}
                           >
-                            Сзади справа
+                                Сзади справа
                           </Button>
                         </Grid>
                       </Grid>
-                      {driver.id !== 3 &&
-                      <Divider/>
+                      {driver.id !== DRIVERS.length &&
+                              <Divider/>
                       }
                     </Box>
                   ))}
