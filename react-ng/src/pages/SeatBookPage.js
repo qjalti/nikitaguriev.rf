@@ -23,6 +23,7 @@ import {
   Divider,
   IconButton,
   Link,
+  Button,
 } from '@mui/material';
 // import CheckIcon from '@mui/icons-material/Check';
 // import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -92,7 +93,7 @@ export const SeatBook = () => {
         'https://qjalti.ru/api/wishlist/update',
         {
           elementId,
-          // elementStatus,
+        // elementStatus,
         },
     );
   };
@@ -207,15 +208,32 @@ export const SeatBook = () => {
         model: 'Kia Rio',
       },
       seats: {
-        driver: null,
-        front: null,
-        left_back: null,
-        left_center: null,
-        left_right: null,
+        driver: false,
+        front: true,
+        left_back: true,
+        left_center: true,
+        left_right: true,
       },
     },
     {
       id: 2,
+      name: 'Виталий Светашов',
+      number: '79265786314',
+      car: {
+        color: 'Серебристая',
+        number: 'Т 244 АР 790',
+        model: 'Mazda CX-7',
+      },
+      seats: {
+        driver: false,
+        front: true,
+        left_back: true,
+        left_center: true,
+        left_right: true,
+      },
+    },
+    {
+      id: 3,
       name: 'Александра Воронина',
       number: '79091666647',
       car: {
@@ -224,28 +242,11 @@ export const SeatBook = () => {
         model: 'Nissan X-Trail',
       },
       seats: {
-        driver: null,
-        front: null,
-        left_back: null,
-        left_center: null,
-        left_right: null,
-      },
-    },
-    {
-      id: 3,
-      name: 'Виталий Светашов',
-      number: '79265786314',
-      car: {
-        color: 'Голубая',
-        number: 'О 000 ОО 000',
-        model: 'Mazda CX-7???',
-      },
-      seats: {
-        driver: null,
-        front: null,
-        left_back: null,
-        left_center: null,
-        left_right: null,
+        driver: false,
+        front: true,
+        left_back: true,
+        left_center: true,
+        left_right: true,
       },
     },
   ];
@@ -266,7 +267,7 @@ export const SeatBook = () => {
       <Grow
         in
       >
-        <Box sx={{flexGrow: 1}}>
+        <Box>
           <Paper>
             <Container>
               <Grid
@@ -274,19 +275,24 @@ export const SeatBook = () => {
                 direction={'row'}
                 sx={{py: 2}}
               >
-                <Grid item>
+                <Grid item xs={12}>
                   <Grid
                     container
                     direction={'row'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    spacing={2}
                   >
+                    <Grid item>
+                      <DirectionsCar sx={{width: '2rem', height: '2rem'}}/>
+                    </Grid>
                     <Grid
                       item
                     >
                       <Typography
                         variant={'h4'}
-                        align={'center'}
                       >
-                        <DirectionsCar/> Seat Book
+                        Seat Book
                       </Typography>
                     </Grid>
                   </Grid>
@@ -298,27 +304,126 @@ export const SeatBook = () => {
                       <Typography
                         variant={'h6'}
                       >
-                            Машина №{driver.id}
+                        Машина №{driver.id}
                       </Typography>
                       <Typography>
-                            Водитель: {driver.name}
-                        <IconButton
-                          sx={{mx: 0.5}}
-                          color={'primary'}
-                          size={'small'}
+                        Водитель: {driver.name}
+                        <Link href={`tel:+${driver.number}`}>
+                          <IconButton
+                            sx={{mx: 0.5}}
+                            color={'primary'}
+                            size={'small'}
+                          >
+                            <PhoneInTalkOutlined/>
+                          </IconButton>
+                        </Link>
+                        <Link
+                          href={`https://wa.me/${driver.number}`}
                         >
-                          <PhoneInTalkOutlined/>
-                        </IconButton>
-                        <IconButton
-                          color={'success'}
-                          size={'small'}
-                        >
-                          <WhatsApp/>
-                        </IconButton>
+                          <IconButton
+                            color={'success'}
+                            size={'small'}
+                          >
+                            <WhatsApp/>
+                          </IconButton>
+                        </Link>
                       </Typography>
                       <Typography>
                         {driver.car.color}, {driver.car.model}, {driver.car.number}
                       </Typography>
+                      <Grid
+                        sx={{mt: 1}}
+                        spacing={2}
+                        container
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                      >
+                        <Grid
+                          item
+                          xs={6}
+                        >
+                          <Button
+                            color={
+                              driver.seats.driver ?
+                                'success' :
+                                'error'
+                            }
+                            fullWidth
+                          >
+                            Водитель
+                          </Button>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={6}
+                        >
+                          <Button
+                            color={
+                              driver.seats.front ?
+                                'success' :
+                                'error'
+                            }
+                            fullWidth
+                          >
+                            Спереди
+                          </Button>
+                        </Grid>
+                      </Grid>
+                      <Grid
+                        container
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        sx={{my: 2}}
+                      >
+                        <Grid
+                          item
+                          xs={4}
+                        >
+                          <Button
+                            fullWidth
+                            color={
+                              driver.seats.left_back ?
+                                'success' :
+                                'error'
+                            }
+                          >
+                            Сзади слева
+                          </Button>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={4}
+                        >
+                          <Button
+                            fullWidth
+                            color={
+                              driver.seats.left_center ?
+                                'success' :
+                                'error'
+                            }
+                          >
+                            Сзади центр
+                          </Button>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={4}
+                        >
+                          <Button
+                            fullWidth
+                            color={
+                              driver.seats.left_right ?
+                                'success' :
+                                'error'
+                            }
+                          >
+                            Сзади справа
+                          </Button>
+                        </Grid>
+                      </Grid>
+                      {driver.id !== 3 &&
+                      <Divider/>
+                      }
                     </Box>
                   ))}
                 </Grid>
