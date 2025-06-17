@@ -114,6 +114,7 @@ APP.post('/api/wishlist/select', async (req, res) => {
       },
   );
 });
+
 APP.post('/api/arduino/select', async (req, res) => {
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
@@ -133,7 +134,6 @@ APP.post('/api/arduino/select', async (req, res) => {
 });
 
 APP.post('/api/wishlist/update', async (req, res) => {
-
   const ELEMENT_ID = req.body.elementId.split('_')[1];
   const {elementStatus} = req.body;
 
@@ -161,8 +161,54 @@ APP.post('/api/wishlist/update', async (req, res) => {
   );
 });
 
-APP.post('/api/arduino/get', async (req, res) => {
+APP.post('/api/seat_book/select', async (req, res) => {
+  const CLIENT = new Client(CONNECTION_DATA);
+  await CLIENT.connect();
+  const RESPONSE = await CLIENT.query(
+      `SELECT *
+       FROM book_seats`
+  );
+  await CLIENT.end();
 
+  res.json(
+      {
+        ok: true,
+        data: RESPONSE.rows,
+      },
+  );
+});
+
+APP.post('/api/seat_book/update', async (req, res) => {
+  // const ELEMENT_ID = req.body.elementId.split('_')[1];
+  // const {elementStatus} = req.body;
+
+  console.log(req);
+
+  // const CLIENT = new Client(CONNECTION_DATA);
+  // await CLIENT.connect();
+  // const RESPONSE = await CLIENT.query(
+  //     `UPDATE book_seats
+  //      SET data = ${elementStatus},
+  //      WHERE id = ${0}`
+  // );
+  // await CLIENT.end();
+
+  IO.emit(
+      'seatBooked',
+  );
+
+  res.json(
+      {
+        ok: true,
+        message: 'Сообщение отправлено на модерацию',
+        alertColor: 'success',
+        data: 'data',
+        // data: RESPONSE.rows,
+      },
+  );
+});
+
+APP.post('/api/arduino/get', async (req, res) => {
   const {temperature} = req.body;
 
   const CLIENT = new Client(CONNECTION_DATA);
@@ -188,7 +234,6 @@ APP.post('/api/arduino/get', async (req, res) => {
 });
 
 APP.post('/api/webcam7/detections', upload.single('image'), async (req, res) => {
-
   if (!req.file) {
     return res.status(400).send('Файл не найден');
   }
