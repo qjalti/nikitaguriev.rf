@@ -324,11 +324,14 @@ export const SeatBook = () => {
                             fullWidth
                             variant={'outlined'}
                             disabled
-                            sx={{py: 2}}
+                            sx={{
+                              py: 2,
+                              overflowWrap: 'anywhere',
+                            }}
                           >
                               Водитель
                             {seatsData.driver.name &&
-                              <span>({seatsData.driver.name})</span>
+                              <>&nbsp;({seatsData.driver.name})</>
                             }
                           </Button>
                         </Grid>
@@ -347,12 +350,15 @@ export const SeatBook = () => {
                             onClick={() => {
                               bookSeat(driver.id, 'front');
                             }}
-                            sx={{py: 2}}
+                            sx={{
+                              py: 2,
+                              overflowWrap: 'anywhere',
+                            }}
                             disabled={seatsData.front.status}
                           >
                               Спереди
                             {seatsData.front.name &&
-                              <span>({seatsData.front.name})</span>
+                              <>&nbsp;({seatsData.front.name})</>
                             }
                           </Button>
                         </Grid>
@@ -379,12 +385,15 @@ export const SeatBook = () => {
                             onClick={() => {
                               bookSeat(driver.id, 'left_back');
                             }}
-                            sx={{py: 2}}
+                            sx={{
+                              py: 2,
+                              overflowWrap: 'anywhere',
+                            }}
                             disabled={seatsData.left_back.status}
                           >
                               Сзади слева
                             {seatsData.left_back.name &&
-                              <span>({seatsData.left_back.name})</span>
+                              <>&nbsp;({seatsData.left_back.name})</>
                             }
                           </Button>
                         </Grid>
@@ -403,12 +412,15 @@ export const SeatBook = () => {
                             onClick={() => {
                               bookSeat(driver.id, 'center_back');
                             }}
-                            sx={{py: 2}}
+                            sx={{
+                              py: 2,
+                              overflowWrap: 'anywhere',
+                            }}
                             disabled={seatsData.center_back.status}
                           >
                               Сзади центр
                             {seatsData.center_back.name &&
-                              <span>({seatsData.center_back.name})</span>
+                              <>&nbsp;({seatsData.center_back.name})</>
                             }
                           </Button>
                         </Grid>
@@ -427,12 +439,15 @@ export const SeatBook = () => {
                             onClick={() => {
                               bookSeat(driver.id, 'right_back');
                             }}
-                            sx={{py: 2}}
+                            sx={{
+                              py: 2,
+                              overflowWrap: 'anywhere',
+                            }}
                             disabled={seatsData.right_back.status}
                           >
                               Сзади справа
                             {seatsData.right_back.name &&
-                              <span>({seatsData.right_back.name})</span>
+                              <>&nbsp;({seatsData.right_back.name})</>
                             }
                           </Button>
                         </Grid>
