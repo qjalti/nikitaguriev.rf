@@ -45,20 +45,18 @@ import {
 
 const SOCKET = io('https://qjalti.ru');
 
-const RESPONSE = await axios.post('https://qjalti.ru/api/seat_book/select');
-console.log(RESPONSE.data.data[0].data.seats);
-console.log(RESPONSE.data.data[0].data.seats.front.status);
+const BASE_OBJECT = {
+  front: {status: false, name: null},
+  driver: {status: true, name: 'Никита'},
+  left_back: {status: false, name: null},
+  center_back: {status: false, name: null},
+  right_back: {status: false, name: null},
+};
 
 export const SeatBook = () => {
   const [confirmationDialog, setConfirmationDialog] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [seatsData, setSeatsData] = useState({
-    front: {status: true, name: null},
-    driver: {status: false, name: 'Никита'},
-    left_back: {status: true, name: null},
-    center_back: {status: true, name: null},
-    right_back: {status: true, name: null},
-  });
+  const [seatsData, setSeatsData] = useState(BASE_OBJECT);
   const [bookData, setBookData] = useState({});
   // const [elements, setElements] = useState([]);
   // const [elementId, setElementId] = useState();
@@ -69,7 +67,11 @@ export const SeatBook = () => {
     try {
       setLoading(true);
       const RESPONSE = await axios.post('https://qjalti.ru/api/seat_book/select');
-      setSeatsData(RESPONSE.data.data[0].data.seats);
+      if (RESPONSE.data.data.length) {
+        setSeatsData(RESPONSE.data.data[0].data);
+      } else {
+        setSeatsData(BASE_OBJECT);
+      }
       // console.log(DATA);
       // setElements(RESPONSE.data.data);
       setLoading(false);
@@ -88,10 +90,10 @@ export const SeatBook = () => {
   };
 
   /* const checkBoxHandler = async (evt) => {
-            setElementId(evt.target.id);
-            setElementStatus(evt.target.checked);
-            setConfirmationDialog(true);
-          };*/
+              setElementId(evt.target.id);
+              setElementStatus(evt.target.checked);
+              setConfirmationDialog(true);
+            };*/
 
   const updateData = async (newBookData) => {
     setConfirmationDialog(false);
@@ -119,7 +121,7 @@ export const SeatBook = () => {
               ...seatsData,
               [bookData.seatName]: {
                 name: passengerName,
-                status: false,
+                status: true,
               },
             };
             await updateData(NEW_BOOK_DATA);

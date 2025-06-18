@@ -190,8 +190,10 @@ APP.post('/api/seat_book/update', async (req, res) => {
   await CLIENT.connect();
   const RESPONSE = await CLIENT.query(
       `UPDATE book_seats
-       SET data = ${NEW_DATA},
-       WHERE id = 2`
+       SET data = $1
+       WHERE id = $2
+       RETURNING *`,
+    [req.body.newBookData, 2]
   );
   await CLIENT.end();
 
