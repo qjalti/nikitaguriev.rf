@@ -12,6 +12,7 @@ import {dirname} from 'path';
 import {fileURLToPath} from 'url';
 import {Telegraf} from 'telegraf';
 import multer from 'multer';
+import CRON from 'node-cron';
 
 /**
  * Constants defination
@@ -100,7 +101,7 @@ APP.post('/api/wishlist/select', async (req, res) => {
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
   const RESPONSE = await CLIENT.query(
-      `SELECT *
+    `SELECT *
        FROM wishlist
        ORDER BY checked ASC, last_update DESC
        LIMIT 96`
@@ -108,10 +109,10 @@ APP.post('/api/wishlist/select', async (req, res) => {
   await CLIENT.end();
 
   res.json(
-      {
-        ok: true,
-        data: RESPONSE.rows,
-      },
+    {
+      ok: true,
+      data: RESPONSE.rows,
+    },
   );
 });
 
@@ -119,17 +120,17 @@ APP.post('/api/arduino/select', async (req, res) => {
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
   const RESPONSE = await CLIENT.query(
-      `SELECT *
+    `SELECT *
        FROM temperatures
        ORDER BY id DESC LIMIT 96`
   );
   await CLIENT.end();
 
   res.json(
-      {
-        ok: true,
-        data: RESPONSE.rows,
-      },
+    {
+      ok: true,
+      data: RESPONSE.rows,
+    },
   );
 });
 
@@ -140,7 +141,7 @@ APP.post('/api/wishlist/update', async (req, res) => {
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
   const RESPONSE = await CLIENT.query(
-      `UPDATE wishlist
+    `UPDATE wishlist
        SET checked     = ${elementStatus},
            last_update = 'now'
        WHERE id = ${ELEMENT_ID}`
@@ -148,16 +149,16 @@ APP.post('/api/wishlist/update', async (req, res) => {
   await CLIENT.end();
 
   IO.emit(
-      'elementChanged',
+    'elementChanged',
   );
 
   res.json(
-      {
-        ok: true,
-        message: 'Сообщение отправлено на модерацию',
-        alertColor: 'success',
-        data: RESPONSE.rows,
-      },
+    {
+      ok: true,
+      message: 'Сообщение отправлено на модерацию',
+      alertColor: 'success',
+      data: RESPONSE.rows,
+    },
   );
 });
 
@@ -165,16 +166,16 @@ APP.post('/api/seat_book/select', async (req, res) => {
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
   const RESPONSE = await CLIENT.query(
-      `SELECT *
+    `SELECT *
        FROM book_seats`
   );
   await CLIENT.end();
 
   res.json(
-      {
-        ok: true,
-        data: RESPONSE.rows,
-      },
+    {
+      ok: true,
+      data: RESPONSE.rows,
+    },
   );
 });
 
@@ -189,7 +190,7 @@ APP.post('/api/seat_book/update', async (req, res) => {
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
   const RESPONSE = await CLIENT.query(
-      `UPDATE book_seats
+    `UPDATE book_seats
        SET data = $1
        WHERE id = $2
        RETURNING *`,
@@ -198,17 +199,17 @@ APP.post('/api/seat_book/update', async (req, res) => {
   await CLIENT.end();
 
   IO.emit(
-      'seatBooked',
+    'seatBooked',
   );
 
   res.json(
-      {
-        ok: true,
-        message: 'Место успешно забронировано',
-        alertColor: 'success',
-        data: 'data',
-        // data: RESPONSE.rows,
-      },
+    {
+      ok: true,
+      message: 'Место успешно забронировано',
+      alertColor: 'success',
+      data: 'data',
+      // data: RESPONSE.rows,
+    },
   );
 });
 
@@ -218,22 +219,22 @@ APP.post('/api/arduino/get', async (req, res) => {
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
   const RESPONSE = await CLIENT.query(
-      `INSERT INTO temperatures (temperature)
+    `INSERT INTO temperatures (temperature)
        VALUES (${temperature})`
   );
   await CLIENT.end();
 
   IO.emit(
-      'arduinoEvent',
+    'arduinoEvent',
   );
 
   res.json(
-      {
-        ok: true,
-        message: 'Сообщение отправлено на модерацию',
-        alertColor: 'success',
-        data: 'TODO',
-      },
+    {
+      ok: true,
+      message: 'Сообщение отправлено на модерацию',
+      alertColor: 'success',
+      data: 'TODO',
+    },
   );
 });
 
@@ -244,17 +245,47 @@ APP.post('/api/webcam7/detections', upload.single('image'), async (req, res) => 
 
   try {
     await BOT.telegram.sendPhoto(
-        TELEGRAM_MY_USER_ID,
-        {
-          source: Buffer.from(req.file.buffer),
-          filename: req.file.originalname || 'image.jpg'
-        });
+      TELEGRAM_MY_USER_ID,
+      {
+        source: Buffer.from(req.file.buffer),
+        filename: req.file.originalname || 'image.jpg'
+      });
 
     res.send('Изображение отправлено в Telegram');
   } catch (err) {
     console.error('Ошибка отправки:', err);
     res.status(500).send('Ошибка отправки');
   }
+});
+
+const clearSeatBooksTable = async () => {
+
+  const BASE_OBJECT = {
+    front: {status: false, name: null},
+    driver: {status: true, name: 'Никита'},
+    left_back: {status: false, name: null},
+    center_back: {status: false, name: null},
+    right_back: {status: false, name: null},
+  };
+
+  const CLIENT = new Client(CONNECTION_DATA);
+  await CLIENT.connect();
+  await CLIENT.query(
+    `UPDATE book_seats
+       SET data = $1
+       WHERE id = $2
+       RETURNING *`,
+    [BASE_OBJECT, 3]
+  );
+  await CLIENT.end();
+
+  IO.emit(
+    'seatBooked',
+  );
+};
+
+CRON.schedule('* * * * *', clearSeatBooksTable, {
+  scheduled: true,
 });
 
 /**
