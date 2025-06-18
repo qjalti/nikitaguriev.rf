@@ -35,7 +35,7 @@ import {
 // import {green, common} from '@mui/material/colors';
 import axios from 'axios';
 import {io} from 'socket.io-client';
-import parse from 'html-react-parser';
+// import parse from 'html-react-parser';
 // import moment from 'moment';
 import {
   DirectionsCar,
@@ -45,11 +45,23 @@ import {
 
 const SOCKET = io('https://qjalti.ru');
 
+const RESPONSE = await axios.post('https://qjalti.ru/api/seat_book/select');
+console.log(RESPONSE.data.data[0].data.seats);
+console.log(RESPONSE.data.data[0].data.seats.front.status);
+
 export const SeatBook = () => {
   const [confirmationDialog, setConfirmationDialog] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [elements, setElements] = useState([]);
-  const [elementId, setElementId] = useState();
+  const [seatsData, setSeatsData] = useState({
+    front: {status: true, name: null},
+    driver: {status: false, name: 'Никита'},
+    left_back: {status: true, name: null},
+    center_back: {status: true, name: null},
+    right_back: {status: true, name: null},
+  });
+  const [bookData, setBookData] = useState({});
+  // const [elements, setElements] = useState([]);
+  // const [elementId, setElementId] = useState();
   // const [elementStatus, setElementStatus] = useState();
   // const [detailsDialogData, setDDData] = useState();
 
@@ -57,10 +69,9 @@ export const SeatBook = () => {
     try {
       setLoading(true);
       const RESPONSE = await axios.post('https://qjalti.ru/api/seat_book/select');
-      // const DATA = JSON.parse(RESPONSE.data.data[0].data);
-      console.log(RESPONSE.data.data[0].data.seats);
+      setSeatsData(RESPONSE.data.data[0].data.seats);
       // console.log(DATA);
-      setElements(RESPONSE.data.data);
+      // setElements(RESPONSE.data.data);
       setLoading(false);
     } catch (err) {
       console.log('Error! ', err.message);
@@ -73,25 +84,23 @@ export const SeatBook = () => {
   }, []);
 
   const confirmationDialogClose = () => {
-    setElementId('');
     setConfirmationDialog(false);
   };
 
   /* const checkBoxHandler = async (evt) => {
-    setElementId(evt.target.id);
-    setElementStatus(evt.target.checked);
-    setConfirmationDialog(true);
-  };*/
+            setElementId(evt.target.id);
+            setElementStatus(evt.target.checked);
+            setConfirmationDialog(true);
+          };*/
 
-  const updateData = async () => {
-    // setConfirmationDialog(false);
-    // await axios.post(
-    //     'https://qjalti.ru/api/wishlist/update',
-    //     {
-    //       elementId,
-    //     // elementStatus,
-    //     },
-    // );
+  const updateData = async (newBookData) => {
+    setConfirmationDialog(false);
+    await axios.post(
+        'https://qjalti.ru/api/seat_book/update',
+        {
+          newBookData,
+        },
+    );
   };
 
   const ConfirmationDialog = () => {
@@ -101,12 +110,19 @@ export const SeatBook = () => {
         onClose={confirmationDialogClose}
         PaperProps={{
           component: 'form',
-          onSubmit: (event) => {
+          onSubmit: async (event) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
             const passengerName = formJson.passengerName;
-            console.log(passengerName);
+            const NEW_BOOK_DATA = {
+              ...seatsData,
+              [bookData.seatName]: {
+                name: passengerName,
+                status: false,
+              },
+            };
+            await updateData(NEW_BOOK_DATA);
             confirmationDialogClose();
           },
         }}
@@ -151,7 +167,7 @@ export const SeatBook = () => {
     );
   };
 
-  SOCKET.on('elementChanged', () => {
+  SOCKET.on('seatBooked', () => {
     selectData().then(() => false);
   });
 
@@ -164,13 +180,6 @@ export const SeatBook = () => {
         color: 'Белая',
         number: 'О 746 ХН 123',
         model: 'Kia Rio',
-      },
-      seats: {
-        driver: false,
-        front: true,
-        left_back: true,
-        center_back: true,
-        right_back: true,
       },
     },
     // {
@@ -210,8 +219,12 @@ export const SeatBook = () => {
   ];
 
   const bookSeat = (driverId, seatName) => {
-    console.log('driverId: ', driverId);
-    console.log('seatName: ', seatName);
+    const BOOK_DATA = {
+      driverId,
+      seatName,
+    };
+
+    setBookData(BOOK_DATA);
     setConfirmationDialog(true);
   };
 
@@ -236,7 +249,6 @@ export const SeatBook = () => {
               <Grid
                 container
                 direction={'row'}
-                sx={{py: 2}}
               >
                 <Grid item xs={12}>
                   <Grid
@@ -245,6 +257,7 @@ export const SeatBook = () => {
                     justifyContent={'center'}
                     alignItems={'center'}
                     spacing={2}
+                    sx={{py: 4}}
                   >
                     <Grid item>
                       <DirectionsCar sx={{width: '2rem', height: '2rem'}}/>
@@ -267,10 +280,10 @@ export const SeatBook = () => {
                       <Typography
                         variant={'h6'}
                       >
-                            Машина №{driver.id}
+                          Машина №{driver.id}
                       </Typography>
                       <Typography>
-                            Водитель: {driver.name}
+                          Водитель: {driver.name}
                         <Link href={`tel:+${driver.number}`}>
                           <IconButton
                             sx={{mx: 0.5}}
@@ -306,17 +319,15 @@ export const SeatBook = () => {
                           xs={6}
                         >
                           <Button
-                            color={
-                                    driver.seats.driver ?
-                                        'success' :
-                                        'error'
-                            }
                             fullWidth
                             variant={'outlined'}
                             disabled
                             sx={{py: 2}}
                           >
-                                Водитель
+                              Водитель
+                            {seatsData.driver.name &&
+                              <span>({seatsData.driver.name})</span>
+                            }
                           </Button>
                         </Grid>
                         <Grid
@@ -325,9 +336,9 @@ export const SeatBook = () => {
                         >
                           <Button
                             color={
-                                    driver.seats.front ?
-                                        'success' :
-                                        'error'
+                                seatsData.front.status ?
+                                  'error' :
+                                  'success'
                             }
                             fullWidth
                             variant={'outlined'}
@@ -335,8 +346,12 @@ export const SeatBook = () => {
                               bookSeat(driver.id, 'front');
                             }}
                             sx={{py: 2}}
+                            disabled={seatsData.front.status}
                           >
-                                Спереди
+                              Спереди
+                            {seatsData.front.name &&
+                              <span>({seatsData.front.name})</span>
+                            }
                           </Button>
                         </Grid>
                       </Grid>
@@ -355,16 +370,20 @@ export const SeatBook = () => {
                             fullWidth
                             variant={'outlined'}
                             color={
-                                    driver.seats.left_back ?
-                                        'success' :
-                                        'error'
+                                seatsData.left_back.status ?
+                                  'error' :
+                                  'success'
                             }
                             onClick={() => {
                               bookSeat(driver.id, 'left_back');
                             }}
                             sx={{py: 2}}
+                            disabled={seatsData.left_back.status}
                           >
-                                Сзади слева
+                              Сзади слева
+                            {seatsData.left_back.name &&
+                              <span>({seatsData.left_back.name})</span>
+                            }
                           </Button>
                         </Grid>
                         <Grid
@@ -375,16 +394,20 @@ export const SeatBook = () => {
                             fullWidth
                             variant={'outlined'}
                             color={
-                                    driver.seats.center_back ?
-                                        'success' :
-                                        'error'
+                                seatsData.center_back.status ?
+                                  'error' :
+                                  'success'
                             }
                             onClick={() => {
                               bookSeat(driver.id, 'center_back');
                             }}
                             sx={{py: 2}}
+                            disabled={seatsData.center_back.status}
                           >
-                                Сзади центр
+                              Сзади центр
+                            {seatsData.center_back.name &&
+                              <span>({seatsData.center_back.name})</span>
+                            }
                           </Button>
                         </Grid>
                         <Grid
@@ -395,21 +418,25 @@ export const SeatBook = () => {
                             fullWidth
                             variant={'outlined'}
                             color={
-                                    driver.seats.right_back ?
-                                        'success' :
-                                        'error'
+                                seatsData.right_back.status ?
+                                  'error' :
+                                  'success'
                             }
                             onClick={() => {
                               bookSeat(driver.id, 'right_back');
                             }}
                             sx={{py: 2}}
+                            disabled={seatsData.right_back.status}
                           >
-                                Сзади справа
+                              Сзади справа
+                            {seatsData.right_back.name &&
+                              <span>({seatsData.right_back.name})</span>
+                            }
                           </Button>
                         </Grid>
                       </Grid>
                       {driver.id !== DRIVERS.length &&
-                              <Divider/>
+                        <Divider/>
                       }
                     </Box>
                   ))}
@@ -421,4 +448,5 @@ export const SeatBook = () => {
       </Grow>
     </>
   );
-};
+}
+;

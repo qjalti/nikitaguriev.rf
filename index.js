@@ -182,16 +182,18 @@ APP.post('/api/seat_book/update', async (req, res) => {
   // const ELEMENT_ID = req.body.elementId.split('_')[1];
   // const {elementStatus} = req.body;
 
-  console.log(req);
+  console.log(req.body.newBookData);
 
-  // const CLIENT = new Client(CONNECTION_DATA);
-  // await CLIENT.connect();
-  // const RESPONSE = await CLIENT.query(
-  //     `UPDATE book_seats
-  //      SET data = ${elementStatus},
-  //      WHERE id = ${0}`
-  // );
-  // await CLIENT.end();
+  const NEW_DATA = JSON.stringify(req.body.newBookData);
+
+  const CLIENT = new Client(CONNECTION_DATA);
+  await CLIENT.connect();
+  const RESPONSE = await CLIENT.query(
+      `UPDATE book_seats
+       SET data = ${NEW_DATA},
+       WHERE id = 2`
+  );
+  await CLIENT.end();
 
   IO.emit(
       'seatBooked',
@@ -200,7 +202,7 @@ APP.post('/api/seat_book/update', async (req, res) => {
   res.json(
       {
         ok: true,
-        message: 'Сообщение отправлено на модерацию',
+        message: 'Место успешно забронировано',
         alertColor: 'success',
         data: 'data',
         // data: RESPONSE.rows,
