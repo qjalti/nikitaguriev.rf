@@ -63,6 +63,32 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = CONFIG.get('port');
 
+const clearSeatBooksTable = async () => {
+
+  const BASE_OBJECT = {
+    front: {status: false, name: null},
+    driver: {status: true, name: 'Никита'},
+    left_back: {status: false, name: null},
+    center_back: {status: false, name: null},
+    right_back: {status: false, name: null},
+  };
+
+  const CLIENT = new Client(CONNECTION_DATA);
+  await CLIENT.connect();
+  await CLIENT.query(
+    `UPDATE book_seats
+       SET data = $1
+       WHERE id = $2
+       RETURNING *`,
+    [BASE_OBJECT, 3]
+  );
+  await CLIENT.end();
+
+  IO.emit(
+    'seatBooked',
+  );
+};
+
 /**
  * PostgreSQL settings
  */
@@ -258,31 +284,10 @@ APP.post('/api/webcam7/detections', upload.single('image'), async (req, res) => 
   }
 });
 
-const clearSeatBooksTable = async () => {
-
-  const BASE_OBJECT = {
-    front: {status: false, name: null},
-    driver: {status: true, name: 'Никита'},
-    left_back: {status: false, name: null},
-    center_back: {status: false, name: null},
-    right_back: {status: false, name: null},
-  };
-
-  const CLIENT = new Client(CONNECTION_DATA);
-  await CLIENT.connect();
-  await CLIENT.query(
-    `UPDATE book_seats
-       SET data = $1
-       WHERE id = $2
-       RETURNING *`,
-    [BASE_OBJECT, 3]
-  );
-  await CLIENT.end();
-
-  IO.emit(
-    'seatBooked',
-  );
-};
+APP.post('/api/seat_book/reset', (req, res) => {
+  clearSeatBooksTable().then(() => false);
+  res.status(200);
+});
 
 CRON.schedule('* * * * *', clearSeatBooksTable, {
   scheduled: true,
