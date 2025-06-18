@@ -7,7 +7,7 @@ import {
   Container,
   Grid,
   Typography,
-  // Alert,
+  Alert,
   Paper,
   Grow,
   // AlertTitle,
@@ -136,18 +136,24 @@ export const SeatBook = () => {
       >
         <DialogTitle>Бронирование</DialogTitle>
         <DialogContent>
+          <Alert
+            severity={'warning'}
+            sx={{my: 2}}
+          >
+            Отмена брони пока не предусмотрена
+          </Alert>
           <DialogContentText>
-              Введите Ваше имя:
+              Введите Вашу фамилию и имя:
           </DialogContentText>
           <TextField
             autoFocus
             required
             id={'name'}
             name={'passengerName'}
-            label={'Имя'}
+            label={'Фамилия и имя'}
             type={'text'}
             fullWidth
-            variant={'standard'}
+            variant={'filled'}
             sx={{mt: 2}}
           />
         </DialogContent>
