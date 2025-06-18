@@ -284,7 +284,7 @@ const clearSeatBooksTable = async () => {
   );
 };
 
-CRON.schedule('* * * * *', clearSeatBooksTable, {
+CRON.schedule('0 20 * * *', clearSeatBooksTable, {
   scheduled: true,
 });
 
