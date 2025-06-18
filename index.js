@@ -193,7 +193,7 @@ APP.post('/api/seat_book/update', async (req, res) => {
        SET data = $1
        WHERE id = $2
        RETURNING *`,
-    [req.body.newBookData, 2]
+    [req.body.newBookData, 3]
   );
   await CLIENT.end();
 
