@@ -131,7 +131,7 @@ export const SeatBook = () => {
             const NEW_BOOK_DATA = {
               ...seatsData,
               [bookData.seatName]: {
-                name: passengerName,
+                name: passengerName.trim(),
                 status: true,
               },
             };
@@ -294,7 +294,7 @@ export const SeatBook = () => {
 
       <Snackbar
         onClose={sbClose}
-        anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+        anchorOrigin={{vertical: 'center', horizontal: 'center'}}
         open={sbStatus}
         autoHideDuration={6000}
       >
