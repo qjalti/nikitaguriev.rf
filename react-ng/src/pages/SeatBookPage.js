@@ -29,6 +29,7 @@ import {
   DialogActions,
   DialogTitle,
   TextField,
+  Snackbar,
 } from '@mui/material';
 // import CheckIcon from '@mui/icons-material/Check';
 // import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -38,10 +39,11 @@ import {io} from 'socket.io-client';
 // import parse from 'html-react-parser';
 // import moment from 'moment';
 import {
-  DirectionsCar,
+  DirectionsCarOutlined,
   PhoneInTalkOutlined,
   WhatsApp,
 } from '@mui/icons-material';
+import {Helmet} from 'react-helmet-async';
 
 const SOCKET = io('https://qjalti.ru');
 
@@ -58,6 +60,9 @@ export const SeatBook = () => {
   const [loading, setLoading] = useState(false);
   const [seatsData, setSeatsData] = useState(BASE_OBJECT);
   const [bookData, setBookData] = useState({});
+  const [sbStatus, setSbStatus] = useState(false);
+  const [sbMessage, setSbMessage] = useState('Возникла непредвиденная ошибка');
+  const [sbType, setSbType] = useState('error');
   // const [elements, setElements] = useState([]);
   // const [elementId, setElementId] = useState();
   // const [elementStatus, setElementStatus] = useState();
@@ -105,6 +110,12 @@ export const SeatBook = () => {
     );
   };
 
+  const showSnackBar = (message, type) => {
+    setSbMessage(message);
+    setSbType(type);
+    setSbStatus(true);
+  };
+
   const ConfirmationDialog = () => {
     return (
       <Dialog
@@ -125,6 +136,7 @@ export const SeatBook = () => {
               },
             };
             await updateData(NEW_BOOK_DATA);
+            showSnackBar('Место успешно забронированно', 'success');
             confirmationDialogClose();
           },
         }}
@@ -138,9 +150,10 @@ export const SeatBook = () => {
         <DialogContent>
           <Alert
             severity={'warning'}
+            variant={'standard'}
             sx={{my: 2}}
           >
-            Отмена брони пока не предусмотрена
+              Отмена брони пока не предусмотрена
           </Alert>
           <DialogContentText>
               Введите Вашу фамилию и имя:
@@ -153,7 +166,7 @@ export const SeatBook = () => {
             label={'Фамилия и имя'}
             type={'text'}
             fullWidth
-            variant={'filled'}
+            variant={'standard'}
             sx={{mt: 2}}
           />
         </DialogContent>
@@ -227,6 +240,13 @@ export const SeatBook = () => {
   ];
 
   const bookSeat = (driverId, seatName) => {
+    if (seatsData[seatName].status) {
+      showSnackBar(
+          'Место уже забронированно. Выберите другое место',
+          'error',
+      );
+      return false;
+    }
     const BOOK_DATA = {
       driverId,
       seatName,
@@ -236,8 +256,56 @@ export const SeatBook = () => {
     setConfirmationDialog(true);
   };
 
+  const sbClose = () => {
+    setSbStatus(false);
+  };
+
   return (
     <>
+      <Helmet>
+        {/* Базовая информация */}
+        <title>Бронирование мест в машине — легко и быстро</title>
+        <meta name="title"
+          content="Бронирование мест в машине — легко и быстро"/>
+        <meta name="description"
+          content="Выбирай машину, смотри доступные места и бронируй онлайн. Удобно, быстро и прозрачно — поездки без лишних вопросов!"/>
+
+        {/* Open Graph для соцсетей */}
+        <meta property="og:type" content="website"/>
+        <meta property="og:title"
+          content="Бронирование мест в машине — легко и быстро"/>
+        <meta property="og:description"
+          content="Выбирай машину, смотри доступные места и бронируй онлайн. Удобно, быстро и прозрачно — поездки без лишних вопросов!"/>
+        <meta property="og:url" content="https://qjalti.ru/seat-book"/>
+        <meta property="og:image"
+          content="https://qjalti.ru/car-booking-preview.webp"/>
+        <meta property="og:locale" content="ru_RU"/>
+        <meta property="og:site_name" content="qjalti.ru"/>
+
+        {/* Twitter-карточка */}
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:title"
+          content="Бронирование мест в машине — легко и быстро"/>
+        <meta name="twitter:description"
+          content="Выбирай машину, смотри доступные места и бронируй онлайн. Удобно, быстро и прозрачно — поездки без лишних вопросов!"/>
+        <meta name="twitter:image"
+          content="https://qjalti.ru/car-booking-preview.webp"/>
+      </Helmet>
+
+      <Snackbar
+        onClose={sbClose}
+        anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+        open={sbStatus}
+        autoHideDuration={6000}
+      >
+        <Alert
+          variant={'standard'}
+          severity={sbType}
+        >
+          {sbMessage}
+        </Alert>
+      </Snackbar>
+
       <ConfirmationDialog/>
       <Backdrop
         sx={{
@@ -268,7 +336,8 @@ export const SeatBook = () => {
                     sx={{py: 4}}
                   >
                     <Grid item>
-                      <DirectionsCar sx={{width: '2rem', height: '2rem'}}/>
+                      <DirectionsCarOutlined
+                        sx={{width: '2rem', height: '2rem'}}/>
                     </Grid>
                     <Grid
                       item
@@ -288,10 +357,10 @@ export const SeatBook = () => {
                       <Typography
                         variant={'h6'}
                       >
-                          Машина №{driver.id}
+                            Машина №{driver.id}
                       </Typography>
                       <Typography>
-                          Водитель: {driver.name}
+                            Водитель: {driver.name}
                         <Link href={`tel:+${driver.number}`}>
                           <IconButton
                             sx={{mx: 0.5}}
@@ -326,47 +395,71 @@ export const SeatBook = () => {
                           item
                           xs={6}
                         >
-                          <Button
-                            fullWidth
-                            variant={'outlined'}
-                            disabled
-                            sx={{
-                              py: 2,
-                              overflowWrap: 'anywhere',
-                            }}
+                          <Paper
+                            elevation={2}
+                            sx={{p: 1}}
                           >
-                              Водитель
+                            <Button
+                              fullWidth
+                              color={'error'}
+                              sx={{
+                                py: 2,
+                                overflowWrap: 'anywhere',
+                              }}
+                              size={'small'}
+                              onClick={() => {
+                                showSnackBar('Место водителя бронировать нельзя', 'error');
+                              }}
+                            >
+                                  Водитель
+                            </Button>
                             {seatsData.driver.name &&
-                              <>&nbsp;({seatsData.driver.name})</>
+                                    <Alert
+                                      severity={'info'}
+                                      sx={{mt: 1}}
+                                      icon={false}
+                                    >
+                                      {seatsData.driver.name}
+                                    </Alert>
                             }
-                          </Button>
+                          </Paper>
                         </Grid>
                         <Grid
                           item
                           xs={6}
                         >
-                          <Button
-                            color={
-                                seatsData.front.status ?
-                                  'error' :
-                                  'success'
-                            }
-                            fullWidth
-                            variant={'outlined'}
-                            onClick={() => {
-                              bookSeat(driver.id, 'front');
-                            }}
-                            sx={{
-                              py: 2,
-                              overflowWrap: 'anywhere',
-                            }}
-                            disabled={seatsData.front.status}
+                          <Paper
+                            elevation={2}
+                            sx={{p: 1}}
                           >
-                              Спереди
+                            <Button
+                              color={
+                                      seatsData.front.status ?
+                                          'error' :
+                                          'success'
+                              }
+                              fullWidth
+                              onClick={() => {
+                                bookSeat(driver.id, 'front');
+                              }}
+                              sx={{
+                                py: 2,
+                                overflowWrap: 'anywhere',
+                              }}
+                              size={'small'}
+                            >
+                                  Спереди
+                            </Button>
                             {seatsData.front.name &&
-                              <>&nbsp;({seatsData.front.name})</>
+                                    <Alert
+                                      severity={'info'}
+                                      sx={{mt: 1}}
+                                      icon={false}
+                                    >
+                                      {seatsData.front.name}
+                                    </Alert>
                             }
-                          </Button>
+                          </Paper>
                         </Grid>
                       </Grid>
                       <Grid
@@ -380,86 +473,116 @@ export const SeatBook = () => {
                           item
                           xs={4}
                         >
-                          <Button
-                            fullWidth
-                            variant={'outlined'}
-                            color={
-                                seatsData.left_back.status ?
-                                  'error' :
-                                  'success'
-                            }
-                            onClick={() => {
-                              bookSeat(driver.id, 'left_back');
-                            }}
-                            sx={{
-                              py: 2,
-                              overflowWrap: 'anywhere',
-                            }}
-                            disabled={seatsData.left_back.status}
+                          <Paper
+                            elevation={2}
+                            sx={{p: 1}}
                           >
-                              Сзади слева
+                            <Button
+                              fullWidth
+                              color={
+                                      seatsData.left_back.status ?
+                                          'error' :
+                                          'success'
+                              }
+                              onClick={() => {
+                                bookSeat(driver.id, 'left_back');
+                              }}
+                              sx={{
+                                py: 2,
+                                overflowWrap: 'anywhere',
+                              }}
+                              size={'small'}
+                            >
+                                  Сзади слева
+                            </Button>
                             {seatsData.left_back.name &&
-                              <>&nbsp;({seatsData.left_back.name})</>
+                                    <Alert
+                                      severity={'info'}
+                                      sx={{mt: 1}}
+                                      icon={false}
+                                    >
+                                      {seatsData.left_back.name}
+                                    </Alert>
                             }
-                          </Button>
+                          </Paper>
                         </Grid>
                         <Grid
                           item
                           xs={4}
                         >
-                          <Button
-                            fullWidth
-                            variant={'outlined'}
-                            color={
-                                seatsData.center_back.status ?
-                                  'error' :
-                                  'success'
-                            }
-                            onClick={() => {
-                              bookSeat(driver.id, 'center_back');
-                            }}
-                            sx={{
-                              py: 2,
-                              overflowWrap: 'anywhere',
-                            }}
-                            disabled={seatsData.center_back.status}
+                          <Paper
+                            elevation={2}
+                            sx={{p: 1}}
                           >
-                              Сзади центр
+                            <Button
+                              fullWidth
+                              color={
+                                      seatsData.center_back.status ?
+                                          'error' :
+                                          'success'
+                              }
+                              onClick={() => {
+                                bookSeat(driver.id, 'center_back');
+                              }}
+                              sx={{
+                                py: 2,
+                                overflowWrap: 'anywhere',
+                              }}
+                              size={'small'}
+                            >
+                                  Сзади центр
+                            </Button>
                             {seatsData.center_back.name &&
-                              <>&nbsp;({seatsData.center_back.name})</>
+                                    <Alert
+                                      severity={'info'}
+                                      sx={{mt: 1}}
+                                      icon={false}
+                                    >
+                                      {seatsData.center_back.name}
+                                    </Alert>
                             }
-                          </Button>
+                          </Paper>
                         </Grid>
                         <Grid
                           item
                           xs={4}
                         >
-                          <Button
-                            fullWidth
-                            variant={'outlined'}
-                            color={
-                                seatsData.right_back.status ?
-                                  'error' :
-                                  'success'
-                            }
-                            onClick={() => {
-                              bookSeat(driver.id, 'right_back');
-                            }}
-                            sx={{
-                              py: 2,
-                              overflowWrap: 'anywhere',
-                            }}
-                            disabled={seatsData.right_back.status}
+                          <Paper
+                            elevation={2}
+                            sx={{p: 1}}
                           >
-                              Сзади справа
+                            <Button
+                              fullWidth
+                              color={
+                                      seatsData.right_back.status ?
+                                          'error' :
+                                          'success'
+                              }
+                              onClick={() => {
+                                bookSeat(driver.id, 'right_back');
+                              }}
+                              sx={{
+                                py: 2,
+                                overflowWrap: 'anywhere',
+                              }}
+                              size={'small'}
+                            >
+                                  Сзади справа
+                            </Button>
                             {seatsData.right_back.name &&
-                              <>&nbsp;({seatsData.right_back.name})</>
+                                    <Alert
+                                      severity={'info'}
+                                      sx={{mt: 1}}
+                                      icon={false}
+                                    >
+                                      {seatsData.right_back.name}
+                                    </Alert>
                             }
-                          </Button>
+                          </Paper>
                         </Grid>
                       </Grid>
                       {driver.id !== DRIVERS.length &&
-                        <Divider/>
+                              <Divider/>
                       }
                     </Box>
                   ))}
@@ -471,5 +594,4 @@ export const SeatBook = () => {
       </Grow>
     </>
   );
-}
-;
+};
