@@ -33,6 +33,7 @@ import {
   PhoneInTalkOutlined,
   WhatsApp,
   Check,
+  Telegram,
 } from '@mui/icons-material';
 import {Helmet} from 'react-helmet-async';
 
@@ -262,6 +263,7 @@ export const SeatBook = () => {
       id: 1,
       name: 'Гуриев Никита',
       number: '79883857654',
+      tg: 'qjalti',
       car: {
         color: 'Белая',
         number: 'О 746 ХН 123',
@@ -442,7 +444,10 @@ export const SeatBook = () => {
                       </Typography>
                       <Typography>
                             Водитель: {driver.name}
-                        <Link href={`tel:+${driver.number}`}>
+                        <Link
+                          href={`tel:+${driver.number}`}
+                          target={'_blank'}
+                        >
                           <IconButton
                             sx={{mx: 0.5}}
                             color={'primary'}
@@ -453,12 +458,24 @@ export const SeatBook = () => {
                         </Link>
                         <Link
                           href={`https://wa.me/${driver.number}`}
+                          target={'_blank'}
                         >
                           <IconButton
                             color={'success'}
                             size={'small'}
                           >
                             <WhatsApp/>
+                          </IconButton>
+                        </Link>
+                        <Link
+                          href={`https://t.me/${driver.tg}`}
+                          target={'_blank'}
+                        >
+                          <IconButton
+                            color={'info'}
+                            size={'small'}
+                          >
+                            <Telegram/>
                           </IconButton>
                         </Link>
                       </Typography>
@@ -479,6 +496,7 @@ export const SeatBook = () => {
                           <Paper
                             elevation={2}
                             sx={{p: 1}}
+                            variant={'outlined'}
                           >
                             <Button
                               fullWidth
@@ -513,6 +531,7 @@ export const SeatBook = () => {
                           <Paper
                             elevation={2}
                             sx={{p: 1}}
+                            variant={'outlined'}
                           >
                             <Button
                               variant={'outlined'}
@@ -560,6 +579,7 @@ export const SeatBook = () => {
                           <Paper
                             elevation={2}
                             sx={{p: 1}}
+                            variant={'outlined'}
                           >
                             <Button
                               variant={'outlined'}
@@ -599,6 +619,7 @@ export const SeatBook = () => {
                           <Paper
                             elevation={2}
                             sx={{p: 1}}
+                            variant={'outlined'}
                           >
                             <Button
                               variant={'outlined'}
@@ -638,6 +659,7 @@ export const SeatBook = () => {
                           <Paper
                             elevation={2}
                             sx={{p: 1}}
+                            variant={'outlined'}
                           >
                             <Button
                               fullWidth
