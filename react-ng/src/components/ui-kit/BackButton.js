@@ -31,7 +31,13 @@ export const BackButton = () => {
           color={'primary'}
           aria-label={'back'}
           sx={{position: 'fixed', bottom: 16, right: 160}}
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            if (!window.history.length) {
+              navigate('/');
+            } else {
+              navigate(-1);
+            }
+          }}
         >
           <ArrowBackIcon/>
         </Fab>

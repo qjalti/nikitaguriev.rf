@@ -10,13 +10,6 @@ import {
   Alert,
   Paper,
   Grow,
-  // AlertTitle,
-  // List,
-  // ListItem,
-  // ListItemButton,
-  // ListItemText,
-  // ListItemIcon,
-  // Checkbox,
   Backdrop,
   CircularProgress,
   Divider,
@@ -31,17 +24,15 @@ import {
   TextField,
   Snackbar,
 } from '@mui/material';
-// import CheckIcon from '@mui/icons-material/Check';
-// import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 // import {green, common} from '@mui/material/colors';
 import axios from 'axios';
 import {io} from 'socket.io-client';
-// import parse from 'html-react-parser';
 // import moment from 'moment';
 import {
   DirectionsCarOutlined,
   PhoneInTalkOutlined,
   WhatsApp,
+  Check,
 } from '@mui/icons-material';
 import {Helmet} from 'react-helmet-async';
 
@@ -49,24 +40,48 @@ const SOCKET = io('https://qjalti.ru');
 
 const BASE_OBJECT = {
   front: {status: false, name: null},
-  driver: {status: true, name: 'Никита'},
+  driver: {status: true, name: 'Гуриев Никита'},
   left_back: {status: false, name: null},
   center_back: {status: false, name: null},
   right_back: {status: false, name: null},
 };
 
+const getCookie = (name) => {
+  const cookies = document.cookie.split('; ');
+  for (const cookie of cookies) {
+    const [key, value] = cookie.split('=');
+    if (key === name) {
+      return decodeURIComponent(value);
+    }
+  }
+  return false;
+};
+
+const deleteCookie = (name) => {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+};
+
+const setCookie = (name, value, days = 1) => {
+  const expires = new Date(Date.now() + days * 864e5).toUTCString();
+  document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+};
+
+const BOOK_COOKIE = getCookie('bookedSeat');
+let hasBooking = false;
+if (typeof BOOK_COOKIE === 'string' && BOOK_COOKIE.length > 0) {
+  hasBooking = true;
+}
+
 export const SeatBook = () => {
   const [confirmationDialog, setConfirmationDialog] = useState(false);
+  const [bookClearDialog, setBookClearDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [seatsData, setSeatsData] = useState(BASE_OBJECT);
+  const [selectedSeat, setSelectedSeat] = useState(false);
   const [bookData, setBookData] = useState({});
   const [sbStatus, setSbStatus] = useState(false);
   const [sbMessage, setSbMessage] = useState('Возникла непредвиденная ошибка');
   const [sbType, setSbType] = useState('error');
-  // const [elements, setElements] = useState([]);
-  // const [elementId, setElementId] = useState();
-  // const [elementStatus, setElementStatus] = useState();
-  // const [detailsDialogData, setDDData] = useState();
 
   const selectData = async () => {
     try {
@@ -77,8 +92,6 @@ export const SeatBook = () => {
       } else {
         setSeatsData(BASE_OBJECT);
       }
-      // console.log(DATA);
-      // setElements(RESPONSE.data.data);
       setLoading(false);
     } catch (err) {
       console.log('Error! ', err.message);
@@ -92,13 +105,8 @@ export const SeatBook = () => {
 
   const confirmationDialogClose = () => {
     setConfirmationDialog(false);
+    setSelectedSeat(false);
   };
-
-  /* const checkBoxHandler = async (evt) => {
-              setElementId(evt.target.id);
-              setElementStatus(evt.target.checked);
-              setConfirmationDialog(true);
-            };*/
 
   const updateData = async (newBookData) => {
     setConfirmationDialog(false);
@@ -108,12 +116,64 @@ export const SeatBook = () => {
           newBookData,
         },
     );
+    setSelectedSeat(false);
   };
 
   const showSnackBar = (message, type) => {
     setSbMessage(message);
     setSbType(type);
     setSbStatus(true);
+  };
+
+  const clearBook = async () => {
+    setBookClearDialog(false);
+    const NEW_BOOK_DATA = {
+      ...seatsData,
+      [bookData.seatName]: {
+        name: null,
+        status: false,
+      },
+    };
+    await updateData(NEW_BOOK_DATA);
+    deleteCookie('bookedSeat');
+    showSnackBar('Бронь успешно снята', 'success');
+  };
+
+  const BookClearDialog = () => {
+    return (
+      <Dialog
+        open={bookClearDialog}
+        onClose={() => {
+          setBookClearDialog(false);
+        }}
+      >
+        <DialogTitle>
+          {'Отмена брони'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Вы действительно хотите отменить бронь?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color={'error'}
+            onClick={() => {
+              setBookClearDialog(false);
+            }}
+          >
+            Отмена
+          </Button>
+          <Button
+            onClick={clearBook}
+            color={'success'}
+            autoFocus
+          >
+              Снять бронь
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
   };
 
   const ConfirmationDialog = () => {
@@ -128,6 +188,11 @@ export const SeatBook = () => {
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
             const passengerName = formJson.passengerName;
+
+            if (typeof selectedSeat === 'string' && selectedSeat.length > 0) {
+              setCookie('bookedSeat', selectedSeat, 1);
+            }
+
             const NEW_BOOK_DATA = {
               ...seatsData,
               [bookData.seatName]: {
@@ -195,7 +260,7 @@ export const SeatBook = () => {
   const DRIVERS = [
     {
       id: 1,
-      name: 'Никита Гуриев',
+      name: 'Гуриев Никита',
       number: '79883857654',
       car: {
         color: 'Белая',
@@ -240,20 +305,37 @@ export const SeatBook = () => {
   ];
 
   const bookSeat = (driverId, seatName) => {
-    if (seatsData[seatName].status) {
+    if (hasBooking && BOOK_COOKIE !== seatName) {
+      showSnackBar(
+          'Нельзя забронировать больше одного места',
+          'error',
+      );
+      return false;
+    }
+
+    if (!hasBooking && seatsData[seatName].status) {
       showSnackBar(
           'Место уже забронированно. Выберите другое место',
           'error',
       );
       return false;
     }
+
     const BOOK_DATA = {
       driverId,
       seatName,
     };
 
+    setSelectedSeat(seatName);
     setBookData(BOOK_DATA);
-    setConfirmationDialog(true);
+
+    if (!hasBooking) {
+      setConfirmationDialog(true);
+    }
+
+    if (hasBooking && BOOK_COOKIE === seatName) {
+      setBookClearDialog(true);
+    }
   };
 
   const sbClose = () => {
@@ -276,7 +358,7 @@ export const SeatBook = () => {
           content="Бронирование мест в машине — легко и быстро"/>
         <meta property="og:description"
           content="Выбирай машину, смотри доступные места и бронируй онлайн. Удобно, быстро и прозрачно — поездки без лишних вопросов!"/>
-        <meta property="og:url" content="https://qjalti.ru/seat-book"/>
+        <meta property="og:url" content="https://qjalti.ru/seat_book"/>
         <meta property="og:image"
           content="https://qjalti.ru/car-booking-preview.webp"/>
         <meta property="og:locale" content="ru_RU"/>
@@ -294,7 +376,7 @@ export const SeatBook = () => {
 
       <Snackbar
         onClose={sbClose}
-        anchorOrigin={{vertical: 'center', horizontal: 'center'}}
+        anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
         open={sbStatus}
         autoHideDuration={6000}
       >
@@ -305,11 +387,10 @@ export const SeatBook = () => {
           {sbMessage}
         </Alert>
       </Snackbar>
-
+      <BookClearDialog/>
       <ConfirmationDialog/>
       <Backdrop
         sx={{
-          // color: common.white,
           zIndex: (theme) => theme.zIndex.drawer + 1,
         }}
         open={loading}
@@ -401,6 +482,7 @@ export const SeatBook = () => {
                           >
                             <Button
                               fullWidth
+                              variant={'outlined'}
                               color={'error'}
                               sx={{
                                 py: 2,
@@ -433,6 +515,7 @@ export const SeatBook = () => {
                             sx={{p: 1}}
                           >
                             <Button
+                              variant={'outlined'}
                               color={
                                       seatsData.front.status ?
                                           'error' :
@@ -447,6 +530,7 @@ export const SeatBook = () => {
                                 overflowWrap: 'anywhere',
                               }}
                               size={'small'}
+                              startIcon={BOOK_COOKIE === 'front' ? <Check/> : false}
                             >
                                   Спереди
                             </Button>
@@ -478,6 +562,7 @@ export const SeatBook = () => {
                             sx={{p: 1}}
                           >
                             <Button
+                              variant={'outlined'}
                               fullWidth
                               color={
                                       seatsData.left_back.status ?
@@ -492,6 +577,7 @@ export const SeatBook = () => {
                                 overflowWrap: 'anywhere',
                               }}
                               size={'small'}
+                              startIcon={BOOK_COOKIE === 'left_back' ? <Check/> : false}
                             >
                                   Сзади слева
                             </Button>
@@ -515,6 +601,7 @@ export const SeatBook = () => {
                             sx={{p: 1}}
                           >
                             <Button
+                              variant={'outlined'}
                               fullWidth
                               color={
                                       seatsData.center_back.status ?
@@ -529,6 +616,7 @@ export const SeatBook = () => {
                                 overflowWrap: 'anywhere',
                               }}
                               size={'small'}
+                              startIcon={BOOK_COOKIE === 'center_back' ? <Check/> : false}
                             >
                                   Сзади центр
                             </Button>
@@ -553,6 +641,7 @@ export const SeatBook = () => {
                           >
                             <Button
                               fullWidth
+                              variant={'outlined'}
                               color={
                                       seatsData.right_back.status ?
                                           'error' :
@@ -566,6 +655,7 @@ export const SeatBook = () => {
                                 overflowWrap: 'anywhere',
                               }}
                               size={'small'}
+                              startIcon={BOOK_COOKIE === 'right_back' ? <Check/> : false}
                             >
                                   Сзади справа
                             </Button>

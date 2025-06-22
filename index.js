@@ -67,7 +67,7 @@ const clearSeatBooksTable = async () => {
 
   const BASE_OBJECT = {
     front: {status: false, name: null},
-    driver: {status: true, name: 'Никита'},
+    driver: {status: true, name: 'Гуриев Никита'},
     left_back: {status: false, name: null},
     center_back: {status: false, name: null},
     right_back: {status: false, name: null},
