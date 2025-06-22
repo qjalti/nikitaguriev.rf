@@ -286,7 +286,7 @@ APP.post('/api/webcam7/detections', upload.single('image'), async (req, res) => 
 
 APP.post('/api/seat_book/reset', (req, res) => {
   clearSeatBooksTable().then(() => false);
-  res.status(200);
+  res.status(200).send({success: true});
 });
 
 CRON.schedule('0 22 * * *', clearSeatBooksTable, {
