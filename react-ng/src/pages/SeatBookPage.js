@@ -558,7 +558,6 @@ export const SeatBook = () => {
                                 overflowWrap: 'break-word',
                               }}
                               size={'small'}
-                              startIcon={BOOK_COOKIE === 'front' ? <Check/> : false}
                             >
                                   Спереди
                             </Button>
@@ -606,7 +605,6 @@ export const SeatBook = () => {
                                 overflowWrap: 'break-word',
                               }}
                               size={'small'}
-                              startIcon={BOOK_COOKIE === 'left_back' ? <Check/> : false}
                             >
                                   Сзади слева
                             </Button>
@@ -646,7 +644,6 @@ export const SeatBook = () => {
                                 overflowWrap: 'break-word',
                               }}
                               size={'small'}
-                              startIcon={BOOK_COOKIE === 'center_back' ? <Check/> : false}
                             >
                                   Сзади центр
                             </Button>
@@ -686,7 +683,6 @@ export const SeatBook = () => {
                                 overflowWrap: 'break-word',
                               }}
                               size={'small'}
-                              startIcon={BOOK_COOKIE === 'right_back' ? <Check/> : false}
                             >
                                   Сзади справа
                             </Button>
