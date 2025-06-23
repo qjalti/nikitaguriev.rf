@@ -185,6 +185,20 @@ ALYA_TATTOO_DATE.add(DAYS_AT, 'days');
 const HOURS_AT = CURRENT_DATE.diff(ALYA_TATTOO_DATE, 'hours');
 ALYA_TATTOO_DATE.add(HOURS_AT, 'hours');
 
+/**
+ * Горох посажен
+ */
+const PEAS = [2025, 5, 12, 13, 0];
+const PEAS_DATE = moment(PEAS);
+const YEARS_P = CURRENT_DATE.diff(PEAS_DATE, 'years');
+PEAS_DATE.add(YEARS_P, 'years');
+const MONTHS_P = CURRENT_DATE.diff(PEAS_DATE, 'months');
+PEAS_DATE.add(MONTHS_P, 'months');
+const DAYS_P = CURRENT_DATE.diff(PEAS_DATE, 'days');
+PEAS_DATE.add(DAYS_P, 'days');
+const HOURS_P = CURRENT_DATE.diff(PEAS_DATE, 'hours');
+PEAS_DATE.add(HOURS_P, 'hours');
+
 const TIMERS = [
   {
     id: 0,
@@ -293,6 +307,15 @@ const TIMERS = [
     days: DAYS_AT,
     hours: HOURS_AT,
     date: ALYA_TATTOO,
+  },
+  {
+    id: 12,
+    title: 'Горох посажен',
+    years: YEARS_P,
+    months: MONTHS_P,
+    days: DAYS_P,
+    hours: HOURS_P,
+    date: PEAS,
   },
 ];
 
