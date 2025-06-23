@@ -153,7 +153,7 @@ export const SeatBook = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Вы действительно хотите отменить бронь?
+              Вы действительно хотите отменить бронь?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -163,7 +163,7 @@ export const SeatBook = () => {
               setBookClearDialog(false);
             }}
           >
-            Отмена
+              Отмена
           </Button>
           <Button
             onClick={clearBook}
@@ -214,13 +214,6 @@ export const SeatBook = () => {
       >
         <DialogTitle>Бронирование</DialogTitle>
         <DialogContent>
-          <Alert
-            severity={'warning'}
-            variant={'standard'}
-            sx={{my: 2}}
-          >
-              Отмена брони пока не предусмотрена
-          </Alert>
           <DialogContentText>
               Введите Вашу фамилию и имя:
           </DialogContentText>
@@ -415,8 +408,8 @@ export const SeatBook = () => {
                     direction={'row'}
                     justifyContent={'center'}
                     alignItems={'center'}
-                    spacing={2}
-                    sx={{py: 4}}
+                    spacing={1}
+                    sx={{py: 2}}
                   >
                     <Grid item>
                       <DirectionsCarOutlined
@@ -434,7 +427,7 @@ export const SeatBook = () => {
                   </Grid>
                   {DRIVERS.map((driver) => (
                     <Box
-                      sx={{my: 2}}
+                      sx={{my: 1}}
                       key={driver.id}
                     >
                       <Typography
@@ -444,47 +437,63 @@ export const SeatBook = () => {
                       </Typography>
                       <Typography>
                             Водитель: {driver.name}
-                        <Link
-                          href={`tel:+${driver.number}`}
-                          target={'_blank'}
-                        >
-                          <IconButton
-                            sx={{mx: 0.5}}
-                            color={'primary'}
-                            size={'small'}
-                          >
-                            <PhoneInTalkOutlined/>
-                          </IconButton>
-                        </Link>
-                        <Link
-                          href={`https://wa.me/${driver.number}`}
-                          target={'_blank'}
-                        >
-                          <IconButton
-                            color={'success'}
-                            size={'small'}
-                          >
-                            <WhatsApp/>
-                          </IconButton>
-                        </Link>
-                        <Link
-                          href={`https://t.me/${driver.tg}`}
-                          target={'_blank'}
-                        >
-                          <IconButton
-                            color={'info'}
-                            size={'small'}
-                          >
-                            <Telegram/>
-                          </IconButton>
-                        </Link>
                       </Typography>
                       <Typography>
                         {driver.car.color}, {driver.car.model}, {driver.car.number}
                       </Typography>
                       <Grid
+                        container
+                        spacing={1}
+                      >
+                        <Grid
+                          item
+                        >
+                          <Link
+                            href={`tel:+${driver.number}`}
+                            target={'_blank'}
+                          >
+                            <IconButton
+                              color={'primary'}
+                              size={'small'}
+                            >
+                              <PhoneInTalkOutlined/>
+                            </IconButton>
+                          </Link>
+                        </Grid>
+                        <Grid
+                          item
+                        >
+                          <Link
+                            href={`https://wa.me/${driver.number}`}
+                            target={'_blank'}
+                          >
+                            <IconButton
+                              color={'success'}
+                              size={'small'}
+                            >
+                              <WhatsApp/>
+                            </IconButton>
+                          </Link>
+                        </Grid>
+                        <Grid
+                          item
+                        >
+                          <Link
+                            href={`https://t.me/${driver.tg}`}
+                            target={'_blank'}
+                          >
+                            <IconButton
+                              color={'info'}
+                              size={'small'}
+                            >
+                              <Telegram/>
+                            </IconButton>
+                          </Link>
+                        </Grid>
+                      </Grid>
+                      <Grid
                         sx={{mt: 1}}
-                        spacing={2}
+                        spacing={1}
                         container
                         justifyContent={'center'}
                         alignItems={'center'}
@@ -503,8 +512,8 @@ export const SeatBook = () => {
                               variant={'outlined'}
                               color={'error'}
                               sx={{
-                                py: 2,
-                                overflowWrap: 'anywhere',
+                                py: 1,
+                                overflowWrap: 'break-word',
                               }}
                               size={'small'}
                               onClick={() => {
@@ -545,8 +554,8 @@ export const SeatBook = () => {
                                 bookSeat(driver.id, 'front');
                               }}
                               sx={{
-                                py: 2,
-                                overflowWrap: 'anywhere',
+                                py: 1,
+                                overflowWrap: 'break-word',
                               }}
                               size={'small'}
                               startIcon={BOOK_COOKIE === 'front' ? <Check/> : false}
@@ -593,8 +602,8 @@ export const SeatBook = () => {
                                 bookSeat(driver.id, 'left_back');
                               }}
                               sx={{
-                                py: 2,
-                                overflowWrap: 'anywhere',
+                                py: 1,
+                                overflowWrap: 'break-word',
                               }}
                               size={'small'}
                               startIcon={BOOK_COOKIE === 'left_back' ? <Check/> : false}
@@ -633,8 +642,8 @@ export const SeatBook = () => {
                                 bookSeat(driver.id, 'center_back');
                               }}
                               sx={{
-                                py: 2,
-                                overflowWrap: 'anywhere',
+                                py: 1,
+                                overflowWrap: 'break-word',
                               }}
                               size={'small'}
                               startIcon={BOOK_COOKIE === 'center_back' ? <Check/> : false}
@@ -673,8 +682,8 @@ export const SeatBook = () => {
                                 bookSeat(driver.id, 'right_back');
                               }}
                               sx={{
-                                py: 2,
-                                overflowWrap: 'anywhere',
+                                py: 1,
+                                overflowWrap: 'break-word',
                               }}
                               size={'small'}
                               startIcon={BOOK_COOKIE === 'right_back' ? <Check/> : false}
