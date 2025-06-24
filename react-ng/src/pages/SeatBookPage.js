@@ -96,8 +96,10 @@ export const SeatBook = () => {
   };
 
   const checkCookie = () => {
-    setBookCookie(getCookie('bookedSeat'));
-    if (typeof bookCookie === 'string' && bookCookie.length > 0) {
+    const BOOK_COOKIE = getCookie('bookedSeat');
+    setHasBooking(false);
+    if (typeof BOOK_COOKIE === 'string' && BOOK_COOKIE.length > 0) {
+      setBookCookie(BOOK_COOKIE);
       setHasBooking(true);
     }
   };
@@ -139,7 +141,7 @@ export const SeatBook = () => {
         status: false,
       },
     };
-    deleteCookie('bookedSeat');
+    await deleteCookie('bookedSeat');
     await updateData(NEW_BOOK_DATA);
     showSnackBar('Бронь успешно снята', 'success');
   };
@@ -508,7 +510,6 @@ export const SeatBook = () => {
                           xs={6}
                         >
                           <Paper
-                            elevation={2}
                             sx={{p: 1}}
                             variant={'outlined'}
                           >
@@ -543,7 +544,6 @@ export const SeatBook = () => {
                           xs={6}
                         >
                           <Paper
-                            elevation={2}
                             sx={{p: 1}}
                             variant={'outlined'}
                           >
@@ -590,7 +590,6 @@ export const SeatBook = () => {
                           xs={4}
                         >
                           <Paper
-                            elevation={2}
                             sx={{p: 1}}
                             variant={'outlined'}
                           >
@@ -629,7 +628,6 @@ export const SeatBook = () => {
                           xs={4}
                         >
                           <Paper
-                            elevation={2}
                             sx={{p: 1}}
                             variant={'outlined'}
                           >
@@ -668,7 +666,6 @@ export const SeatBook = () => {
                           xs={4}
                         >
                           <Paper
-                            elevation={2}
                             sx={{p: 1}}
                             variant={'outlined'}
                           >
