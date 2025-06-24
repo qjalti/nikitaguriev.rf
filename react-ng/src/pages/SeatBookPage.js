@@ -575,7 +575,7 @@ export const SeatBook = () => {
                       </Grid>
                       <Grid
                         container
-                        spacing={2}
+                        spacing={1}
                         justifyContent={'center'}
                         alignItems={'center'}
                         sx={{mt: 1, mb: 4}}
