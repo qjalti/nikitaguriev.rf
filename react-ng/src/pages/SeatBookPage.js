@@ -32,7 +32,6 @@ import {
   DirectionsCarOutlined,
   PhoneInTalkOutlined,
   WhatsApp,
-  Check,
   Telegram,
 } from '@mui/icons-material';
 import {Helmet} from 'react-helmet-async';
