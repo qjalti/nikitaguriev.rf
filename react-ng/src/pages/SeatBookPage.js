@@ -66,12 +66,6 @@ const setCookie = (name, value, days = 1) => {
   document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
 };
 
-const BOOK_COOKIE = getCookie('bookedSeat');
-let hasBooking = false;
-if (typeof BOOK_COOKIE === 'string' && BOOK_COOKIE.length > 0) {
-  hasBooking = true;
-}
-
 export const SeatBook = () => {
   const [confirmationDialog, setConfirmationDialog] = useState(false);
   const [bookClearDialog, setBookClearDialog] = useState(false);
@@ -82,6 +76,8 @@ export const SeatBook = () => {
   const [sbStatus, setSbStatus] = useState(false);
   const [sbMessage, setSbMessage] = useState('Возникла непредвиденная ошибка');
   const [sbType, setSbType] = useState('error');
+  const [hasBooking, setHasBooking] = useState(false);
+  const [bookCookie, setBookCookie] = useState(null);
 
   const selectData = async () => {
     try {
@@ -99,8 +95,16 @@ export const SeatBook = () => {
     }
   };
 
+  const checkCookie = () => {
+    setBookCookie(getCookie('bookedSeat'));
+    if (typeof bookCookie === 'string' && bookCookie.length > 0) {
+      setHasBooking(true);
+    }
+  };
+
   useEffect(() => {
     selectData().then(() => false);
+    checkCookie();
   }, []);
 
   const confirmationDialogClose = () => {
@@ -117,6 +121,7 @@ export const SeatBook = () => {
         },
     );
     setSelectedSeat(false);
+    checkCookie();
   };
 
   const showSnackBar = (message, type) => {
@@ -134,8 +139,8 @@ export const SeatBook = () => {
         status: false,
       },
     };
-    await updateData(NEW_BOOK_DATA);
     deleteCookie('bookedSeat');
+    await updateData(NEW_BOOK_DATA);
     showSnackBar('Бронь успешно снята', 'success');
   };
 
@@ -248,6 +253,7 @@ export const SeatBook = () => {
 
   SOCKET.on('seatBooked', () => {
     selectData().then(() => false);
+    checkCookie();
   });
 
   const DRIVERS = [
@@ -259,7 +265,7 @@ export const SeatBook = () => {
       car: {
         color: 'Белая',
         number: 'О 746 ХН 123',
-        model: 'Kia Rio',
+        model: 'KIA RIO',
       },
     },
     // {
@@ -299,7 +305,7 @@ export const SeatBook = () => {
   ];
 
   const bookSeat = (driverId, seatName) => {
-    if (hasBooking && BOOK_COOKIE !== seatName) {
+    if (hasBooking && bookCookie !== seatName) {
       showSnackBar(
           'Нельзя забронировать больше одного места',
           'error',
@@ -327,7 +333,7 @@ export const SeatBook = () => {
       setConfirmationDialog(true);
     }
 
-    if (hasBooking && BOOK_COOKIE === seatName) {
+    if (hasBooking && bookCookie === seatName) {
       setBookClearDialog(true);
     }
   };
