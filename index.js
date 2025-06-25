@@ -23,9 +23,10 @@ const TELEGRAM_MY_USER_ID = 738829247;
 /**
  * Telegraf settings
  */
+let qjaltiAPIBot;
 if (process.env.NODE_ENV !== 'development') {
-  const BOT = new Telegraf(CONFIG.get('qjaltiAPIToken'));
-  BOT.launch().then(r => console.log(r));
+  qjaltiAPIBot = new Telegraf(CONFIG.get('qjaltiAPIToken'));
+  qjaltiAPIBot.launch().then(r => console.log(r));
 }
 
 /**
@@ -227,7 +228,7 @@ APP.post('/api/seat_book/update', async (req, res) => {
   );
 
   try {
-    await BOT.telegram.sendMessage(TELEGRAM_MY_USER_ID, req.body.newBookData);
+    await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, req.body.newBookData);
   } catch (err) {
     console.error('Ошибка отправки:', err);
   }
@@ -274,7 +275,7 @@ APP.post('/api/webcam7/detections', upload.single('image'), async (req, res) => 
   }
 
   try {
-    await BOT.telegram.sendPhoto(
+    await qjaltiAPIBot.telegram.sendPhoto(
       TELEGRAM_MY_USER_ID,
       {
         source: Buffer.from(req.file.buffer),
