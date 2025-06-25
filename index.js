@@ -209,8 +209,6 @@ APP.post('/api/seat_book/update', async (req, res) => {
   // const ELEMENT_ID = req.body.elementId.split('_')[1];
   // const {elementStatus} = req.body;
 
-  console.log(req.body.newBookData);
-
   const NEW_DATA = JSON.stringify(req.body.newBookData);
 
   const CLIENT = new Client(CONNECTION_DATA);
@@ -227,6 +225,12 @@ APP.post('/api/seat_book/update', async (req, res) => {
   IO.emit(
     'seatBooked',
   );
+
+  try {
+    await BOT.telegram.sendMessage(TELEGRAM_MY_USER_ID, req.body.newBookData);
+  } catch (err) {
+    console.error('Ошибка отправки:', err);
+  }
 
   res.json(
     {
