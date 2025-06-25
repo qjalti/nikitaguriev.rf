@@ -228,7 +228,7 @@ APP.post('/api/seat_book/update', async (req, res) => {
   );
 
   try {
-    await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, JSON.stringify(req.body.newBookData));
+    await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, JSON.stringify(req.body.newBookData, null, 2));
   } catch (err) {
     console.error('Ошибка отправки:', err);
   }
