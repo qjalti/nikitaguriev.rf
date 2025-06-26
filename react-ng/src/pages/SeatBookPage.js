@@ -78,7 +78,6 @@ export const SeatBook = () => {
   const [sbType, setSbType] = useState('error');
   const [hasBooking, setHasBooking] = useState(false);
   const [bookCookie, setBookCookie] = useState(null);
-  const [selectedPassenger, setSelectedPassenger] = useState(null);
 
   const selectData = async () => {
     try {
@@ -119,15 +118,7 @@ export const SeatBook = () => {
     setConfirmationDialog(false);
     await axios.post(
         'https://qjalti.ru/api/seat_book/update',
-        [
-          {data: newBookData},
-          {
-            credentials: {
-              passengerName: selectedPassenger,
-              selectedSeat,
-            },
-          },
-        ],
+        newBookData,
     );
     setSelectedSeat(false);
     checkCookie();
@@ -166,7 +157,7 @@ export const SeatBook = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-              Вы действительно хотите отменить бронь?
+            Вы действительно хотите отменить бронь?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -176,14 +167,14 @@ export const SeatBook = () => {
               setBookClearDialog(false);
             }}
           >
-              Отмена
+            Отмена
           </Button>
           <Button
             onClick={clearBook}
             color={'success'}
             autoFocus
           >
-              Снять бронь
+            Снять бронь
           </Button>
         </DialogActions>
       </Dialog>
@@ -202,17 +193,22 @@ export const SeatBook = () => {
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
             const passengerName = formJson.passengerName;
-            setSelectedPassenger(passengerName);
 
             if (typeof selectedSeat === 'string' && selectedSeat.length > 0) {
               setCookie('bookedSeat', selectedSeat, 1);
             }
 
             const NEW_BOOK_DATA = {
-              ...seatsData,
-              [bookData.seatName]: {
-                name: passengerName.trim(),
-                status: true,
+              data: {
+                ...seatsData,
+                [bookData.seatName]: {
+                  name: passengerName.trim(),
+                  status: true,
+                },
+              },
+              credentials: {
+                passengerName,
+                selectedSeat,
               },
             };
             await updateData(NEW_BOOK_DATA);
@@ -229,7 +225,7 @@ export const SeatBook = () => {
         <DialogTitle>Бронирование</DialogTitle>
         <DialogContent>
           <DialogContentText>
-              Введите Вашу фамилию и имя:
+            Введите Вашу фамилию и имя:
           </DialogContentText>
           <TextField
             autoFocus
@@ -248,13 +244,13 @@ export const SeatBook = () => {
             onClick={confirmationDialogClose}
             color={'error'}
           >
-              Отмена
+            Отмена
           </Button>
           <Button
             type={'submit'}
             color={'success'}
           >
-              Забронировать
+            Забронировать
           </Button>
         </DialogActions>
       </Dialog>
@@ -436,7 +432,7 @@ export const SeatBook = () => {
                       <Typography
                         variant={'h4'}
                       >
-                          Seat Book
+                        Seat Book
                       </Typography>
                     </Grid>
                   </Grid>
@@ -448,10 +444,10 @@ export const SeatBook = () => {
                       <Typography
                         variant={'h6'}
                       >
-                            Машина №{driver.id}
+                        Машина №{driver.id}
                       </Typography>
                       <Typography>
-                            Водитель: {driver.name}
+                        Водитель: {driver.name}
                       </Typography>
                       <Typography>
                         {driver.car.color}, {driver.car.model}, {driver.car.number}
@@ -534,16 +530,16 @@ export const SeatBook = () => {
                                 showSnackBar('Место водителя бронировать нельзя', 'error');
                               }}
                             >
-                                  Водитель
+                              Водитель
                             </Button>
                             {seatsData.driver.name &&
-                                    <Alert
-                                      severity={'info'}
-                                      sx={{mt: 1}}
-                                      icon={false}
-                                    >
-                                      {seatsData.driver.name}
-                                    </Alert>
+                            <Alert
+                              severity={'info'}
+                              sx={{mt: 1}}
+                              icon={false}
+                            >
+                              {seatsData.driver.name}
+                            </Alert>
                             }
                           </Paper>
                         </Grid>
@@ -558,9 +554,9 @@ export const SeatBook = () => {
                             <Button
                               variant={'outlined'}
                               color={
-                                      seatsData.front.status ?
-                                          'error' :
-                                          'success'
+                                seatsData.front.status ?
+                                  'error' :
+                                  'success'
                               }
                               fullWidth
                               onClick={() => {
@@ -572,16 +568,16 @@ export const SeatBook = () => {
                               }}
                               size={'small'}
                             >
-                                  Спереди
+                              Спереди
                             </Button>
                             {seatsData.front.name &&
-                                    <Alert
-                                      severity={'info'}
-                                      sx={{mt: 1}}
-                                      icon={false}
-                                    >
-                                      {seatsData.front.name}
-                                    </Alert>
+                            <Alert
+                              severity={'info'}
+                              sx={{mt: 1}}
+                              icon={false}
+                            >
+                              {seatsData.front.name}
+                            </Alert>
                             }
                           </Paper>
                         </Grid>
@@ -605,9 +601,9 @@ export const SeatBook = () => {
                               variant={'outlined'}
                               fullWidth
                               color={
-                                      seatsData.left_back.status ?
-                                          'error' :
-                                          'success'
+                                seatsData.left_back.status ?
+                                  'error' :
+                                  'success'
                               }
                               onClick={() => {
                                 bookSeat(driver.id, 'left_back');
@@ -618,16 +614,16 @@ export const SeatBook = () => {
                               }}
                               size={'small'}
                             >
-                                  Сзади слева
+                              Сзади слева
                             </Button>
                             {seatsData.left_back.name &&
-                                    <Alert
-                                      severity={'info'}
-                                      sx={{mt: 1}}
-                                      icon={false}
-                                    >
-                                      {seatsData.left_back.name}
-                                    </Alert>
+                            <Alert
+                              severity={'info'}
+                              sx={{mt: 1}}
+                              icon={false}
+                            >
+                              {seatsData.left_back.name}
+                            </Alert>
                             }
                           </Paper>
                         </Grid>
@@ -643,9 +639,9 @@ export const SeatBook = () => {
                               variant={'outlined'}
                               fullWidth
                               color={
-                                      seatsData.center_back.status ?
-                                          'error' :
-                                          'success'
+                                seatsData.center_back.status ?
+                                  'error' :
+                                  'success'
                               }
                               onClick={() => {
                                 bookSeat(driver.id, 'center_back');
@@ -656,16 +652,16 @@ export const SeatBook = () => {
                               }}
                               size={'small'}
                             >
-                                  Сзади центр
+                              Сзади центр
                             </Button>
                             {seatsData.center_back.name &&
-                                    <Alert
-                                      severity={'info'}
-                                      sx={{mt: 1}}
-                                      icon={false}
-                                    >
-                                      {seatsData.center_back.name}
-                                    </Alert>
+                            <Alert
+                              severity={'info'}
+                              sx={{mt: 1}}
+                              icon={false}
+                            >
+                              {seatsData.center_back.name}
+                            </Alert>
                             }
                           </Paper>
                         </Grid>
@@ -681,9 +677,9 @@ export const SeatBook = () => {
                               fullWidth
                               variant={'outlined'}
                               color={
-                                      seatsData.right_back.status ?
-                                          'error' :
-                                          'success'
+                                seatsData.right_back.status ?
+                                  'error' :
+                                  'success'
                               }
                               onClick={() => {
                                 bookSeat(driver.id, 'right_back');
@@ -694,22 +690,22 @@ export const SeatBook = () => {
                               }}
                               size={'small'}
                             >
-                                  Сзади справа
+                              Сзади справа
                             </Button>
                             {seatsData.right_back.name &&
-                                    <Alert
-                                      severity={'info'}
-                                      sx={{mt: 1}}
-                                      icon={false}
-                                    >
-                                      {seatsData.right_back.name}
-                                    </Alert>
+                            <Alert
+                              severity={'info'}
+                              sx={{mt: 1}}
+                              icon={false}
+                            >
+                              {seatsData.right_back.name}
+                            </Alert>
                             }
                           </Paper>
                         </Grid>
                       </Grid>
                       {driver.id !== DRIVERS.length &&
-                              <Divider/>
+                      <Divider/>
                       }
                     </Box>
                   ))}
