@@ -78,6 +78,7 @@ export const SeatBook = () => {
   const [sbType, setSbType] = useState('error');
   const [hasBooking, setHasBooking] = useState(false);
   const [bookCookie, setBookCookie] = useState(null);
+  const [selectedPassenger, setSelectedPassenger] = useState(null);
 
   const selectData = async () => {
     try {
@@ -118,9 +119,15 @@ export const SeatBook = () => {
     setConfirmationDialog(false);
     await axios.post(
         'https://qjalti.ru/api/seat_book/update',
-        {
-          newBookData,
-        },
+        [
+          {data: newBookData},
+          {
+            credentials: {
+              passengerName: selectedPassenger,
+              selectedSeat,
+            },
+          },
+        ],
     );
     setSelectedSeat(false);
     checkCookie();
@@ -195,6 +202,7 @@ export const SeatBook = () => {
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
             const passengerName = formJson.passengerName;
+            setSelectedPassenger(passengerName);
 
             if (typeof selectedSeat === 'string' && selectedSeat.length > 0) {
               setCookie('bookedSeat', selectedSeat, 1);

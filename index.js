@@ -207,11 +207,6 @@ APP.post('/api/seat_book/select', async (req, res) => {
 });
 
 APP.post('/api/seat_book/update', async (req, res) => {
-  // const ELEMENT_ID = req.body.elementId.split('_')[1];
-  // const {elementStatus} = req.body;
-
-  const NEW_DATA = JSON.stringify(req.body.newBookData);
-
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
   const RESPONSE = await CLIENT.query(
@@ -219,7 +214,7 @@ APP.post('/api/seat_book/update', async (req, res) => {
        SET data = $1
        WHERE id = $2
        RETURNING *`,
-    [req.body.newBookData, 3]
+    [req.body.data, 3]
   );
   await CLIENT.end();
 
@@ -227,8 +222,24 @@ APP.post('/api/seat_book/update', async (req, res) => {
     'seatBooked',
   );
 
+  let seatName;
+  switch (req.body.credentials.selectedSeat) {
+    case 'front':
+      seatName = 'Спереди';
+      break;
+    case 'left_back':
+      seatName = 'Сзади, слева'
+      break;
+    case 'center_back':
+      seatName = 'Сзади, центр'
+      break;
+    case 'right_back':
+      seatName = 'Сзади, справа'
+      break;
+  }
+
   try {
-    await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, JSON.stringify(req.body.newBookData, null, 2));
+    await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book: ${seatName}, ${req.body.credentials.passengerName}`);
   } catch (err) {
     console.error('Ошибка отправки:', err);
   }
