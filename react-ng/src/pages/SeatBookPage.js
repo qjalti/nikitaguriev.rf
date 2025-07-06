@@ -133,10 +133,12 @@ export const SeatBook = () => {
   const clearBook = async () => {
     setBookClearDialog(false);
     const NEW_BOOK_DATA = {
-      ...seatsData,
-      [bookData.seatName]: {
-        name: null,
-        status: false,
+      data: {
+        ...seatsData,
+        [bookData.seatName]: {
+          name: null,
+          status: false,
+        },
       },
     };
     await deleteCookie('bookedSeat');
