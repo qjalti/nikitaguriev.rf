@@ -116,12 +116,14 @@ export const SeatBook = () => {
 
   const updateData = async (newBookData) => {
     setConfirmationDialog(false);
+    console.log(newBookData);
     await axios.post(
         'https://qjalti.ru/api/seat_book/update',
         newBookData,
     );
     setSelectedSeat(false);
     checkCookie();
+    await selectData();
   };
 
   const showSnackBar = (message, type) => {
@@ -139,6 +141,10 @@ export const SeatBook = () => {
           name: null,
           status: false,
         },
+      },
+      credentials: {
+        passengerName: null,
+        selectedSeat: bookCookie,
       },
     };
     await deleteCookie('bookedSeat');

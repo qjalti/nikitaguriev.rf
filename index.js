@@ -242,7 +242,11 @@ APP.post('/api/seat_book/update', async (req, res) => {
   }
 
   try {
-    await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book: ${seatName}, ${req.body.credentials.passengerName}`);
+    if (req.body.credentials.passengerName) {
+      await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book: ${seatName}, ${req.body.credentials.passengerName}`);
+    } else {
+      await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book cancel: ${seatName}`);
+    }
   } catch (err) {
     console.error('Ошибка отправки:', err);
   }
