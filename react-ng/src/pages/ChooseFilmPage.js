@@ -185,7 +185,7 @@ export const ChooseFilm = () => {
           content="Что посмотреть? — Получи случайный фильм по нажатию"/>
         <meta property="og:description"
           content="Не знаешь, что посмотреть? Нажми на кнопку и получи случайную рекомендацию фильма. Просто, быстро и интересно!"/>
-        <meta property="og:url" content="https://qjalti.ru/choose-film"/>
+        <meta property="og:url" content="https://qjalti.ru/choose_film"/>
         <meta property="og:image"
           content="https://qjalti.ru/programmer.webp"/>
         <meta property="og:locale" content="ru_RU"/>
@@ -199,6 +199,20 @@ export const ChooseFilm = () => {
           content="Не знаешь, что посмотреть? Нажми на кнопку и получи случайную рекомендацию фильма. Просто, быстро и интересно!"/>
         <meta name="twitter:image"
           content="https://qjalti.ru/programmer.webp"/>
+
+        <script type="application/ld+json">
+          {`{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Что посмотреть? — Получи случайный фильм по нажатию",
+            "url": "https://qjalti.ru/choose_film",
+            "description": "Не знаешь, что посмотреть? Нажми на кнопку и получи случайную рекомендацию фильма. Просто, быстро и интересно!",
+            "publisher": {
+              "@type": "Person",
+              "name": "Никита Гуриев"
+            }
+          }`}
+        </script>
       </Helmet>
 
       <Grow

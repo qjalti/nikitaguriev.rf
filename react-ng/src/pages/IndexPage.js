@@ -120,16 +120,16 @@ export const Index = () => {
     <>
       <Helmet>
         {/* Основная информация */}
-        <title>Личная страница — ссылки, резюме, проекты, связь</title>
+        <title>qjalti — Личный сайт разработчика</title>
         <meta name="title"
-          content="Личная страница — ссылки, резюме, проекты, связь"/>
+          content="qjalti — Личный сайт разработчика"/>
         <meta name="description"
           content="Моя персональная страница: проекты, резюме, ссылки на HeadHunter, LinkedIn, сайт памяти отца, PDF-резюме и способы связи."/>
 
         {/* Open Graph */}
         <meta property="og:type" content="website"/>
         <meta property="og:title"
-          content="Личная страница — ссылки, резюме, проекты, связь"/>
+          content="qjalti — Личный сайт разработчика"/>
         <meta property="og:description"
           content="Моя персональная страница: проекты, резюме, ссылки на HeadHunter, LinkedIn, сайт памяти отца, PDF-резюме и способы связи."/>
         <meta property="og:url" content="https://qjalti.ru/"/>
@@ -141,11 +141,25 @@ export const Index = () => {
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title"
-          content="Личная страница — ссылки, резюме, проекты, связь"/>
+          content="qjalti — Личный сайт разработчика"/>
         <meta name="twitter:description"
           content="Моя персональная страница: проекты, резюме, ссылки на HeadHunter, LinkedIn, сайт памяти отца, PDF-резюме и способы связи."/>
         <meta name="twitter:image"
           content="https://qjalti.ru/programmer.webp"/>
+
+        <script type="application/ld+json">
+          {`{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "qjalti — Личный сайт разработчика",
+            "url": "https://qjalti.ru/",
+            "description": "Моя персональная страница: проекты, резюме, ссылки на HeadHunter, LinkedIn, сайт памяти отца, PDF-резюме и способы связи.",
+            "publisher": {
+                "@type": "Person",
+                "name": "Никита Гуриев"
+            }
+        }`}
+        </script>
       </Helmet>
 
       <Grow

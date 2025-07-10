@@ -97,7 +97,7 @@ export const StarSystems = () => {
         <meta property="og:description"
           content="Ищешь красивое название? Посмотри на звёзды! Этот сервис показывает названия ближайших звёзд и помогает выбрать вдохновляющее имя."/>
         <meta property="og:url"
-          content="https://qjalti.ru/star-system"/>
+          content="https://qjalti.ru/star_system"/>
         <meta property="og:image"
           content="https://qjalti.ru/programmer.webp"/>
         <meta property="og:locale" content="ru_RU"/>
@@ -111,6 +111,20 @@ export const StarSystems = () => {
           content="Ищешь красивое название? Посмотри на звёзды! Этот сервис показывает названия ближайших звёзд и помогает выбрать вдохновляющее имя."/>
         <meta name="twitter:image"
           content="https://qjalti.ru/programmer.webp"/>
+
+        <script type="application/ld+json">
+          {`{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Названия ближайших звёзд — генератор и список",
+            "url": "https://qjalti.ru/star_system/",
+            "description": "Ищешь красивое название? Посмотри на звёзды! Этот сервис показывает названия ближайших звёзд и помогает выбрать вдохновляющее имя.",
+            "publisher": {
+                "@type": "Person",
+                "name": "Никита Гуриев"
+            }
+        }`}
+        </script>
       </Helmet>
       <Grow
         in

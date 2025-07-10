@@ -84,6 +84,20 @@ ${CURRENT_DAY_TES}, ${CURRENT_DATE_NATURE} ${CURRENT_MONTH_TES}`;
           content="Узнай, какой сегодня день по календарю Тамриэля. Лордас, Второе Зерно, Вечный Средний Мороз — окунись в атмосферу The Elder Scrolls."/>
         <meta name="twitter:image"
           content="https://qjalti.ru/programmer.webp"/>
+
+        <script type="application/ld+json">
+          {`{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Дата в стиле The Elder Scrolls — сегодня в Тамриэле",
+            "url": "https://qjalti.ru/tes",
+            "description": "Узнай, какой сегодня день по календарю Тамриэля. Лордас, Второе Зерно, Вечный Средний Мороз — окунись в атмосферу The Elder Scrolls.",
+            "publisher": {
+                "@type": "Person",
+                "name": "Никита Гуриев"
+            }
+        }`}
+        </script>
       </Helmet>
 
       <Grow

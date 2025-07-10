@@ -386,6 +386,20 @@ export const SeatBook = () => {
           content="Выбирай машину, смотри доступные места и бронируй онлайн. Удобно, быстро и прозрачно — поездки без лишних вопросов!"/>
         <meta name="twitter:image"
           content="https://qjalti.ru/car-booking-preview.webp"/>
+
+        <script type="application/ld+json">
+          {`{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Бронирование мест в машине — легко и быстро",
+            "url": "https://qjalti.ru/seat_book",
+            "description": "Выбирай машину, смотри доступные места и бронируй онлайн. Удобно, быстро и прозрачно — поездки без лишних вопросов!",
+            "publisher": {
+                "@type": "Person",
+                "name": "Никита Гуриев"
+            }
+        }`}
+        </script>
       </Helmet>
 
       <Snackbar

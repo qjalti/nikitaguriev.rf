@@ -540,6 +540,20 @@ export const SFG = () => {
           content="Коллекция звуков, фраз и музыки из популярных игр — от ностальгических до современных. Слушай онлайн, делись и вдохновляйся!"/>
         <meta name="twitter:image"
           content="https://qjalti.ru/programmer.webp"/>
+
+        <script type="application/ld+json">
+          {`{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Звуки из видеоигр — слушай онлайн",
+            "url": "https://qjalti.ru/sfg",
+            "description": "Коллекция звуков, фраз и музыки из популярных игр — от ностальгических до современных. Слушай онлайн, делись и вдохновляйся!",
+            "publisher": {
+                "@type": "Person",
+                "name": "Никита Гуриев"
+            }
+        }`}
+        </script>
       </Helmet>
       <Grow
         in

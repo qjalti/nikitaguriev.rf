@@ -105,6 +105,20 @@ export const Resume = () => {
           content="Личное резюме Никиты Гуриева — Fullstack-разработчика с опытом в Bitrix24, Node.js, React, MongoDB и других технологиях."/>
         <meta name="twitter:image"
           content="https://qjalti.ru/programmer.webp"/>
+
+        <script type="application/ld+json">
+          {`{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Резюме — Никита Гуриев",
+            "url": "https://qjalti.ru/resume/",
+            "description": "Личное резюме Никиты Гуриева — Fullstack-разработчика с опытом в Bitrix24, Node.js, React, MongoDB и других технологиях.",
+            "publisher": {
+                "@type": "Person",
+                "name": "Никита Гуриев"
+            }
+        }`}
+        </script>
       </Helmet>
       <Grow
         in
