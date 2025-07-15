@@ -147,7 +147,7 @@ export const Index = () => {
         <meta name="twitter:image"
           content="https://qjalti.ru/programmer.webp"/>
 
-        <script type="application/ld+json">
+        {/* <script type="application/ld+json">
           {`{
             "@context": "https://schema.org",
             "@type": "WebSite",
@@ -159,7 +159,7 @@ export const Index = () => {
                 "name": "Никита Гуриев"
             }
         }`}
-        </script>
+        </script>*/}
       </Helmet>
 
       <Grow

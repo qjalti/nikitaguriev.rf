@@ -2,6 +2,7 @@
  * Блок подключения модулей/импортов
  */
 import React, {useState, useEffect} from 'react';
+import Lottie from 'react-lottie';
 import {
   Box,
   Container,
@@ -35,6 +36,16 @@ import {
   Telegram,
 } from '@mui/icons-material';
 import {Helmet} from 'react-helmet-async';
+import animationData from './car_driving_landscape_qj.json';
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice',
+  },
+};
 
 const SOCKET = io('https://qjalti.ru');
 
@@ -436,6 +447,19 @@ export const SeatBook = () => {
                 direction={'row'}
               >
                 <Grid item xs={12}>
+                  <Grid
+                    container
+                    direction={'row'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                  >
+                    <Grid item>
+                      <Lottie
+                        options={defaultOptions}
+                        width={216}
+                      />
+                    </Grid>
+                  </Grid>
                   <Grid
                     container
                     direction={'row'}
