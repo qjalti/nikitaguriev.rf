@@ -457,6 +457,7 @@ export const SeatBook = () => {
                       <Lottie
                         options={defaultOptions}
                         width={216}
+                        speed={2}
                       />
                     </Grid>
                   </Grid>
