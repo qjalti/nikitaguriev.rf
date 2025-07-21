@@ -13,6 +13,18 @@
     "personalization"
   ],
   "description": "Личный сайт Никиты Гуриева. Личные скрипты/инструменты/функции",
+  "screenshots": [
+    {
+      "src": "/screenshot-wide.webp",
+      "sizes": "1920x1080",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/screenshot-mobile.webp",
+      "sizes": "430x932",
+      "form_factor": "narrow"
+    }
+  ],
   "icons": [
     {
       "src": "windows11/SmallTile.scale-100.png",
