@@ -65,7 +65,7 @@ function isCacheable(request) {
 
 export function register(config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-    const swUrl = `${process.env.PUBLIC_URL}/serviceWorker.js`;
+    const swUrl = `${process.env.PUBLIC_URL}/sw.js`;
 
     window.addEventListener('load', () => {
       navigator.serviceWorker
