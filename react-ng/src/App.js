@@ -5,7 +5,7 @@ import {
   createTheme,
   ThemeProvider,
   Box,
-  Container, Paper, Typography, Link,
+  Container, Paper, Typography, Link, CssBaseline,
 } from '@mui/material';
 
 /**
@@ -105,6 +105,15 @@ function App() {
         default: isDecember ? '#2E7D32' : '#FAFAFA',
       },
     },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          html: {
+            'scrollbarColor': 'rgba(255, 255, 255, 0.9375) rgba(21, 101, 192, 1)',
+          },
+        },
+      },
+    },
   });
 
   const darkTheme = createTheme({
@@ -115,6 +124,15 @@ function App() {
       },
       background: {
         default: isDecember ? '#1B5E20' : '#121212',
+      },
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          html: {
+            'scrollbarColor': 'rgba(21, 101, 192, 0.9375) rgba(39, 39, 39, 1)',
+          },
+        },
       },
     },
   });
@@ -143,6 +161,7 @@ function App() {
           }}
         >
           <ThemeProvider theme={theme}>
+            <CssBaseline />
             {isDecember && <LightRope/>}
             <Box
               sx={{
