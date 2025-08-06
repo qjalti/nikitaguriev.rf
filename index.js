@@ -427,7 +427,7 @@ APP.post('/api/seat_book/reset', (req, res) => {
 // });
 
 CRON.schedule('0 22 * * *', clearSeatBooksTable, {
-  scheduled: true,
+  scheduled: false,
 });
 
 /**
