@@ -25,6 +25,13 @@
       "form_factor": "narrow"
     }
   ],
+  "display-override": ["window-controls"],
+  "protocol_handlers": [
+    {
+      "protocol": "qjApp",
+      "url": "/%s"
+    }
+  ],
   "icons": [
     {
       "src": "windows11/SmallTile.scale-100.png",
