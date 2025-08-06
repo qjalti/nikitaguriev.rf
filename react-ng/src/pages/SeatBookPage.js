@@ -214,7 +214,7 @@ export const SeatBook = () => {
             const passengerName = formJson.passengerName;
 
             if (typeof selectedSeat === 'string' && selectedSeat.length > 0) {
-              setCookie('bookedSeat', selectedSeat, 1);
+              setCookie('bookedSeat', selectedSeat, 365);
             }
 
             const NEW_BOOK_DATA = {
