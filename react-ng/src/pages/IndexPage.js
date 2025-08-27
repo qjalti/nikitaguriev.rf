@@ -34,7 +34,7 @@ import CalendarMonthOutlinedIcon from
   '@mui/icons-material/CalendarMonthOutlined';
 /* import LocalGasStationOutlinedIcon from
   '@mui/icons-material/LocalGasStationOutlined';*/
-import {ArticleOutlined} from '@mui/icons-material';
+import {ArticleOutlined, DeviceThermostat} from '@mui/icons-material';
 
 export const Index = () => {
   const {openSpeedDial} = useContext(Context);
@@ -112,6 +112,11 @@ export const Index = () => {
       to: '/gas_calculator',
       icon: <LocalGasStationOutlinedIcon fontSize={'large'}/>,
     },*/
+    {
+      link_title: 'Температура в квартире',
+      to: '/temperature',
+      icon: <DeviceThermostat fontSize={'large'}/>,
+    },
   ];
 
   let linksCounter = 0;
