@@ -21,7 +21,8 @@ import moment from 'moment';
 import 'moment/locale/ru';
 import thermistorImage from '../img/image_for_temperature_page.jpg';
 import {Helmet} from 'react-helmet-async';
-// import {LineChart} from '@mui/x-charts/LineChart';
+import {LineChart} from '@mui/x-charts/LineChart';
+
 moment.locale('ru');
 
 const SOCKET = io('https://qjalti.ru');
@@ -35,11 +36,27 @@ export const Temperature = () => {
     try {
       setLoading(true);
       const RESPONSE = await axios.post('https://qjalti.ru/api/arduino/select');
+      const DATA = RESPONSE.data.data;
       const TEMPERATURE_DATE = moment(RESPONSE.data.data[0].timestamp);
+
+      const sortedData = [...DATA].sort(
+          (a, b) => new Date(a.timestamp) - new Date(b.timestamp),
+      );
+
+      const xLabels = sortedData.map((item) =>
+        moment(item.timestamp).format('HH:mm'),
+      );
+
+      const temperatures = sortedData.map((item) =>
+        parseFloat(item.temperature),
+      );
+
       setElements(
           {
             temperature: RESPONSE.data.data[0].temperature,
             date: TEMPERATURE_DATE.fromNow(),
+            all: RESPONSE.data.data,
+            chart: {xLabels, temperatures},
           },
       );
       const TEMPERATURES = [];
@@ -64,6 +81,8 @@ export const Temperature = () => {
   SOCKET.on('arduinoEvent', () => {
     selectArduinoData().then(() => false);
   });
+
+  const {xLabels = [], temperatures = []} = elements.chart || {};
 
   return (
     <>
@@ -138,7 +157,7 @@ export const Temperature = () => {
                     alignItems={'start'}
                   >
                     <Grid item>
-                      <Typography gutterBottom>
+                      <Typography variant={'h5'} gutterBottom>
                         Термистор + Arduino
                       </Typography>
                     </Grid>
@@ -147,7 +166,7 @@ export const Temperature = () => {
                         src={thermistorImage}
                         alt="Thermistor image"
                         style={{
-                          borderRadius: 16,
+                          borderRadius: 8,
                           width: 256,
                           height: 256,
                           objectFit: 'cover',
@@ -161,8 +180,8 @@ export const Temperature = () => {
                       <Typography variant={'h4'}>
                         {elements.temperature}&deg;C
                       </Typography>
-                      <Typography variant={'caption'}>
-                          ({elements.date})
+                      <Typography variant={'body1'}>
+                        ({elements.date}, ↻ 15m)
                       </Typography>
                     </Grid>
                   </Grid>
@@ -174,27 +193,42 @@ export const Temperature = () => {
                 sx={{py: 2}}
               >
                 <Grid item>
-                  {/* <LineChart
-                    xAxis={[{data: yElements}]}
-                    series={[
+                  <Typography variant={'h5'}>
+                    График
+                  </Typography>
+                  <LineChart
+                    xAxis={[
                       {
-                        data: xElements
+                        scaleType: 'point',
+                        data: xLabels,
+                        label: 'Время (МСК)',
+                        tickLabelStyle: {fontSize: 12},
                       },
                     ]}
-                    width={500}
+                    series={[
+                      {
+                        type: 'line',
+                        data: temperatures,
+                        label: 'Температура',
+                        color: '#1565C0',
+                        showMark: true,
+                      },
+                    ]}
+                    width={600}
                     height={300}
-                  />*/}
+                    grid={{vertical: true, horizontal: true}}
+                  />
                 </Grid>
               </Grid>
             </Container>
           </Paper>
         </Box>
       </Grow>
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="lg">
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth={'lg'}>
         <DialogContent sx={{p: 0}}>
           <img
             src={thermistorImage}
-            alt="large"
+            alt={'Изображение не найдено'}
             style={{width: '100%', height: 'auto'}}
           />
         </DialogContent>
