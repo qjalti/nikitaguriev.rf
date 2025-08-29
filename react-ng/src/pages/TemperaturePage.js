@@ -21,7 +21,18 @@ import moment from 'moment';
 import 'moment/locale/ru';
 import thermistorImage from '../img/image_for_temperature_page.jpg';
 import {Helmet} from 'react-helmet-async';
-import {LineChart} from '@mui/x-charts/LineChart';
+
+import {
+  ResponsiveChartContainer,
+  BarPlot,
+  LinePlot,
+  MarkPlot,
+  ChartsXAxis,
+  ChartsYAxis,
+  ChartsLegend,
+  ChartsTooltip,
+  ChartsAxisHighlight,
+} from '@mui/x-charts';
 
 moment.locale('ru');
 
@@ -36,37 +47,27 @@ export const Temperature = () => {
     try {
       setLoading(true);
       const RESPONSE = await axios.post('https://qjalti.ru/api/arduino/select');
-      const DATA = RESPONSE.data.data;
-      const TEMPERATURE_DATE = moment(RESPONSE.data.data[0].timestamp);
+      const DATA = RESPONSE.data.data.reverse();
+      const TEMPERATURE_DATE = moment(DATA[0].timestamp);
 
-      const sortedData = [...DATA].sort(
-          (a, b) => new Date(a.timestamp) - new Date(b.timestamp),
-      );
-
-      const xLabels = sortedData.map((item) =>
-        moment(item.timestamp).format('HH:mm'),
-      );
-
-      const temperatures = sortedData.map((item) =>
+      const temperatures = DATA.map((item) =>
         parseFloat(item.temperature),
       );
 
+      const dataset = DATA.map((item) => ({
+        temperature: item.temperature,
+        timestamp: moment(item.timestamp).format('HH:mm'),
+      }));
+
       setElements(
           {
-            temperature: RESPONSE.data.data[0].temperature,
+            temperature: DATA[0].temperature,
             date: TEMPERATURE_DATE.fromNow(),
-            all: RESPONSE.data.data,
-            chart: {xLabels, temperatures},
+            all: DATA,
+            chart: {temperatures, dataset},
           },
       );
-      const TEMPERATURES = [];
-      const TIMESTAMPS = [];
-      RESPONSE.data.data.map((el) => {
-        TEMPERATURES.push(el.temperature);
-        TIMESTAMPS.push(el.id);
-      });
-      // setXElements(TEMPERATURES);
-      // setYElements(TIMESTAMPS);
+
       setLoading(false);
     } catch (err) {
       console.log('Error! ', err.message);
@@ -82,7 +83,7 @@ export const Temperature = () => {
     selectArduinoData().then(() => false);
   });
 
-  const {xLabels = [], temperatures = []} = elements.chart || {};
+  const {temperatures = [], dataset = []} = elements.chart || {};
 
   return (
     <>
@@ -187,39 +188,45 @@ export const Temperature = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid
-                container
-                direction={'row'}
-                sx={{py: 2}}
+              <Typography variant={'h5'}>
+                График
+              </Typography>
+              <ResponsiveChartContainer
+                dataset={dataset}
+                xAxis={[
+                  {
+                    id: 'timestamps',
+                    dataKey: 'timestamp',
+                    scaleType: 'point',
+                    label: 'Время',
+                  },
+                ]}
+                yAxis={[
+                  {
+                    id: 'temperatures',
+                    label: 'Температура',
+                    dataKey: 'temperature',
+                  },
+                ]}
+                series={[
+                  {
+                    data: temperatures,
+                    type: 'line',
+                    label: 'Температура',
+                    color: '#1565C0',
+                  },
+                ]}
+                height={320}
               >
-                <Grid item>
-                  <Typography variant={'h5'}>
-                    График
-                  </Typography>
-                  <LineChart
-                    xAxis={[
-                      {
-                        scaleType: 'point',
-                        data: xLabels,
-                        label: 'Время (МСК)',
-                        tickLabelStyle: {fontSize: 12},
-                      },
-                    ]}
-                    series={[
-                      {
-                        type: 'line',
-                        data: temperatures,
-                        label: 'Температура',
-                        color: '#1565C0',
-                        showMark: true,
-                      },
-                    ]}
-                    width={600}
-                    height={300}
-                    grid={{vertical: true, horizontal: true}}
-                  />
-                </Grid>
-              </Grid>
+                <BarPlot/>
+                <LinePlot/>
+                <MarkPlot/>
+                <ChartsXAxis position={'bottom'} axisId={'timestamps'}/>
+                <ChartsYAxis position={'left'} axisId={'temperatures'}/>
+                <ChartsTooltip/>
+                <ChartsLegend/>
+                <ChartsAxisHighlight x={'band'}/>
+              </ResponsiveChartContainer>
             </Container>
           </Paper>
         </Box>
