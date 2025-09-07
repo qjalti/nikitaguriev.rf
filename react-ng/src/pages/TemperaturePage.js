@@ -48,7 +48,7 @@ export const Temperature = () => {
       setLoading(true);
       const RESPONSE = await axios.post('https://qjalti.ru/api/arduino/select');
       const DATA = RESPONSE.data.data.reverse();
-      const TEMPERATURE_DATE = moment(DATA[0].timestamp);
+      const TEMPERATURE_DATE = moment(DATA[31].timestamp);
 
       const temperatures = DATA.map((item) =>
         parseFloat(item.temperature),
@@ -61,7 +61,7 @@ export const Temperature = () => {
 
       setElements(
           {
-            temperature: DATA[0].temperature,
+            temperature: DATA[31].temperature,
             date: TEMPERATURE_DATE.fromNow(),
             all: DATA,
             chart: {temperatures, dataset},
