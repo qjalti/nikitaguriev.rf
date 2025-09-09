@@ -199,6 +199,20 @@ PEAS_DATE.add(DAYS_P, 'days');
 const HOURS_P = CURRENT_DATE.diff(PEAS_DATE, 'hours');
 PEAS_DATE.add(HOURS_P, 'hours');
 
+/**
+ * Кнопа в квартире
+ */
+const KNOPA = [2025, 8, 4, 15, 0];
+const KNOPA_DATE = moment(KNOPA);
+const YEARS_KNOPA = CURRENT_DATE.diff(KNOPA_DATE, 'years');
+KNOPA_DATE.add(YEARS_KNOPA, 'years');
+const MONTHS_KNOPA = CURRENT_DATE.diff(KNOPA_DATE, 'months');
+KNOPA_DATE.add(MONTHS_KNOPA, 'months');
+const DAYS_KNOPA = CURRENT_DATE.diff(KNOPA_DATE, 'days');
+KNOPA_DATE.add(DAYS_KNOPA, 'days');
+const HOURS_KNOPA = CURRENT_DATE.diff(KNOPA_DATE, 'hours');
+KNOPA_DATE.add(HOURS_KNOPA, 'hours');
+
 const TIMERS = [
   {
     id: 0,
@@ -316,6 +330,15 @@ const TIMERS = [
     days: DAYS_P,
     hours: HOURS_P,
     date: PEAS,
+  },
+  {
+    id: 13,
+    title: 'Кнопа в квартире',
+    years: YEARS_KNOPA,
+    months: MONTHS_KNOPA,
+    days: DAYS_KNOPA,
+    hours: HOURS_KNOPA,
+    date: KNOPA,
   },
 ];
 
