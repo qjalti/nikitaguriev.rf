@@ -57,6 +57,9 @@ if (process.env.NODE_ENV === 'production') {
   APP.get('/rod_game', (req, res) => {
     res.sendFile(PATH.resolve(__dirname, 'react-ng', 'build', 'who-am-i-game', 'index.html'));
   });
+  APP.get('/fst', (req, res) => {
+    res.sendFile(PATH.resolve(__dirname, 'react-ng', 'build', 'fst', 'index.html'));
+  });
   APP.get('/serviceWorker.js', (req, res) => {
     res.sendFile(PATH.resolve(__dirname, 'serviceWorker.js'));
   });
