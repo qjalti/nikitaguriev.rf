@@ -26,7 +26,7 @@ export const NavBar = () => {
     <Box>
       <AppBar position={'static'}>
         <Container>
-          <Toolbar sx={isDecember ? {pt: 6} : {}}>
+          <Toolbar sx={isDecember ? {pt: 8, pb: 2} : {}}>
             <Avatar
               variant={'square'}
               src={favicon}
@@ -36,12 +36,12 @@ export const NavBar = () => {
             <Link
               component={RouterLink}
               to={'/'}
+              sx={{color: grey[50], textDecoration: 'none'}}
             >
               <Typography
                 variant={'h6'}
-                sx={{color: grey[50], textDecoration: 'none'}}
               >
-                qjalti.ru
+                qjalti
               </Typography>
             </Link>
           </Toolbar>

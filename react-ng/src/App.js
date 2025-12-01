@@ -77,11 +77,11 @@ function App() {
   };
 
   const toDarkTheme = () => {
-    updateMetaThemeColor('#272727'); //
+    updateMetaThemeColor('#272727');
     setDarkThemeStatus(true);
   };
   const toLightTheme = () => {
-    updateMetaThemeColor('#1565C0'); //
+    updateMetaThemeColor(isDecember ? `#D32F2F` : '#1565C0');
     setDarkThemeStatus(false);
   };
 
@@ -109,7 +109,7 @@ function App() {
       MuiCssBaseline: {
         styleOverrides: {
           html: {
-            'scrollbarColor': 'rgba(255, 255, 255, 0.9375) rgba(21, 101, 192, 1)',
+            'scrollbarColor': isDecember ? `rgba(188, 28, 28, 0.9375) rgba(46, 125, 50, 1)` : `rgba(255, 255, 255, 0.9375) rgba(21, 101, 192, 1)`,
           },
         },
       },
@@ -130,7 +130,7 @@ function App() {
       MuiCssBaseline: {
         styleOverrides: {
           html: {
-            'scrollbarColor': 'rgba(21, 101, 192, 0.9375) rgba(39, 39, 39, 1)',
+            'scrollbarColor': isDecember ? `rgba(188, 28, 28, 0.9375) rgba(39, 39, 39, 1)` : `rgba(21, 101, 192, 0.9375) rgba(39, 39, 39, 1)`,
           },
         },
       },
