@@ -28,8 +28,8 @@ const TELEGRAM_MY_USER_ID = 738829247;
  */
 let qjaltiAPIBot;
 if (process.env.NODE_ENV !== 'development') {
-  qjaltiAPIBot = new Telegraf(CONFIG.get('qjaltiAPIToken'));
-  qjaltiAPIBot.launch().then(r => console.log(r));
+//  qjaltiAPIBot = new Telegraf(CONFIG.get('qjaltiAPIToken'));
+//  qjaltiAPIBot.launch().then(r => console.log(r));
 }
 
 /**
@@ -249,9 +249,9 @@ APP.post('/api/seat_book/update', async (req, res) => {
 
   try {
     if (req.body.credentials.passengerName) {
-      await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book: ${seatName}, ${req.body.credentials.passengerName}`);
+      //await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book: ${seatName}, ${req.body.credentials.passengerName}`);
     } else {
-      await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book cancel: ${seatName}`);
+      //await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book cancel: ${seatName}`);
     }
   } catch (err) {
     console.error('Ошибка отправки:', err);
@@ -299,12 +299,12 @@ APP.post('/api/webcam7/detections', upload.single('image'), async (req, res) => 
   }
 
   try {
-    await qjaltiAPIBot.telegram.sendPhoto(
+    /*await qjaltiAPIBot.telegram.sendPhoto(
       TELEGRAM_MY_USER_ID,
       {
         source: Buffer.from(req.file.buffer),
         filename: req.file.originalname || 'image.jpg'
-      });
+      });*/
 
     res.send('Изображение отправлено в Telegram');
   } catch (err) {
