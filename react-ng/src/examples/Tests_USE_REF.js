@@ -1,20 +1,15 @@
-import {
-  Box,
-  Divider,
-  Button,
-  Typography,
-} from '@mui/material';
-import React, {useState, useEffect, useRef} from 'react';
+import { Box, Divider, Button, Typography } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
 
 export default function T_UE() {
   /**
    * Блок хуков
    */
   // const [renderCount, setRenderCount] = useState(1);
-  const [value, setValue] = useState('initial');
+  const [value, setValue] = useState("initial");
   const renderCount = useRef(1);
   const inputRef = useRef(null);
-  const prevValue = useRef('');
+  const prevValue = useRef("");
 
   useEffect(() => {
     renderCount.current++;
@@ -33,32 +28,23 @@ export default function T_UE() {
 
   return (
     <div>
-      <Box sx={{p: 2}}>
-        <Typography
-          variant="h4"
-        >
+      <Box sx={{ p: 2 }}>
+        <Typography variant="h4">
           Количество рендеров: {renderCount.current}
         </Typography>
-        <Typography
-          variant="h4"
-        >
+        <Typography variant="h4">
           Прошлое состояние: {prevValue.current}
         </Typography>
         <input
           ref={inputRef}
           type="text"
-          onChange={(e) => setValue((e.target.value))}
+          onChange={(e) => setValue(e.target.value)}
           value={value}
         />
-        <Button
-          onClick={focus}
-          color="success"
-        >
+        <Button onClick={focus} color="success">
           Focus
         </Button>
-        <Divider
-          variant="middle"
-        />
+        <Divider variant="middle" />
       </Box>
     </div>
   );

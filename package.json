@@ -11,7 +11,8 @@
     "client:install": "npm install --prefix react-ng",
     "client:build": "npm run build --prefix react-ng",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\"",
-    "iall": "npm install && npm run client:install"
+    "iall": "npm install && npm run client:install",
+    "epf": "npx prettier . --write & npx prettier . --write"
   },
   "author": "Nikita Guriev <stig.guriev@gmail.com>",
   "license": "ISC",
@@ -31,8 +32,16 @@
     "telegraf": "^4.12.2"
   },
   "devDependencies": {
+    "@eslint/css": "^0.14.1",
+    "@eslint/js": "^9.39.2",
+    "@eslint/json": "^0.14.0",
+    "@eslint/markdown": "^7.5.1",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
-    "nodemon": "^2.0.15"
+    "eslint": "^9.39.2",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^17.0.0",
+    "nodemon": "^2.0.15",
+    "prettier": "3.8.0"
   }
 }

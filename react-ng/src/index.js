@@ -1,22 +1,22 @@
-import React from 'react';
+import React from "react";
 // import ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
+import App from "./App";
+import "./index.css";
 
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from "./reportWebVitals";
 
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
-import {createRoot} from 'react-dom/client';
+import { createRoot } from "react-dom/client";
 
-import {HelmetProvider} from 'react-helmet-async';
+import { HelmetProvider } from "react-helmet-async";
 
-const container = document.getElementById('root');
+const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
-    <HelmetProvider>
-      <App/>
-    </HelmetProvider>,
+  <HelmetProvider>
+    <App />
+  </HelmetProvider>,
 );
 
 serviceWorkerRegistration.register();
@@ -33,7 +33,6 @@ serviceWorkerRegistration.register();
         });
   });
 }*/
-
 
 /* ReactDOM.render(
   <React.StrictMode>

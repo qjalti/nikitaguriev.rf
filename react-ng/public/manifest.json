@@ -7,11 +7,7 @@
   "display": "standalone",
   "orientation": "portrait",
   "start_url": ".",
-  "categories": [
-    "lifestyle",
-    "social",
-    "personalization"
-  ],
+  "categories": ["lifestyle", "social", "personalization"],
   "description": "Личный сайт Никиты Гуриева. Личные скрипты/инструменты/функции",
   "screenshots": [
     {

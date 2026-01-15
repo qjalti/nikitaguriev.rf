@@ -1,5 +1,5 @@
-import React, {useContext} from 'react';
-import {Context} from '../../context';
+import React, { useContext } from "react";
+import { Context } from "../../context";
 
 import {
   Box,
@@ -7,7 +7,7 @@ import {
   SpeedDialIcon,
   SpeedDialAction,
   Backdrop,
-} from '@mui/material';
+} from "@mui/material";
 
 import {
   Instagram,
@@ -17,50 +17,50 @@ import {
   PhoneInTalkOutlined,
   YouTube,
   GitHub,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 
 const actions = [
   {
-    icon: <PhoneInTalkOutlined/>,
-    name: 'Phone',
-    id: 'phone',
-    link: 'tel:+79883857654',
+    icon: <PhoneInTalkOutlined />,
+    name: "Phone",
+    id: "phone",
+    link: "tel:+79883857654",
   },
   {
-    icon: <Telegram/>,
-    name: 'Telegram',
-    id: 'telegram',
-    link: 'https://t.me/qjalti',
+    icon: <Telegram />,
+    name: "Telegram",
+    id: "telegram",
+    link: "https://t.me/qjalti",
   },
   {
-    icon: <WhatsApp/>,
-    name: 'WhatsApp',
-    id: 'whatsapp',
-    link: 'https://wa.me/79883857654',
+    icon: <WhatsApp />,
+    name: "WhatsApp",
+    id: "whatsapp",
+    link: "https://wa.me/79883857654",
   },
   {
-    icon: <AlternateEmailOutlined/>,
-    name: 'EMail',
-    id: 'email',
-    link: 'mailto:stig.guriev@gmail.com',
+    icon: <AlternateEmailOutlined />,
+    name: "EMail",
+    id: "email",
+    link: "mailto:stig.guriev@gmail.com",
   },
   {
-    icon: <YouTube/>,
-    name: 'YouTube',
-    id: 'youtube',
-    link: 'https://www.youtube.com/@qjalti',
+    icon: <YouTube />,
+    name: "YouTube",
+    id: "youtube",
+    link: "https://www.youtube.com/@qjalti",
   },
   {
-    icon: <Instagram/>,
-    name: 'Instagram',
-    id: 'instagram',
-    link: 'https://instagram.com/qjalti',
+    icon: <Instagram />,
+    name: "Instagram",
+    id: "instagram",
+    link: "https://instagram.com/qjalti",
   },
   {
-    icon: <GitHub/>,
-    name: 'GitHub',
-    id: 'github',
-    link: 'https://github.com/qjalti',
+    icon: <GitHub />,
+    name: "GitHub",
+    id: "github",
+    link: "https://github.com/qjalti",
   },
 ];
 
@@ -69,7 +69,7 @@ const actions = [
  * @return {JSX.Element}
  */
 export const Footer = () => {
-  const {openSpeedDial, closeSpeedDial, speedDialState} = useContext(Context);
+  const { openSpeedDial, closeSpeedDial, speedDialState } = useContext(Context);
 
   const handleToggleSpeedDial = () => {
     if (speedDialState) {
@@ -81,11 +81,11 @@ export const Footer = () => {
 
   return (
     <div>
-      <Backdrop open={speedDialState}/>
+      <Backdrop open={speedDialState} />
       <SpeedDial
-        ariaLabel={'Контакты'}
-        sx={{position: 'fixed', bottom: 16, right: 16}}
-        icon={<SpeedDialIcon/>}
+        ariaLabel={"Контакты"}
+        sx={{ position: "fixed", bottom: 16, right: 16 }}
+        icon={<SpeedDialIcon />}
         onClose={closeSpeedDial}
         open={speedDialState}
         onClick={handleToggleSpeedDial}
@@ -97,14 +97,14 @@ export const Footer = () => {
             tooltipTitle={action.name}
             tooltipOpen
             onClick={() => {
-              window.open(action.link, '_blank');
+              window.open(action.link, "_blank");
               closeSpeedDial();
             }}
           />
         ))}
       </SpeedDial>
 
-      <Box sx={{pb: 10}}/>
+      <Box sx={{ pb: 10 }} />
 
       {/* <Paper
         sx={{position: 'fixed', bottom: 0, left: 0, right: 0}}

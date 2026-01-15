@@ -4,35 +4,35 @@
 /* eslint-disable no-restricted-globals */
 
 // This is the code piece that GenerateSW plugin adds to the SW bundle
-const CACHE_NAME = 'sw-precache-v3-my-pwa';
+const CACHE_NAME = "sw-precache-v3-my-pwa";
 
-const offlineFallbackPage = '/'; // или путь к странице оффлайн
+const offlineFallbackPage = "/"; // или путь к странице оффлайн
 
-self.addEventListener('install', async (event) => {
+self.addEventListener("install", async (event) => {
   // console.log('[Service Worker] Installing Service Worker ...');
   const cache = await caches.open(CACHE_NAME);
   await cache.add(new Request(offlineFallbackPage));
 });
 
-self.addEventListener('activate', (event) => {
+self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(
         keyList.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log('[Service Worker] Removing old cache', key);
+            console.log("[Service Worker] Removing old cache", key);
             return caches.delete(key);
           }
           return null;
-        })
+        }),
       );
-    })
+    }),
   );
   return self.clients.claim();
 });
 
-self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') {
+self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") {
     // Не обрабатываем POST и другие методы
     return;
   }
@@ -42,48 +42,56 @@ self.addEventListener('fetch', (event) => {
       caches.match(event.request).then(async (response) => {
         const fetchPromise = fetch(event.request).then((networkResponse) => {
           const cache = caches.open(CACHE_NAME);
-          cache.then((cache) => cache.put(event.request, networkResponse.clone()));
+          cache.then((cache) =>
+            cache.put(event.request, networkResponse.clone()),
+          );
           return networkResponse;
         });
 
-        return response || fetchPromise.catch(() => {
-          // console.log('[Service Worker] Fetch failed, serving fallback');
-          return caches.match(offlineFallbackPage);
-        });
-      })
+        return (
+          response ||
+          fetchPromise.catch(() => {
+            // console.log('[Service Worker] Fetch failed, serving fallback');
+            return caches.match(offlineFallbackPage);
+          })
+        );
+      }),
     );
   }
 });
 
 function isCacheable(request) {
   // Не кэшируем API-запросы или сторонние ресурсы
-  if (request.url.includes('/api/') || !request.url.startsWith(location.origin)) {
+  if (
+    request.url.includes("/api/") ||
+    !request.url.startsWith(location.origin)
+  ) {
     return false;
   }
   return true;
 }
 
 export function register(config) {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
     const swUrl = `${process.env.PUBLIC_URL}/sw.js`;
 
-    window.addEventListener('load', () => {
+    window.addEventListener("load", () => {
       navigator.serviceWorker
         .register(swUrl)
-        .then(registration => {
+        .then((registration) => {
           registration.onupdatefound = () => {
             const installingWorker = registration.installing;
             if (installingWorker == null) {
               return;
             }
             installingWorker.onstatechange = () => {
-              if (installingWorker.state === 'installed') {
+              if (installingWorker.state === "installed") {
                 if (navigator.serviceWorker.controller) {
                   // At this point, the updated precached content has been fetched,
                   // but the previous service worker will still serve the older content
                   // until all client tabs are closed.
                   console.log(
-                    'New content is available and will be used when all tabs are closed.'
+                    "New content is available and will be used when all tabs are closed.",
                   );
 
                   // Optional: notify user to reload
@@ -92,29 +100,29 @@ export function register(config) {
                   }
                 } else {
                   // Service worker has been registered for the first time.
-                  console.log('Content is cached for offline use.');
+                  console.log("Content is cached for offline use.");
                   if (config && config.onSuccess) {
                     config.onSuccess(registration);
                   }
                 }
               }
             };
-          }
+          };
         })
-        .catch(error => {
-          console.error('Error during service worker registration:', error);
+        .catch((error) => {
+          console.error("Error during service worker registration:", error);
         });
     });
   }
 }
 
 export function unregister() {
-  if ('serviceWorker' in navigator) {
+  if ("serviceWorker" in navigator) {
     navigator.serviceWorker.ready
-      .then(registration => {
+      .then((registration) => {
         registration.unregister();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error.message);
       });
   }

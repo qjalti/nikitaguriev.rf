@@ -1,12 +1,8 @@
-import {
-  Box,
-  Divider,
-  Button, Typography,
-} from '@mui/material';
-import React, {useState} from 'react';
+import { Box, Divider, Button, Typography } from "@mui/material";
+import React, { useState } from "react";
 
 function computeInitialCounter() {
-  console.log('Some calculations...');
+  console.log("Some calculations...");
   return Math.trunc(Math.random() * 20);
 }
 
@@ -18,11 +14,10 @@ export default function T_US() {
   // const [counter, setCounter] = useState(computeInitialCounter());
   const [counter, setCounter] = useState(() => {
     return computeInitialCounter();
-  },
-  );
+  });
 
   const [state, setState] = useState({
-    title: 'Счётчик',
+    title: "Счётчик",
     date: Date.now(),
   });
 
@@ -46,41 +41,25 @@ export default function T_US() {
     setState((prevState) => {
       return {
         ...prevState,
-        title: 'Новое название',
+        title: "Новое название",
       };
     });
   }
 
   return (
     <div>
-      <Box sx={{p: 2}}>
-        <Typography variant="h4">
-          Счётчик: {counter}
-        </Typography>
-        <Button
-          color="success"
-          onClick={increment}
-        >
+      <Box sx={{ p: 2 }}>
+        <Typography variant="h4">Счётчик: {counter}</Typography>
+        <Button color="success" onClick={increment}>
           Добавить
         </Button>
-        <Button
-          color="error"
-          onClick={decrement}
-        >
+        <Button color="error" onClick={decrement}>
           Убрать
         </Button>
-        <Button
-          onClick={updateTitle}
-        >
-          Изменить название
-        </Button>
+        <Button onClick={updateTitle}>Изменить название</Button>
       </Box>
-      <pre>
-        {JSON.stringify(state, null, 2)}
-      </pre>
-      <Divider
-        variant="middle"
-      />
+      <pre>{JSON.stringify(state, null, 2)}</pre>
+      <Divider variant="middle" />
     </div>
   );
 }

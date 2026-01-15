@@ -1,8 +1,8 @@
 /**
  * Блок подключения модулей/импортов
  */
-import React, {useState, useEffect} from 'react';
-import Lottie from 'react-lottie';
+import React, { useState, useEffect } from "react";
+import Lottie from "react-lottie";
 import {
   Box,
   Container,
@@ -24,43 +24,43 @@ import {
   DialogTitle,
   TextField,
   Snackbar,
-} from '@mui/material';
+} from "@mui/material";
 // import {green, common} from '@mui/material/colors';
-import axios from 'axios';
-import {io} from 'socket.io-client';
+import axios from "axios";
+import { io } from "socket.io-client";
 // import moment from 'moment';
 import {
   DirectionsCarOutlined,
   PhoneInTalkOutlined,
   WhatsApp,
   Telegram,
-} from '@mui/icons-material';
-import {Helmet} from 'react-helmet-async';
-import animationData from './car_driving_landscape_qj.json';
+} from "@mui/icons-material";
+import { Helmet } from "react-helmet-async";
+import animationData from "./car_driving_landscape_qj.json";
 
 const defaultOptions = {
   loop: true,
   autoplay: true,
   animationData: animationData,
   rendererSettings: {
-    preserveAspectRatio: 'xMidYMid slice',
+    preserveAspectRatio: "xMidYMid slice",
   },
 };
 
-const SOCKET = io('https://qjalti.ru');
+const SOCKET = io("https://qjalti.ru");
 
 const BASE_OBJECT = {
-  front: {status: false, name: null},
-  driver: {status: true, name: 'Гуриев Никита'},
-  left_back: {status: false, name: null},
-  center_back: {status: false, name: null},
-  right_back: {status: false, name: null},
+  front: { status: false, name: null },
+  driver: { status: true, name: "Гуриев Никита" },
+  left_back: { status: false, name: null },
+  center_back: { status: false, name: null },
+  right_back: { status: false, name: null },
 };
 
 const getCookie = (name) => {
-  const cookies = document.cookie.split('; ');
+  const cookies = document.cookie.split("; ");
   for (const cookie of cookies) {
-    const [key, value] = cookie.split('=');
+    const [key, value] = cookie.split("=");
     if (key === name) {
       return decodeURIComponent(value);
     }
@@ -85,15 +85,17 @@ export const SeatBook = () => {
   const [selectedSeat, setSelectedSeat] = useState(false);
   const [bookData, setBookData] = useState({});
   const [sbStatus, setSbStatus] = useState(false);
-  const [sbMessage, setSbMessage] = useState('Возникла непредвиденная ошибка');
-  const [sbType, setSbType] = useState('error');
+  const [sbMessage, setSbMessage] = useState("Возникла непредвиденная ошибка");
+  const [sbType, setSbType] = useState("error");
   const [hasBooking, setHasBooking] = useState(false);
   const [bookCookie, setBookCookie] = useState(null);
 
   const selectData = async () => {
     try {
       setLoading(true);
-      const RESPONSE = await axios.post('https://qjalti.ru/api/seat_book/select');
+      const RESPONSE = await axios.post(
+        "https://qjalti.ru/api/seat_book/select",
+      );
       if (RESPONSE.data.data.length) {
         setSeatsData(RESPONSE.data.data[0].data);
       } else {
@@ -101,15 +103,15 @@ export const SeatBook = () => {
       }
       setLoading(false);
     } catch (err) {
-      console.log('Error! ', err.message);
-      console.log('Error! ', err);
+      console.log("Error! ", err.message);
+      console.log("Error! ", err);
     }
   };
 
   const checkCookie = () => {
-    const BOOK_COOKIE = getCookie('bookedSeat');
+    const BOOK_COOKIE = getCookie("bookedSeat");
     setHasBooking(false);
-    if (typeof BOOK_COOKIE === 'string' && BOOK_COOKIE.length > 0) {
+    if (typeof BOOK_COOKIE === "string" && BOOK_COOKIE.length > 0) {
       setBookCookie(BOOK_COOKIE);
       setHasBooking(true);
     }
@@ -128,10 +130,7 @@ export const SeatBook = () => {
   const updateData = async (newBookData) => {
     setConfirmationDialog(false);
     console.log(newBookData);
-    await axios.post(
-        'https://qjalti.ru/api/seat_book/update',
-        newBookData,
-    );
+    await axios.post("https://qjalti.ru/api/seat_book/update", newBookData);
     setSelectedSeat(false);
     checkCookie();
     await selectData();
@@ -158,9 +157,9 @@ export const SeatBook = () => {
         selectedSeat: bookCookie,
       },
     };
-    await deleteCookie('bookedSeat');
+    await deleteCookie("bookedSeat");
     await updateData(NEW_BOOK_DATA);
-    showSnackBar('Бронь успешно снята', 'success');
+    showSnackBar("Бронь успешно снята", "success");
   };
 
   const BookClearDialog = () => {
@@ -171,9 +170,7 @@ export const SeatBook = () => {
           setBookClearDialog(false);
         }}
       >
-        <DialogTitle>
-          {'Отмена брони'}
-        </DialogTitle>
+        <DialogTitle>{"Отмена брони"}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Вы действительно хотите отменить бронь?
@@ -181,18 +178,14 @@ export const SeatBook = () => {
         </DialogContent>
         <DialogActions>
           <Button
-            color={'error'}
+            color={"error"}
             onClick={() => {
               setBookClearDialog(false);
             }}
           >
             Отмена
           </Button>
-          <Button
-            onClick={clearBook}
-            color={'success'}
-            autoFocus
-          >
+          <Button onClick={clearBook} color={"success"} autoFocus>
             Снять бронь
           </Button>
         </DialogActions>
@@ -206,15 +199,15 @@ export const SeatBook = () => {
         open={confirmationDialog}
         onClose={confirmationDialogClose}
         PaperProps={{
-          component: 'form',
+          component: "form",
           onSubmit: async (event) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
             const passengerName = formJson.passengerName;
 
-            if (typeof selectedSeat === 'string' && selectedSeat.length > 0) {
-              setCookie('bookedSeat', selectedSeat, 365);
+            if (typeof selectedSeat === "string" && selectedSeat.length > 0) {
+              setCookie("bookedSeat", selectedSeat, 365);
             }
 
             const NEW_BOOK_DATA = {
@@ -231,44 +224,36 @@ export const SeatBook = () => {
               },
             };
             await updateData(NEW_BOOK_DATA);
-            showSnackBar('Место успешно забронированно', 'success');
+            showSnackBar("Место успешно забронированно", "success");
             confirmationDialogClose();
           },
         }}
         agreeButtonHandler={updateData}
         disagreeButtonHandler={confirmationDialogClose}
-        agreeButtonText={'Забронировать'}
-        disagreeButtonText={'Отмена'}
-        dialogTitle={'Бронирование'}
+        agreeButtonText={"Забронировать"}
+        disagreeButtonText={"Отмена"}
+        dialogTitle={"Бронирование"}
       >
         <DialogTitle>Бронирование</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Введите Вашу фамилию и имя:
-          </DialogContentText>
+          <DialogContentText>Введите Вашу фамилию и имя:</DialogContentText>
           <TextField
             autoFocus
             required
-            id={'name'}
-            name={'passengerName'}
-            label={'Фамилия и имя'}
-            type={'text'}
+            id={"name"}
+            name={"passengerName"}
+            label={"Фамилия и имя"}
+            type={"text"}
             fullWidth
-            variant={'standard'}
-            sx={{mt: 2}}
+            variant={"standard"}
+            sx={{ mt: 2 }}
           />
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={confirmationDialogClose}
-            color={'error'}
-          >
+          <Button onClick={confirmationDialogClose} color={"error"}>
             Отмена
           </Button>
-          <Button
-            type={'submit'}
-            color={'success'}
-          >
+          <Button type={"submit"} color={"success"}>
             Забронировать
           </Button>
         </DialogActions>
@@ -276,7 +261,7 @@ export const SeatBook = () => {
     );
   };
 
-  SOCKET.on('seatBooked', () => {
+  SOCKET.on("seatBooked", () => {
     selectData().then(() => false);
     checkCookie();
   });
@@ -284,13 +269,13 @@ export const SeatBook = () => {
   const DRIVERS = [
     {
       id: 1,
-      name: 'Гуриев Никита',
-      number: '79883857654',
-      tg: 'qjalti',
+      name: "Гуриев Никита",
+      number: "79883857654",
+      tg: "qjalti",
       car: {
-        color: 'Белая',
-        number: 'О 746 ХН 123',
-        model: 'KIA RIO',
+        color: "Белая",
+        number: "О 746 ХН 123",
+        model: "KIA RIO",
       },
     },
     // {
@@ -331,18 +316,12 @@ export const SeatBook = () => {
 
   const bookSeat = (driverId, seatName) => {
     if (hasBooking && bookCookie !== seatName) {
-      showSnackBar(
-          'Нельзя забронировать больше одного места',
-          'error',
-      );
+      showSnackBar("Нельзя забронировать больше одного места", "error");
       return false;
     }
 
     if (!hasBooking && seatsData[seatName].status) {
-      showSnackBar(
-          'Место уже забронированно. Выберите другое место',
-          'error',
-      );
+      showSnackBar("Место уже забронированно. Выберите другое место", "error");
       return false;
     }
 
@@ -372,31 +351,47 @@ export const SeatBook = () => {
       <Helmet>
         {/* Базовая информация */}
         <title>Бронирование мест в машине — легко и быстро</title>
-        <meta name="title"
-          content="Бронирование мест в машине — легко и быстро"/>
-        <meta name="description"
-          content="Выбирай машину, смотри доступные места и бронируй онлайн. Удобно, быстро и прозрачно — поездки без лишних вопросов!"/>
+        <meta
+          name="title"
+          content="Бронирование мест в машине — легко и быстро"
+        />
+        <meta
+          name="description"
+          content="Выбирай машину, смотри доступные места и бронируй онлайн. Удобно, быстро и прозрачно — поездки без лишних вопросов!"
+        />
 
         {/* Open Graph для соцсетей */}
-        <meta property="og:type" content="website"/>
-        <meta property="og:title"
-          content="Бронирование мест в машине — легко и быстро"/>
-        <meta property="og:description"
-          content="Выбирай машину, смотри доступные места и бронируй онлайн. Удобно, быстро и прозрачно — поездки без лишних вопросов!"/>
-        <meta property="og:url" content="https://qjalti.ru/seat_book"/>
-        <meta property="og:image"
-          content="https://qjalti.ru/car-booking-preview.webp"/>
-        <meta property="og:locale" content="ru_RU"/>
-        <meta property="og:site_name" content="qjalti.ru"/>
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:title"
+          content="Бронирование мест в машине — легко и быстро"
+        />
+        <meta
+          property="og:description"
+          content="Выбирай машину, смотри доступные места и бронируй онлайн. Удобно, быстро и прозрачно — поездки без лишних вопросов!"
+        />
+        <meta property="og:url" content="https://qjalti.ru/seat_book" />
+        <meta
+          property="og:image"
+          content="https://qjalti.ru/car-booking-preview.webp"
+        />
+        <meta property="og:locale" content="ru_RU" />
+        <meta property="og:site_name" content="qjalti.ru" />
 
         {/* Twitter-карточка */}
-        <meta name="twitter:card" content="summary_large_image"/>
-        <meta name="twitter:title"
-          content="Бронирование мест в машине — легко и быстро"/>
-        <meta name="twitter:description"
-          content="Выбирай машину, смотри доступные места и бронируй онлайн. Удобно, быстро и прозрачно — поездки без лишних вопросов!"/>
-        <meta name="twitter:image"
-          content="https://qjalti.ru/car-booking-preview.webp"/>
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Бронирование мест в машине — легко и быстро"
+        />
+        <meta
+          name="twitter:description"
+          content="Выбирай машину, смотри доступные места и бронируй онлайн. Удобно, быстро и прозрачно — поездки без лишних вопросов!"
+        />
+        <meta
+          name="twitter:image"
+          content="https://qjalti.ru/car-booking-preview.webp"
+        />
 
         <script type="application/ld+json">
           {`{
@@ -415,345 +410,271 @@ export const SeatBook = () => {
 
       <Snackbar
         onClose={sbClose}
-        anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={sbStatus}
         autoHideDuration={6000}
       >
-        <Alert
-          variant={'standard'}
-          severity={sbType}
-        >
+        <Alert variant={"standard"} severity={sbType}>
           {sbMessage}
         </Alert>
       </Snackbar>
-      <BookClearDialog/>
-      <ConfirmationDialog/>
+      <BookClearDialog />
+      <ConfirmationDialog />
       <Backdrop
         sx={{
           zIndex: (theme) => theme.zIndex.drawer + 1,
         }}
         open={loading}
       >
-        <CircularProgress color={'inherit'}/>
+        <CircularProgress color={"inherit"} />
       </Backdrop>
-      <Grow
-        in
-      >
+      <Grow in>
         <Box>
           <Paper>
             <Container>
-              <Grid
-                container
-                direction={'row'}
-              >
+              <Grid container direction={"row"}>
                 <Grid item xs={12}>
                   <Grid
                     container
-                    direction={'row'}
-                    justifyContent={'center'}
-                    alignItems={'center'}
+                    direction={"row"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
                   >
                     <Grid item>
-                      <Lottie
-                        options={defaultOptions}
-                        width={216}
-                        speed={2}
-                      />
+                      <Lottie options={defaultOptions} width={216} speed={2} />
                     </Grid>
                   </Grid>
                   <Grid
                     container
-                    direction={'row'}
-                    justifyContent={'center'}
-                    alignItems={'center'}
+                    direction={"row"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
                     spacing={1}
-                    sx={{py: 2}}
+                    sx={{ py: 2 }}
                   >
                     <Grid item>
                       <DirectionsCarOutlined
-                        sx={{width: '2rem', height: '2rem'}}/>
+                        sx={{ width: "2rem", height: "2rem" }}
+                      />
                     </Grid>
-                    <Grid
-                      item
-                    >
-                      <Typography
-                        variant={'h4'}
-                      >
-                        Seat Book
-                      </Typography>
+                    <Grid item>
+                      <Typography variant={"h4"}>Seat Book</Typography>
                     </Grid>
                   </Grid>
                   {DRIVERS.map((driver) => (
-                    <Box
-                      sx={{my: 1}}
-                      key={driver.id}
-                    >
-                      <Typography
-                        variant={'h6'}
-                      >
+                    <Box sx={{ my: 1 }} key={driver.id}>
+                      <Typography variant={"h6"}>
                         Машина №{driver.id}
                       </Typography>
+                      <Typography>Водитель: {driver.name}</Typography>
                       <Typography>
-                        Водитель: {driver.name}
+                        {driver.car.color}, {driver.car.model},{" "}
+                        {driver.car.number}
                       </Typography>
-                      <Typography>
-                        {driver.car.color}, {driver.car.model}, {driver.car.number}
-                      </Typography>
-                      <Grid
-                        container
-                        spacing={1}
-                      >
-                        <Grid
-                          item
-                        >
+                      <Grid container spacing={1}>
+                        <Grid item>
                           <Link
                             href={`tel:+${driver.number}`}
-                            target={'_blank'}
+                            target={"_blank"}
                           >
-                            <IconButton
-                              color={'primary'}
-                              size={'small'}
-                            >
-                              <PhoneInTalkOutlined/>
+                            <IconButton color={"primary"} size={"small"}>
+                              <PhoneInTalkOutlined />
                             </IconButton>
                           </Link>
                         </Grid>
-                        <Grid
-                          item
-                        >
+                        <Grid item>
                           <Link
                             href={`https://wa.me/${driver.number}`}
-                            target={'_blank'}
+                            target={"_blank"}
                           >
-                            <IconButton
-                              color={'success'}
-                              size={'small'}
-                            >
-                              <WhatsApp/>
+                            <IconButton color={"success"} size={"small"}>
+                              <WhatsApp />
                             </IconButton>
                           </Link>
                         </Grid>
-                        <Grid
-                          item
-                        >
+                        <Grid item>
                           <Link
                             href={`https://t.me/${driver.tg}`}
-                            target={'_blank'}
+                            target={"_blank"}
                           >
-                            <IconButton
-                              color={'info'}
-                              size={'small'}
-                            >
-                              <Telegram/>
+                            <IconButton color={"info"} size={"small"}>
+                              <Telegram />
                             </IconButton>
                           </Link>
                         </Grid>
                       </Grid>
                       <Grid
-                        sx={{mt: 1}}
+                        sx={{ mt: 1 }}
                         spacing={1}
                         container
-                        justifyContent={'center'}
-                        alignItems={'center'}
+                        justifyContent={"center"}
+                        alignItems={"center"}
                       >
-                        <Grid
-                          item
-                          xs={6}
-                        >
-                          <Paper
-                            sx={{p: 1}}
-                            variant={'outlined'}
-                          >
+                        <Grid item xs={6}>
+                          <Paper sx={{ p: 1 }} variant={"outlined"}>
                             <Button
                               fullWidth
-                              variant={'outlined'}
-                              color={'error'}
+                              variant={"outlined"}
+                              color={"error"}
                               sx={{
                                 py: 1,
-                                overflowWrap: 'break-word',
+                                overflowWrap: "break-word",
                               }}
-                              size={'small'}
+                              size={"small"}
                               onClick={() => {
-                                showSnackBar('Место водителя бронировать нельзя', 'error');
+                                showSnackBar(
+                                  "Место водителя бронировать нельзя",
+                                  "error",
+                                );
                               }}
                             >
                               Водитель
                             </Button>
-                            {seatsData.driver.name &&
-                            <Alert
-                              severity={'info'}
-                              sx={{mt: 1}}
-                              icon={false}
-                            >
-                              {seatsData.driver.name}
-                            </Alert>
-                            }
+                            {seatsData.driver.name && (
+                              <Alert
+                                severity={"info"}
+                                sx={{ mt: 1 }}
+                                icon={false}
+                              >
+                                {seatsData.driver.name}
+                              </Alert>
+                            )}
                           </Paper>
                         </Grid>
-                        <Grid
-                          item
-                          xs={6}
-                        >
-                          <Paper
-                            sx={{p: 1}}
-                            variant={'outlined'}
-                          >
+                        <Grid item xs={6}>
+                          <Paper sx={{ p: 1 }} variant={"outlined"}>
                             <Button
-                              variant={'outlined'}
+                              variant={"outlined"}
                               color={
-                                seatsData.front.status ?
-                                  'error' :
-                                  'success'
+                                seatsData.front.status ? "error" : "success"
                               }
                               fullWidth
                               onClick={() => {
-                                bookSeat(driver.id, 'front');
+                                bookSeat(driver.id, "front");
                               }}
                               sx={{
                                 py: 1,
-                                overflowWrap: 'break-word',
+                                overflowWrap: "break-word",
                               }}
-                              size={'small'}
+                              size={"small"}
                             >
                               Спереди
                             </Button>
-                            {seatsData.front.name &&
-                            <Alert
-                              severity={'info'}
-                              sx={{mt: 1}}
-                              icon={false}
-                            >
-                              {seatsData.front.name}
-                            </Alert>
-                            }
+                            {seatsData.front.name && (
+                              <Alert
+                                severity={"info"}
+                                sx={{ mt: 1 }}
+                                icon={false}
+                              >
+                                {seatsData.front.name}
+                              </Alert>
+                            )}
                           </Paper>
                         </Grid>
                       </Grid>
                       <Grid
                         container
                         spacing={1}
-                        justifyContent={'center'}
-                        alignItems={'center'}
-                        sx={{mt: 1, mb: 4}}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        sx={{ mt: 1, mb: 4 }}
                       >
-                        <Grid
-                          item
-                          xs={4}
-                        >
-                          <Paper
-                            sx={{p: 1}}
-                            variant={'outlined'}
-                          >
+                        <Grid item xs={4}>
+                          <Paper sx={{ p: 1 }} variant={"outlined"}>
                             <Button
-                              variant={'outlined'}
+                              variant={"outlined"}
                               fullWidth
                               color={
-                                seatsData.left_back.status ?
-                                  'error' :
-                                  'success'
+                                seatsData.left_back.status ? "error" : "success"
                               }
                               onClick={() => {
-                                bookSeat(driver.id, 'left_back');
+                                bookSeat(driver.id, "left_back");
                               }}
                               sx={{
                                 py: 1,
-                                overflowWrap: 'break-word',
+                                overflowWrap: "break-word",
                               }}
-                              size={'small'}
+                              size={"small"}
                             >
                               Сзади слева
                             </Button>
-                            {seatsData.left_back.name &&
-                            <Alert
-                              severity={'info'}
-                              sx={{mt: 1}}
-                              icon={false}
-                            >
-                              {seatsData.left_back.name}
-                            </Alert>
-                            }
+                            {seatsData.left_back.name && (
+                              <Alert
+                                severity={"info"}
+                                sx={{ mt: 1 }}
+                                icon={false}
+                              >
+                                {seatsData.left_back.name}
+                              </Alert>
+                            )}
                           </Paper>
                         </Grid>
-                        <Grid
-                          item
-                          xs={4}
-                        >
-                          <Paper
-                            sx={{p: 1}}
-                            variant={'outlined'}
-                          >
+                        <Grid item xs={4}>
+                          <Paper sx={{ p: 1 }} variant={"outlined"}>
                             <Button
-                              variant={'outlined'}
+                              variant={"outlined"}
                               fullWidth
                               color={
-                                seatsData.center_back.status ?
-                                  'error' :
-                                  'success'
+                                seatsData.center_back.status
+                                  ? "error"
+                                  : "success"
                               }
                               onClick={() => {
-                                bookSeat(driver.id, 'center_back');
+                                bookSeat(driver.id, "center_back");
                               }}
                               sx={{
                                 py: 1,
-                                overflowWrap: 'break-word',
+                                overflowWrap: "break-word",
                               }}
-                              size={'small'}
+                              size={"small"}
                             >
                               Сзади центр
                             </Button>
-                            {seatsData.center_back.name &&
-                            <Alert
-                              severity={'info'}
-                              sx={{mt: 1}}
-                              icon={false}
-                            >
-                              {seatsData.center_back.name}
-                            </Alert>
-                            }
+                            {seatsData.center_back.name && (
+                              <Alert
+                                severity={"info"}
+                                sx={{ mt: 1 }}
+                                icon={false}
+                              >
+                                {seatsData.center_back.name}
+                              </Alert>
+                            )}
                           </Paper>
                         </Grid>
-                        <Grid
-                          item
-                          xs={4}
-                        >
-                          <Paper
-                            sx={{p: 1}}
-                            variant={'outlined'}
-                          >
+                        <Grid item xs={4}>
+                          <Paper sx={{ p: 1 }} variant={"outlined"}>
                             <Button
                               fullWidth
-                              variant={'outlined'}
+                              variant={"outlined"}
                               color={
-                                seatsData.right_back.status ?
-                                  'error' :
-                                  'success'
+                                seatsData.right_back.status
+                                  ? "error"
+                                  : "success"
                               }
                               onClick={() => {
-                                bookSeat(driver.id, 'right_back');
+                                bookSeat(driver.id, "right_back");
                               }}
                               sx={{
                                 py: 1,
-                                overflowWrap: 'break-word',
+                                overflowWrap: "break-word",
                               }}
-                              size={'small'}
+                              size={"small"}
                             >
                               Сзади справа
                             </Button>
-                            {seatsData.right_back.name &&
-                            <Alert
-                              severity={'info'}
-                              sx={{mt: 1}}
-                              icon={false}
-                            >
-                              {seatsData.right_back.name}
-                            </Alert>
-                            }
+                            {seatsData.right_back.name && (
+                              <Alert
+                                severity={"info"}
+                                sx={{ mt: 1 }}
+                                icon={false}
+                              >
+                                {seatsData.right_back.name}
+                              </Alert>
+                            )}
                           </Paper>
                         </Grid>
                       </Grid>
-                      {driver.id !== DRIVERS.length &&
-                      <Divider/>
-                      }
+                      {driver.id !== DRIVERS.length && <Divider />}
                     </Box>
                   ))}
                 </Grid>

@@ -1,19 +1,15 @@
-import {
-  Box,
-  Divider,
-  Button,
-  Typography,
-} from '@mui/material';
-import React, {useState, useEffect} from 'react';
+import { Box, Divider, Button, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
 
 export default function T_UE() {
   /**
    * Блок хуков
    */
-  const [type, setType] = useState('users');
+  const [type, setType] = useState("users");
   const [data, setData] = useState([]);
   const [pos, setPos] = useState({
-    x: 0, y: 0,
+    x: 0,
+    y: 0,
   });
 
   /**
@@ -32,47 +28,43 @@ export default function T_UE() {
 
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/${type}`)
-        .then((response) => response.json())
-        .then((json) => setData(json));
+      .then((response) => response.json())
+      .then((json) => setData(json));
 
     return () => {
-      console.log('Clean type');
+      console.log("Clean type");
     };
   }, [type]);
 
   useEffect(() => {
-    console.log('Component did mount');
-    window.addEventListener('mousemove', mouseMoveHandler);
+    console.log("Component did mount");
+    window.addEventListener("mousemove", mouseMoveHandler);
 
     return () => {
-      window.removeEventListener('mousemove', mouseMoveHandler);
+      window.removeEventListener("mousemove", mouseMoveHandler);
     };
   }, []);
 
   return (
     <div>
-      <Typography
-        variant="h4"
-      >
-        Ресурс: {type}
-      </Typography>
+      <Typography variant="h4">Ресурс: {type}</Typography>
       <Button
         onClick={() => {
-          setType('users');
+          setType("users");
         }}
       >
         Пользователи
       </Button>
       <Button
         onClick={() => {
-          setType('todos');
+          setType("todos");
         }}
       >
         TODO
       </Button>
       <Button
         onClick={() => {
-          setType('posts');
+          setType("posts");
         }}
       >
         Посты
@@ -80,12 +72,8 @@ export default function T_UE() {
       {/* <pre>
         {JSON.stringify(data, null, 2)}
       </pre>*/}
-      <pre>
-        {JSON.stringify(pos, null, 2)}
-      </pre>
-      <Divider
-        variant="middle"
-      />
+      <pre>{JSON.stringify(pos, null, 2)}</pre>
+      <Divider variant="middle" />
     </div>
   );
 }

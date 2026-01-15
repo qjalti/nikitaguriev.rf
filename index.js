@@ -1,18 +1,18 @@
 /**
  * Modules imports
  */
-import express from 'express';
-import CONFIG from 'config';
-import BODY_PARSER from 'body-parser';
-import cors from 'cors';
-import PATH from 'path';
-import pkg from 'pg';
-import {Server} from 'socket.io';
-import {dirname} from 'path';
-import {fileURLToPath} from 'url';
-import {Telegraf} from 'telegraf';
-import multer from 'multer';
-import CRON from 'node-cron';
+import express from "express";
+import CONFIG from "config";
+import BODY_PARSER from "body-parser";
+import cors from "cors";
+import PATH from "path";
+import pkg from "pg";
+import { Server } from "socket.io";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { Telegraf } from "telegraf";
+import multer from "multer";
+import CRON from "node-cron";
 // import {createCanvas, loadImage, registerFont} from 'canvas';
 // import path from "path";
 // import fs from "fs";
@@ -27,16 +27,16 @@ const TELEGRAM_MY_USER_ID = 738829247;
  * Telegraf settings
  */
 let qjaltiAPIBot;
-if (process.env.NODE_ENV !== 'development') {
-//  qjaltiAPIBot = new Telegraf(CONFIG.get('qjaltiAPIToken'));
-//  qjaltiAPIBot.launch().then(r => console.log(r));
+if (process.env.NODE_ENV !== "development") {
+  //  qjaltiAPIBot = new Telegraf(CONFIG.get('qjaltiAPIToken'));
+  //  qjaltiAPIBot.launch().then(r => console.log(r));
 }
 
 /**
  * Multer
  */
 const storage = multer.memoryStorage();
-const upload = multer({storage});
+const upload = multer({ storage });
 
 /**
  * Express settings
@@ -52,35 +52,44 @@ APP.use(BODY_PARSER.json());
 /**
  * Production mode
  */
-if (process.env.NODE_ENV === 'production') {
-  APP.use('/', express.static(PATH.join(__dirname, 'react-ng', 'build')));
-  APP.get('/rod_game', (req, res) => {
-    res.sendFile(PATH.resolve(__dirname, 'react-ng', 'build', 'who-am-i-game', 'index.html'));
+if (process.env.NODE_ENV === "production") {
+  APP.use("/", express.static(PATH.join(__dirname, "react-ng", "build")));
+  APP.get("/rod_game", (req, res) => {
+    res.sendFile(
+      PATH.resolve(
+        __dirname,
+        "react-ng",
+        "build",
+        "who-am-i-game",
+        "index.html",
+      ),
+    );
   });
-  APP.get('/fst', (req, res) => {
-    res.sendFile(PATH.resolve(__dirname, 'react-ng', 'build', 'fst', 'index.html'));
+  APP.get("/fst", (req, res) => {
+    res.sendFile(
+      PATH.resolve(__dirname, "react-ng", "build", "fst", "index.html"),
+    );
   });
-  APP.get('/serviceWorker.js', (req, res) => {
-    res.sendFile(PATH.resolve(__dirname, 'serviceWorker.js'));
+  APP.get("/serviceWorker.js", (req, res) => {
+    res.sendFile(PATH.resolve(__dirname, "serviceWorker.js"));
   });
   // APP.get('/seat_book', (req, res) => {
   //   res.sendFile(PATH.resolve(__dirname, 'react-ng', 'build', 'seat-book', 'index.html'));
   // });
-  APP.get('*', (req, res) => {
-    res.sendFile(PATH.resolve(__dirname, 'react-ng', 'build', 'index.html'));
+  APP.get("*", (req, res) => {
+    res.sendFile(PATH.resolve(__dirname, "react-ng", "build", "index.html"));
   });
 }
 
-const PORT = CONFIG.get('port');
+const PORT = CONFIG.get("port");
 
 const clearSeatBooksTable = async () => {
-
   const BASE_OBJECT = {
-    front: {status: false, name: null},
-    driver: {status: true, name: 'Гуриев Никита'},
-    left_back: {status: false, name: null},
-    center_back: {status: false, name: null},
-    right_back: {status: false, name: null},
+    front: { status: false, name: null },
+    driver: { status: true, name: "Гуриев Никита" },
+    left_back: { status: false, name: null },
+    center_back: { status: false, name: null },
+    right_back: { status: false, name: null },
   };
 
   const CLIENT = new Client(CONNECTION_DATA);
@@ -90,24 +99,22 @@ const clearSeatBooksTable = async () => {
        SET data = $1
        WHERE id = $2
        RETURNING *`,
-    [BASE_OBJECT, 3]
+    [BASE_OBJECT, 3],
   );
   await CLIENT.end();
 
-  IO.emit(
-    'seatBooked',
-  );
+  IO.emit("seatBooked");
 };
 
 /**
  * PostgreSQL settings
  */
-const {Client} = pkg;
+const { Client } = pkg;
 const CONNECTION_DATA = {
-  user: 'postgres',
-  host: 'localhost',
-  database: 'pet',
-  password: 'FJHbJObir2#',
+  user: "postgres",
+  host: "localhost",
+  database: "pet",
+  password: "FJHbJObir2#",
   port: 5432,
 };
 
@@ -118,61 +125,56 @@ const SERVER = APP.listen(PORT, () => {
   console.log(`App backend successful started on port ${PORT}...`);
 });
 
-
 /**
  * Sokect.IO settings
  */
 const IO = new Server(SERVER, {
   cors: {
-    origin: ['https://qjalti.ru'],
-    methods: ['GET', 'POST'],
-    credentials: true
-  }
+    origin: ["https://qjalti.ru"],
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
 });
 
 /**
  * POST and GET handlers
  */
-APP.post('/api/wishlist/select', async (req, res) => {
+APP.post("/api/wishlist/select", async (req, res) => {
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
   const RESPONSE = await CLIENT.query(
     `SELECT *
        FROM wishlist
        ORDER BY checked ASC, last_update DESC
-       LIMIT 96`
+       LIMIT 96`,
   );
   await CLIENT.end();
 
-  res.json(
-    {
-      ok: true,
-      data: RESPONSE.rows,
-    },
-  );
+  res.json({
+    ok: true,
+    data: RESPONSE.rows,
+  });
 });
 
-APP.post('/api/arduino/select', async (req, res) => {
+APP.post("/api/arduino/select", async (req, res) => {
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
   const RESPONSE = await CLIENT.query(
     `SELECT *
        FROM temperatures
-       ORDER BY id DESC LIMIT 32`
+       ORDER BY id DESC LIMIT 32`,
   );
   await CLIENT.end();
 
-  res.json(
-    {
-      ok: true,
-      data: RESPONSE.rows,
-    },
-  );
+  res.json({
+    ok: true,
+    data: RESPONSE.rows,
+  });
 });
 
-APP.post('/api/wishlist/update', async (req, res) => {
-  const ELEMENT_ID = req.body.elementId.split('_')[1];
-  const {elementStatus} = req.body;
+APP.post("/api/wishlist/update", async (req, res) => {
+  const ELEMENT_ID = req.body.elementId.split("_")[1];
+  const { elementStatus } = req.body;
 
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
@@ -180,42 +182,36 @@ APP.post('/api/wishlist/update', async (req, res) => {
     `UPDATE wishlist
        SET checked     = ${elementStatus},
            last_update = 'now'
-       WHERE id = ${ELEMENT_ID}`
+       WHERE id = ${ELEMENT_ID}`,
   );
   await CLIENT.end();
 
-  IO.emit(
-    'elementChanged',
-  );
+  IO.emit("elementChanged");
 
-  res.json(
-    {
-      ok: true,
-      message: 'Сообщение отправлено на модерацию',
-      alertColor: 'success',
-      data: RESPONSE.rows,
-    },
-  );
+  res.json({
+    ok: true,
+    message: "Сообщение отправлено на модерацию",
+    alertColor: "success",
+    data: RESPONSE.rows,
+  });
 });
 
-APP.post('/api/seat_book/select', async (req, res) => {
+APP.post("/api/seat_book/select", async (req, res) => {
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
   const RESPONSE = await CLIENT.query(
     `SELECT *
-       FROM book_seats`
+       FROM book_seats`,
   );
   await CLIENT.end();
 
-  res.json(
-    {
-      ok: true,
-      data: RESPONSE.rows,
-    },
-  );
+  res.json({
+    ok: true,
+    data: RESPONSE.rows,
+  });
 });
 
-APP.post('/api/seat_book/update', async (req, res) => {
+APP.post("/api/seat_book/update", async (req, res) => {
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
   const RESPONSE = await CLIENT.query(
@@ -223,27 +219,25 @@ APP.post('/api/seat_book/update', async (req, res) => {
        SET data = $1
        WHERE id = $2
        RETURNING *`,
-    [req.body.data, 3]
+    [req.body.data, 3],
   );
   await CLIENT.end();
 
-  IO.emit(
-    'seatBooked',
-  );
+  IO.emit("seatBooked");
 
   let seatName;
   switch (req.body.credentials.selectedSeat) {
-    case 'front':
-      seatName = 'Спереди';
+    case "front":
+      seatName = "Спереди";
       break;
-    case 'left_back':
-      seatName = 'Сзади, слева'
+    case "left_back":
+      seatName = "Сзади, слева";
       break;
-    case 'center_back':
-      seatName = 'Сзади, центр'
+    case "center_back":
+      seatName = "Сзади, центр";
       break;
-    case 'right_back':
-      seatName = 'Сзади, справа'
+    case "right_back":
+      seatName = "Сзади, справа";
       break;
   }
 
@@ -254,68 +248,66 @@ APP.post('/api/seat_book/update', async (req, res) => {
       //await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book cancel: ${seatName}`);
     }
   } catch (err) {
-    console.error('Ошибка отправки:', err);
+    console.error("Ошибка отправки:", err);
   }
 
-  res.json(
-    {
-      ok: true,
-      message: 'Место успешно забронировано',
-      alertColor: 'success',
-      data: 'data',
-      // data: RESPONSE.rows,
-    },
-  );
+  res.json({
+    ok: true,
+    message: "Место успешно забронировано",
+    alertColor: "success",
+    data: "data",
+    // data: RESPONSE.rows,
+  });
 });
 
-APP.post('/api/arduino/get', async (req, res) => {
-  const {temperature} = req.body;
+APP.post("/api/arduino/get", async (req, res) => {
+  const { temperature } = req.body;
 
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
   const RESPONSE = await CLIENT.query(
     `INSERT INTO temperatures (temperature)
-       VALUES (${temperature})`
+       VALUES (${temperature})`,
   );
   await CLIENT.end();
 
-  IO.emit(
-    'arduinoEvent',
-  );
+  IO.emit("arduinoEvent");
 
-  res.json(
-    {
-      ok: true,
-      message: 'Сообщение отправлено на модерацию',
-      alertColor: 'success',
-      data: 'TODO',
-    },
-  );
+  res.json({
+    ok: true,
+    message: "Сообщение отправлено на модерацию",
+    alertColor: "success",
+    data: "TODO",
+  });
 });
 
-APP.post('/api/webcam7/detections', upload.single('image'), async (req, res) => {
-  if (!req.file) {
-    return res.status(400).send('Файл не найден');
-  }
+APP.post(
+  "/api/webcam7/detections",
+  upload.single("image"),
+  async (req, res) => {
+    if (!req.file) {
+      return res.status(400).send("Файл не найден");
+    }
 
-  try {
-    /*await qjaltiAPIBot.telegram.sendPhoto(
+    try {
+      /*await qjaltiAPIBot.telegram.sendPhoto(
       TELEGRAM_MY_USER_ID,
       {
         source: Buffer.from(req.file.buffer),
         filename: req.file.originalname || 'image.jpg'
       });*/
 
-    res.send('Изображение отправлено в Telegram');
-  } catch (err) {
-    console.error('Ошибка отправки:', err);
-    res.status(500).send('Ошибка отправки');
-  }
-});
+      res.send("Изображение отправлено в Telegram");
+    } catch (err) {
+      console.error("Ошибка отправки:", err);
+      res.status(500).send("Ошибка отправки");
+    }
+  },
+);
 
-APP.post('/api/seat_book/reset', (req, res) => {
+APP.post("/api/seat_book/reset", (req, res) => {
   clearSeatBooksTable().then(() => false);
-  res.status(200).send({success: true});
+  res.status(200).send({ success: true });
 });
 
 // APP.post('/api/rodiyar/bd_image', (req, res) => {
@@ -429,7 +421,7 @@ APP.post('/api/seat_book/reset', (req, res) => {
 //     .catch(err => console.error('Произошла ошибка:', err));
 // });
 
-CRON.schedule('0 22 * * *', clearSeatBooksTable, {
+CRON.schedule("0 22 * * *", clearSeatBooksTable, {
   scheduled: false,
 });
 

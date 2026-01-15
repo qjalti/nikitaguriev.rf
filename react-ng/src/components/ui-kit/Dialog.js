@@ -1,40 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Dialog as DialogMUI} from '@mui/material';
+import React from "react";
+import PropTypes from "prop-types";
+import { Dialog as DialogMUI } from "@mui/material";
 import {
   DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions,
   Button,
-} from '@mui/material';
+} from "@mui/material";
 
-export const Dialog = (
-    {
-      children,
-      dialogTitle,
-      dialogContentText,
-      disagreeButtonHandler,
-      disagreeButtonText,
-      agreeButtonHandler,
-      agreeButtonText,
-      ...props
-    },
-) => {
+export const Dialog = ({
+  children,
+  dialogTitle,
+  dialogContentText,
+  disagreeButtonHandler,
+  disagreeButtonText,
+  agreeButtonHandler,
+  agreeButtonText,
+  ...props
+}) => {
   return (
     <DialogMUI {...props}>
-      <DialogTitle>
-        {dialogTitle}
-      </DialogTitle>
+      <DialogTitle>{dialogTitle}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          {dialogContentText}
-        </DialogContentText>
+        <DialogContentText>{dialogContentText}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={disagreeButtonHandler}>
-          {disagreeButtonText}
-        </Button>
+        <Button onClick={disagreeButtonHandler}>{disagreeButtonText}</Button>
         <Button onClick={agreeButtonHandler} autoFocus>
           {agreeButtonText}
         </Button>
@@ -45,10 +37,7 @@ export const Dialog = (
 
 Dialog.propTypes = {
   dialogTitle: PropTypes.string.isRequired,
-  dialogContentText: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.string,
-  ]),
+  dialogContentText: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   children: PropTypes.node,
   disagreeButtonHandler: PropTypes.func.isRequired,
   disagreeButtonText: PropTypes.string.isRequired,

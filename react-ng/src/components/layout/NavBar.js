@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   AppBar,
   Box,
@@ -7,10 +7,10 @@ import {
   Container,
   Avatar,
   Link,
-} from '@mui/material';
-import {grey} from '@mui/material/colors';
-import favicon from './programmer.webp';
-import {Link as RouterLink} from 'react-router-dom';
+} from "@mui/material";
+import { grey } from "@mui/material/colors";
+import favicon from "./programmer.webp";
+import { Link as RouterLink } from "react-router-dom";
 
 /**
  * NavBar
@@ -24,25 +24,21 @@ export const NavBar = () => {
   const isDecember = new Date().getMonth() === 11;
   return (
     <Box>
-      <AppBar position={'static'}>
+      <AppBar position={"static"}>
         <Container>
-          <Toolbar sx={isDecember ? {pt: 8, pb: 2} : {}}>
+          <Toolbar sx={isDecember ? { pt: 8, pb: 2 } : {}}>
             <Avatar
-              variant={'square'}
+              variant={"square"}
               src={favicon}
-              alt={'Логотип сайта'}
-              sx={{mr: 2}}
+              alt={"Логотип сайта"}
+              sx={{ mr: 2 }}
             />
             <Link
               component={RouterLink}
-              to={'/'}
-              sx={{color: grey[50], textDecoration: 'none'}}
+              to={"/"}
+              sx={{ color: grey[50], textDecoration: "none" }}
             >
-              <Typography
-                variant={'h6'}
-              >
-                qjalti
-              </Typography>
+              <Typography variant={"h6"}>qjalti</Typography>
             </Link>
           </Toolbar>
         </Container>

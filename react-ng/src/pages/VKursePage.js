@@ -1,7 +1,7 @@
 /**
  * Блок подключения модулей/импортов
  */
-import React from 'react';
+import React from "react";
 import {
   createTheme,
   Box,
@@ -10,30 +10,27 @@ import {
   Grid,
   Typography,
   Alert,
-  Paper, Grow,
-} from '@mui/material';
+  Paper,
+  Grow,
+} from "@mui/material";
 
 /**
  * Блок кастомизации MUI
  */
 const darkTheme = createTheme({
   palette: {
-    mode: 'light',
+    mode: "light",
     primary: {
-      main: '#1565C0',
+      main: "#1565C0",
     },
   },
 });
 
 export const VKurse = () => {
   return (
-    <Grow
-      in
-    >
-      <Box sx={{flexGrow: 1}}>
-        <Paper
-          sx={{pb: 2}}
-        >
+    <Grow in>
+      <Box sx={{ flexGrow: 1 }}>
+        <Paper sx={{ pb: 2 }}>
           <Container>
             <Grid
               container
@@ -42,11 +39,9 @@ export const VKurse = () => {
               alignItems="center"
             >
               <Grid item>
-                <Typography gutterBottom>
-                    ВКурсе
-                </Typography>
+                <Typography gutterBottom>ВКурсе</Typography>
                 <Alert severity="warning">
-                    Страница находится в разработке. Повторите попытку позже
+                  Страница находится в разработке. Повторите попытку позже
                 </Alert>
               </Grid>
             </Grid>

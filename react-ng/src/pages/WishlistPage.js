@@ -1,8 +1,8 @@
 /**
  * Блок подключения модулей/импортов
  */
-import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   Box,
   Container,
@@ -23,17 +23,17 @@ import {
   Divider,
   // IconButton,
   Link,
-} from '@mui/material';
+} from "@mui/material";
 // import CheckIcon from '@mui/icons-material/Check';
 // import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 // import {green, common} from '@mui/material/colors';
-import axios from 'axios';
-import {io} from 'socket.io-client';
-import parse from 'html-react-parser';
-import {Dialog} from '../components/ui-kit/Dialog.js';
+import axios from "axios";
+import { io } from "socket.io-client";
+import parse from "html-react-parser";
+import { Dialog } from "../components/ui-kit/Dialog.js";
 // import moment from 'moment';
 
-const SOCKET = io('https://qjalti.ru');
+const SOCKET = io("https://qjalti.ru");
 
 // const ACTUALITY_DATE = '11.03.2024';
 
@@ -53,8 +53,8 @@ export const Wishlist = () => {
       // setElements(RESPONSE.data.data);
       setLoading(false);
     } catch (err) {
-      console.log('Error! ', err.message);
-      console.log('Error! ', err);
+      console.log("Error! ", err.message);
+      console.log("Error! ", err);
     }
   };
 
@@ -63,7 +63,7 @@ export const Wishlist = () => {
   }, []);
 
   const confirmationDialogClose = () => {
-    setElementId('');
+    setElementId("");
     setConfirmationDialog(false);
   };
 
@@ -83,13 +83,10 @@ export const Wishlist = () => {
 
   const updateData = async () => {
     setConfirmationDialog(false);
-    await axios.post(
-        'https://qjalti.ru/api/wishlist/update',
-        {
-          elementId,
-          // elementStatus,
-        },
-    );
+    await axios.post("https://qjalti.ru/api/wishlist/update", {
+      elementId,
+      // elementStatus,
+    });
   };
 
   /* const showDetails = (data) => {
@@ -103,66 +100,55 @@ export const Wishlist = () => {
       <Dialog
         open={confirmationDialog}
         onClose={confirmationDialogClose}
-        dialogTitle={'Подтверждение'}
-        dialogContentText={'Вы действительно хотите вычеркнуть этот пункт?'}
-        agreeButtonText={'Да'}
-        disagreeButtonText={'Отмена'}
+        dialogTitle={"Подтверждение"}
+        dialogContentText={"Вы действительно хотите вычеркнуть этот пункт?"}
+        agreeButtonText={"Да"}
+        disagreeButtonText={"Отмена"}
         agreeButtonHandler={updateData}
         disagreeButtonHandler={confirmationDialogClose}
       />
     );
   };
 
-  const DetailsDialog = ({data}) => {
+  const DetailsDialog = ({ data }) => {
     const DialogContentText = () => (
       <Grid container>
         <Grid item>
           <Grid container>
             <Grid item>
-              <Typography variant={'h6'}>
-                {parse(data.title)}
-              </Typography>
+              <Typography variant={"h6"}>{parse(data.title)}</Typography>
             </Grid>
           </Grid>
-          {
-            data.links && (() => {
+          {data.links &&
+            (() => {
               const LINKS = JSON.parse(data.links);
               return (
                 <>
-                  <Divider textAlign={'left'}>Ссылки:</Divider>
+                  <Divider textAlign={"left"}>Ссылки:</Divider>
                   {LINKS.map((el) => (
                     <Grid item key={el.id}>
-                      <Link
-                        href={el.link}
-                        target={'_blank'}
-                      >
+                      <Link href={el.link} target={"_blank"}>
                         {el.title}
-                      </Link> <sup>[{el.id}]</sup>
+                      </Link>{" "}
+                      <sup>[{el.id}]</sup>
                     </Grid>
                   ))}
                 </>
               );
-            })()
-          }
+            })()}
 
-          {
-            data.hints && (
-              <Grid container>
-                <Grid item>
-                  <Divider textAlign={'left'}>Комментарий:</Divider>
-                  <Typography>
-                    {parse(data.hints)}
-                  </Typography>
-                </Grid>
+          {data.hints && (
+            <Grid container>
+              <Grid item>
+                <Divider textAlign={"left"}>Комментарий:</Divider>
+                <Typography>{parse(data.hints)}</Typography>
               </Grid>
-            )
-          }
+            </Grid>
+          )}
 
-          {
-            !data.hints && !data.links && (
-              <Typography>Подробностей нет</Typography>
-            )
-          }
+          {!data.hints && !data.links && (
+            <Typography>Подробностей нет</Typography>
+          )}
         </Grid>
       </Grid>
     );
@@ -172,10 +158,10 @@ export const Wishlist = () => {
         <Dialog
           open={detailsDialog}
           onClose={detailsDialogClose}
-          dialogTitle={'Подробности'}
-          dialogContentText={<DialogContentText/>}
-          agreeButtonText={'ОК'}
-          disagreeButtonText={'Закрыть'}
+          dialogTitle={"Подробности"}
+          dialogContentText={<DialogContentText />}
+          agreeButtonText={"ОК"}
+          disagreeButtonText={"Закрыть"}
           agreeButtonHandler={detailsDialogClose}
           disagreeButtonHandler={detailsDialogClose}
         />
@@ -187,13 +173,13 @@ export const Wishlist = () => {
     data: PropTypes.object,
   };
 
-  SOCKET.on('elementChanged', () => {
+  SOCKET.on("elementChanged", () => {
     selectData().then(() => false);
   });
 
   return (
     <>
-      <ConfirmationDialog/>
+      <ConfirmationDialog />
       {/* <DetailsDialog data={detailsDialogData}/>*/}
       <Backdrop
         sx={{
@@ -202,34 +188,25 @@ export const Wishlist = () => {
         }}
         open={loading}
       >
-        <CircularProgress color={'inherit'}/>
+        <CircularProgress color={"inherit"} />
       </Backdrop>
-      <Grow
-        in
-      >
-        <Box sx={{flexGrow: 1}}>
+      <Grow in>
+        <Box sx={{ flexGrow: 1 }}>
           <Paper>
             <Container>
-              <Grid
-                container
-                direction={'row'}
-                sx={{py: 2}}
-              >
+              <Grid container direction={"row"} sx={{ py: 2 }}>
                 <Grid item>
-                  <Grid
-                    container
-                    direction={'row'}
-                  >
+                  <Grid container direction={"row"}>
                     <Grid item>
-                      <Typography variant={'h4'}>
-                          Список желаний переехал:
+                      <Typography variant={"h4"}>
+                        Список желаний переехал:
                       </Typography>
                       <Link
-                        href={'https://bit.ly/3P4nIu2'}
-                        target={'_blank'}
-                        variant={'h4'}
+                        href={"https://bit.ly/3P4nIu2"}
+                        target={"_blank"}
+                        variant={"h4"}
                       >
-                          Список желаний
+                        Список желаний
                       </Link>
                     </Grid>
                   </Grid>

@@ -1,10 +1,5 @@
-import {
-  Box,
-  Divider,
-  Button,
-  Typography,
-} from '@mui/material';
-import React, {useState, useEffect, useRef, useMemo} from 'react';
+import { Box, Divider, Button, Typography } from "@mui/material";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 
 export default function T_UE() {
   /**
@@ -13,16 +8,19 @@ export default function T_UE() {
   const [number, setNumber] = useState(42);
   const [colored, setColored] = useState(false);
 
-  const STYLES = useMemo(() => ({
-    color: colored ? 'darkred' : 'grey',
-  }), [colored]);
+  const STYLES = useMemo(
+    () => ({
+      color: colored ? "darkred" : "grey",
+    }),
+    [colored],
+  );
 
   const computed = useMemo(() => {
     return complexCompute(number);
   }, [number]);
 
   useEffect(() => {
-    console.log('Styles changed!');
+    console.log("Styles changed!");
   }, [STYLES]);
 
   /**
@@ -36,11 +34,8 @@ export default function T_UE() {
 
   return (
     <div>
-      <Box sx={{p: 2}}>
-        <Typography
-          variant="h4"
-          style={STYLES}
-        >
+      <Box sx={{ p: 2 }}>
+        <Typography variant="h4" style={STYLES}>
           Вычисляемое свойство: {computed}
         </Typography>
         <Button
@@ -68,7 +63,7 @@ export default function T_UE() {
           Изменить
         </Button>
       </Box>
-      <Divider variant="middle"/>
+      <Divider variant="middle" />
     </div>
   );
 }

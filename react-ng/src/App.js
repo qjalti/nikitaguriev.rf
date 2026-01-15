@@ -1,48 +1,52 @@
-import React, {Fragment, useState, useEffect} from 'react';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import React, { Fragment, useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import {
   useMediaQuery,
   createTheme,
   ThemeProvider,
   Box,
-  Container, Paper, Typography, Link, CssBaseline,
-} from '@mui/material';
+  Container,
+  Paper,
+  Typography,
+  Link,
+  CssBaseline,
+} from "@mui/material";
 
 /**
  * Context
  */
-import {Context} from './context';
+import { Context } from "./context";
 
 /**
  * Components
  */
-import {NavBar} from './components/layout/NavBar';
-import {Footer} from './components/layout/Footer';
-import {BackButton} from './components/ui-kit/BackButton';
-import {ThemeButton} from './components/ui-kit/ThemeButton';
+import { NavBar } from "./components/layout/NavBar";
+import { Footer } from "./components/layout/Footer";
+import { BackButton } from "./components/ui-kit/BackButton";
+import { ThemeButton } from "./components/ui-kit/ThemeButton";
 
 /**
  * Pages
  */
-import {Index} from './pages/IndexPage';
-import {Resume} from './pages/ResumePage';
+import { Index } from "./pages/IndexPage";
+import { Resume } from "./pages/ResumePage";
 // import {Calc} from './pages/CalcPage';
-import {Move} from './pages/MovePage';
-import {Maria} from './pages/MariaPage';
-import {Alya} from './pages/AlyaPage';
-import {SFG} from './pages/SFGPage';
-import {StarSystems} from './pages/StarSystemPage';
-import {Timers} from './pages/TimersPage';
-import {TimerCreator} from './pages/TimerCreatorPage';
-import {ChooseFilm} from './pages/ChooseFilmPage';
-import {FullScreen} from './pages/FullScreen';
-import {TES} from './pages/TESPage';
-import {GasCalc} from './pages/GasCalculatorPage';
-import {Wishlist} from './pages/WishlistPage';
-import {Temperature} from './pages/TemperaturePage';
-import {SeatBook} from './pages/SeatBookPage';
+import { Move } from "./pages/MovePage";
+import { Maria } from "./pages/MariaPage";
+import { Alya } from "./pages/AlyaPage";
+import { SFG } from "./pages/SFGPage";
+import { StarSystems } from "./pages/StarSystemPage";
+import { Timers } from "./pages/TimersPage";
+import { TimerCreator } from "./pages/TimerCreatorPage";
+import { ChooseFilm } from "./pages/ChooseFilmPage";
+import { FullScreen } from "./pages/FullScreen";
+import { TES } from "./pages/TESPage";
+import { GasCalc } from "./pages/GasCalculatorPage";
+import { Wishlist } from "./pages/WishlistPage";
+import { Temperature } from "./pages/TemperaturePage";
+import { SeatBook } from "./pages/SeatBookPage";
 
-import {LightRope} from './components/layout/LightRope';
+import { LightRope } from "./components/layout/LightRope";
 
 /**
  * Root React element
@@ -59,37 +63,37 @@ function App() {
    * Theming
    */
 
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const savedTheme = localStorage.getItem('theme');
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const savedTheme = localStorage.getItem("theme");
 
   const [darkThemeStatus, setDarkThemeStatus] = useState(
-      savedTheme === 'dark' || (savedTheme === null && prefersDarkMode),
+    savedTheme === "dark" || (savedTheme === null && prefersDarkMode),
   );
 
   const updateMetaThemeColor = (color) => {
-    let metaThemeColor = document.querySelector('meta[name=\'theme-color\']');
+    let metaThemeColor = document.querySelector("meta[name='theme-color']");
     if (!metaThemeColor) {
-      metaThemeColor = document.createElement('meta');
-      metaThemeColor.name = 'theme-color';
+      metaThemeColor = document.createElement("meta");
+      metaThemeColor.name = "theme-color";
       document.head.appendChild(metaThemeColor);
     }
     metaThemeColor.content = color;
   };
 
   const toDarkTheme = () => {
-    updateMetaThemeColor('#272727');
+    updateMetaThemeColor("#272727");
     setDarkThemeStatus(true);
   };
   const toLightTheme = () => {
-    updateMetaThemeColor(isDecember ? `#D32F2F` : '#1565C0');
+    updateMetaThemeColor(isDecember ? `#D32F2F` : "#1565C0");
     setDarkThemeStatus(false);
   };
 
   useEffect(() => {
-    if (savedTheme === 'light') {
+    if (savedTheme === "light") {
       toLightTheme();
     }
-    if (savedTheme === 'dark') {
+    if (savedTheme === "dark") {
       toDarkTheme();
     }
   }, [savedTheme]);
@@ -97,19 +101,21 @@ function App() {
   // Create themes
   const lightTheme = createTheme({
     palette: {
-      mode: 'light',
+      mode: "light",
       primary: {
-        main: isDecember ? '#D32F2F' : '#1565C0',
+        main: isDecember ? "#D32F2F" : "#1565C0",
       },
       background: {
-        default: isDecember ? '#2E7D32' : '#FAFAFA',
+        default: isDecember ? "#2E7D32" : "#FAFAFA",
       },
     },
     components: {
       MuiCssBaseline: {
         styleOverrides: {
           html: {
-            'scrollbarColor': isDecember ? `rgba(188, 28, 28, 0.9375) rgba(46, 125, 50, 1)` : `rgba(255, 255, 255, 0.9375) rgba(21, 101, 192, 1)`,
+            scrollbarColor: isDecember
+              ? `rgba(188, 28, 28, 0.9375) rgba(46, 125, 50, 1)`
+              : `rgba(255, 255, 255, 0.9375) rgba(21, 101, 192, 1)`,
           },
         },
       },
@@ -118,19 +124,21 @@ function App() {
 
   const darkTheme = createTheme({
     palette: {
-      mode: 'dark',
+      mode: "dark",
       primary: {
-        main: isDecember ? '#B71C1C' : '#1565C0',
+        main: isDecember ? "#B71C1C" : "#1565C0",
       },
       background: {
-        default: isDecember ? '#1B5E20' : '#121212',
+        default: isDecember ? "#1B5E20" : "#121212",
       },
     },
     components: {
       MuiCssBaseline: {
         styleOverrides: {
           html: {
-            'scrollbarColor': isDecember ? `rgba(188, 28, 28, 0.9375) rgba(39, 39, 39, 1)` : `rgba(21, 101, 192, 0.9375) rgba(39, 39, 39, 1)`,
+            scrollbarColor: isDecember
+              ? `rgba(188, 28, 28, 0.9375) rgba(39, 39, 39, 1)`
+              : `rgba(21, 101, 192, 0.9375) rgba(39, 39, 39, 1)`,
           },
         },
       },
@@ -162,62 +170,51 @@ function App() {
         >
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {isDecember && <LightRope/>}
+            {isDecember && <LightRope />}
             <Box
               sx={{
                 bgcolor: (theme) => theme.palette.background.default,
-                minHeight: '100vh',
+                minHeight: "100vh",
               }}
             >
-              <NavBar/>
-              <Container sx={{
-                mt: 2,
-                minHeight: '100vh',
-              }}>
+              <NavBar />
+              <Container
+                sx={{
+                  mt: 2,
+                  minHeight: "100vh",
+                }}
+              >
                 <Routes>
+                  <Route path="/" element={<Index />} exact />
+                  <Route path="/resume" element={<Resume />} exact />
+                  <Route path="/move" element={<Move />} exact />
+                  <Route path="/maria" element={<Maria />} exact />
+                  <Route path="/alya" element={<Alya />} exact />
+                  <Route path="/sfg" element={<SFG />} exact />
+                  <Route path="/star_systems" element={<StarSystems />} exact />
+                  <Route path="/timers" element={<Timers />} exact />
                   <Route
-                    path="/" element={<Index/>} exact/>
-                  <Route
-                    path="/resume" element={<Resume/>} exact/>
-                  <Route
-                    path="/move" element={<Move/>} exact/>
-                  <Route
-                    path="/maria" element={<Maria/>} exact/>
-                  <Route
-                    path="/alya" element={<Alya/>} exact/>
-                  <Route
-                    path="/sfg" element={<SFG/>} exact/>
-                  <Route
-                    path="/star_systems" element={<StarSystems/>} exact/>
-                  <Route
-                    path="/timers" element={<Timers/>} exact/>
-                  <Route
-                    path="/timer_creator" element={<TimerCreator/>} exact/>
-                  <Route
-                    path="/choose_film" element={<ChooseFilm/>} exact/>
-                  <Route
-                    path="/fs" element={<FullScreen/>} exact/>
-                  <Route
-                    path="/TES" element={<TES/>} exact/>
-                  <Route
-                    path="/gas_calc" element={<GasCalc/>} exact/>
-                  <Route
-                    path="/wishlist" element={<Wishlist/>} exact/>
-                  <Route
-                    path="/temperature" element={<Temperature/>} exact/>
-                  <Route
-                    path={'/seat_book'} element={<SeatBook/>} exact
+                    path="/timer_creator"
+                    element={<TimerCreator />}
+                    exact
                   />
+                  <Route path="/choose_film" element={<ChooseFilm />} exact />
+                  <Route path="/fs" element={<FullScreen />} exact />
+                  <Route path="/TES" element={<TES />} exact />
+                  <Route path="/gas_calc" element={<GasCalc />} exact />
+                  <Route path="/wishlist" element={<Wishlist />} exact />
+                  <Route path="/temperature" element={<Temperature />} exact />
+                  <Route path={"/seat_book"} element={<SeatBook />} exact />
                 </Routes>
               </Container>
-              <Footer/>
-              <BackButton/>
-              <ThemeButton/>
+              <Footer />
+              <BackButton />
+              <ThemeButton />
               <Box
-                component={'footer'}
+                component={"footer"}
                 sx={{
                   backgroundColor: (theme) => theme.palette.background.paper,
-                  position: 'relative',
+                  position: "relative",
                   bottom: 0,
                   left: 0,
                 }}
@@ -228,15 +225,15 @@ function App() {
                   }}
                 >
                   <Typography
-                    variant={'body2'}
-                    color={'text.secondary'}
-                    align={'center'}
+                    variant={"body2"}
+                    color={"text.secondary"}
+                    align={"center"}
                   >
                     <Link
-                      href={'https://www.flaticon.com/free-icons/programmer'}
-                      title={'programmer icons'}
+                      href={"https://www.flaticon.com/free-icons/programmer"}
+                      title={"programmer icons"}
                     >
-                        Programmer icons created by Freepik - Flaticon
+                      Programmer icons created by Freepik - Flaticon
                     </Link>
                   </Typography>
                 </Paper>

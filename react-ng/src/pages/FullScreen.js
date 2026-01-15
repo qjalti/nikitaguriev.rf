@@ -1,7 +1,7 @@
 /**
  * Блок подключения модулей/импортов
  */
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import {
   createTheme,
   Box,
@@ -9,17 +9,19 @@ import {
   Container,
   Grid,
   Typography,
-  Paper, Grow, TextField,
-} from '@mui/material';
+  Paper,
+  Grow,
+  TextField,
+} from "@mui/material";
 
 /**
  * Блок кастомизации MUI
  */
 const darkTheme = createTheme({
   palette: {
-    mode: 'light',
+    mode: "light",
     primary: {
-      main: '#1565C0',
+      main: "#1565C0",
     },
   },
 });
@@ -28,17 +30,13 @@ export const FullScreen = () => {
   /**
    * Блок определения хуков
    */
-  const [userText, setUserText] = useState('Lorem ipsum');
+  const [userText, setUserText] = useState("Lorem ipsum");
 
   return (
-    <Grow
-      in
-    >
-      <Box sx={{flexGrow: 1}}>
+    <Grow in>
+      <Box sx={{ flexGrow: 1 }}>
         <ThemeProvider theme={darkTheme}>
-          <Paper
-            sx={{pb: 2}}
-          >
+          <Paper sx={{ pb: 2 }}>
             <Container>
               <Grid
                 container
@@ -47,7 +45,7 @@ export const FullScreen = () => {
                 alignItems="center"
               >
                 <Grid item>
-                  <Typography variant={'h1'} gutterBottom>
+                  <Typography variant={"h1"} gutterBottom>
                     {userText}
                   </Typography>
                 </Grid>
