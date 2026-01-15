@@ -12,7 +12,7 @@
     "client:build": "npm run build --prefix react-ng",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\"",
     "iall": "npm install && npm run client:install",
-    "epf": "npx prettier . --write & npx prettier . --write"
+    "epf": "npx prettier . --write & npx eslint . --fix"
   },
   "author": "Nikita Guriev <stig.guriev@gmail.com>",
   "license": "ISC",
