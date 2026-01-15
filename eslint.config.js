@@ -4,14 +4,48 @@ import pluginReact from "eslint-plugin-react";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
 import css from "@eslint/css";
-import { defineConfig } from "eslint/config";
+import { fixupConfigRules } from "@eslint/compat";
 
-export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs,jsx}"], plugins: { js }, extends: ["js/recommended"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
-  pluginReact.configs.flat.recommended,
-  { files: ["**/*.json"], plugins: { json }, language: "json/json", extends: ["json/recommended"] },
-  { files: ["**/*.jsonc"], plugins: { json }, language: "json/jsonc", extends: ["json/recommended"] },
-  { files: ["**/*.json5"], plugins: { json }, language: "json/json5", extends: ["json/recommended"] },
-  { files: ["**/*.md"], plugins: { markdown }, language: "markdown/gfm", extends: ["markdown/recommended"] },
-  { files: ["**/*.css"], plugins: { css }, language: "css/css", extends: ["css/recommended"] },
-]);
+export default [
+  // 1. Игнорируем лишнее
+  { ignores: ["**/node_modules/**", "dist/**"] },
+
+  // 2. JS правила ТОЛЬКО для JS файлов (это решает проблему с no-irregular-whitespace)
+  {
+    files: ["**/*.{js,mjs,cjs,jsx}"],
+    ...js.configs.recommended,
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node },
+    },
+  },
+
+  // 3. React с настройкой версии и фиксом
+  ...fixupConfigRules(pluginReact.configs.flat.recommended).map((config) => ({
+    ...config,
+    files: ["**/*.{js,mjs,cjs,jsx}"],
+    settings: {
+      react: { version: "detect" }, // Убирает Warning
+    },
+  })),
+
+  // 4. JSON
+  {
+    files: ["**/*.json", "**/*.jsonc", "**/*.json5"],
+    language: "json/json",
+    ...json.configs.recommended,
+  },
+
+  // 5. Markdown
+  ...markdown.configs.recommended,
+  {
+    files: ["**/*.md"],
+    language: "markdown/gfm",
+  },
+
+  // 6. CSS
+  {
+    files: ["**/*.css"],
+    language: "css/css",
+    ...css.configs.recommended,
+  },
+];
