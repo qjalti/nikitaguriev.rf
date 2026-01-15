@@ -1,8 +1,6 @@
 // This service worker can be customized!
 // See https://cra.link/PWA
 
- 
-
 // This is the code piece that GenerateSW plugin adds to the SW bundle
 const CACHE_NAME = "sw-precache-v3-my-pwa";
 
