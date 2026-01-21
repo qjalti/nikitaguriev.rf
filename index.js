@@ -11,7 +11,6 @@ import { Server } from "socket.io";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { Telegraf } from "telegraf";
-import multer from "multer";
 import CRON from "node-cron";
 
 /**
@@ -29,12 +28,6 @@ if (process.env.NODE_ENV !== "development") {
    qjaltiAPIBot = new Telegraf(CONFIG.get('qjaltiAPIToken'));
    qjaltiAPIBot.launch().then(r => console.log(r));
 }
-
-/**
- * Multer
- */
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
 
 /**
  * Express settings
