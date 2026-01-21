@@ -53,7 +53,7 @@ APP.use(BODY_PARSER.json());
  * Production mode
  */
 if (process.env.NODE_ENV === "production") {
-  APP.use("/", express.static(PATH.join(__dirname, "react-ng", "build")));
+  APP.use(express.static(PATH.join(__dirname, "react-ng", "build")));
   APP.get("/rod_game", (req, res) => {
     res.sendFile(
       PATH.resolve(
@@ -73,9 +73,6 @@ if (process.env.NODE_ENV === "production") {
   APP.get("/serviceWorker.js", (req, res) => {
     res.sendFile(PATH.resolve(__dirname, "serviceWorker.js"));
   });
-  // APP.get('/seat_book', (req, res) => {
-  //   res.sendFile(PATH.resolve(__dirname, 'react-ng', 'build', 'seat-book', 'index.html'));
-  // });
   APP.get("*", (req, res) => {
     res.sendFile(PATH.resolve(__dirname, "react-ng", "build", "index.html"));
   });
