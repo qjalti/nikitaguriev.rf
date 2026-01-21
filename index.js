@@ -13,23 +13,21 @@ import { fileURLToPath } from "url";
 import { Telegraf } from "telegraf";
 import multer from "multer";
 import CRON from "node-cron";
-// import {createCanvas, loadImage, registerFont} from 'canvas';
-// import path from "path";
-// import fs from "fs";
 
 /**
  * Constants defination
  */
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TELEGRAM_MY_USER_ID = 738829247;
+const BUILD_PATH = PATH.join(__dirname, "react-ng", "build");
 
 /**
  * Telegraf settings
  */
 let qjaltiAPIBot;
 if (process.env.NODE_ENV !== "development") {
-  //  qjaltiAPIBot = new Telegraf(CONFIG.get('qjaltiAPIToken'));
-  //  qjaltiAPIBot.launch().then(r => console.log(r));
+   qjaltiAPIBot = new Telegraf(CONFIG.get('qjaltiAPIToken'));
+   qjaltiAPIBot.launch().then(r => console.log(r));
 }
 
 /**
@@ -53,7 +51,8 @@ APP.use(BODY_PARSER.json());
  * Production mode
  */
 if (process.env.NODE_ENV === "production") {
-  APP.use(express.static(PATH.join(__dirname, "react-ng", "build")));
+  APP.use(express.static(PATH.join(BUILD_PATH)));
+  APP.use("/who-am-i-game", express.static(PATH.join(BUILD_PATH, "who-am-i-game")));
   APP.get("/rod_game", (req, res) => {
     res.sendFile(
       PATH.resolve(
@@ -211,7 +210,7 @@ APP.post("/api/seat_book/select", async (req, res) => {
 APP.post("/api/seat_book/update", async (req, res) => {
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
-  const RESPONSE = await CLIENT.query(
+  await CLIENT.query(
     `UPDATE book_seats
        SET data = $1
        WHERE id = $2
@@ -240,9 +239,9 @@ APP.post("/api/seat_book/update", async (req, res) => {
 
   try {
     if (req.body.credentials.passengerName) {
-      //await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book: ${seatName}, ${req.body.credentials.passengerName}`);
+      await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book: ${seatName}, ${req.body.credentials.passengerName}`);
     } else {
-      //await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book cancel: ${seatName}`);
+      await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book cancel: ${seatName}`);
     }
   } catch (err) {
     console.error("Ошибка отправки:", err);
@@ -253,7 +252,6 @@ APP.post("/api/seat_book/update", async (req, res) => {
     message: "Место успешно забронировано",
     alertColor: "success",
     data: "data",
-    // data: RESPONSE.rows,
   });
 });
 
@@ -262,7 +260,7 @@ APP.post("/api/arduino/get", async (req, res) => {
 
   const CLIENT = new Client(CONNECTION_DATA);
   await CLIENT.connect();
-  const RESPONSE = await CLIENT.query(
+  await CLIENT.query(
     `INSERT INTO temperatures (temperature)
        VALUES (${temperature})`,
   );
@@ -278,157 +276,11 @@ APP.post("/api/arduino/get", async (req, res) => {
   });
 });
 
-APP.post(
-  "/api/webcam7/detections",
-  upload.single("image"),
-  async (req, res) => {
-    if (!req.file) {
-      return res.status(400).send("Файл не найден");
-    }
-
-    try {
-      /*await qjaltiAPIBot.telegram.sendPhoto(
-      TELEGRAM_MY_USER_ID,
-      {
-        source: Buffer.from(req.file.buffer),
-        filename: req.file.originalname || 'image.jpg'
-      });*/
-
-      res.send("Изображение отправлено в Telegram");
-    } catch (err) {
-      console.error("Ошибка отправки:", err);
-      res.status(500).send("Ошибка отправки");
-    }
-  },
-);
-
 APP.post("/api/seat_book/reset", (req, res) => {
   clearSeatBooksTable().then(() => false);
   res.status(200).send({ success: true });
 });
 
-// APP.post('/api/rodiyar/bd_image', (req, res) => {
-//   const fontPath = path.join(__dirname, 'GreatVibes-Regular.ttf');
-//   registerFont(fontPath, {family: 'Great Vibes Regular'});
-//
-//   // Функция переноса текста по ширине
-//   function wrapText(ctx, text, maxWidth) {
-//     const words = text.split(' ');
-//     const lines = [];
-//     let line = '';
-//
-//     for (let n = 0; n < words.length; n++) {
-//       const testLine = line + (line ? ' ' : '') + words[n];
-//       const metrics = ctx.measureText(testLine);
-//       const testWidth = metrics.width;
-//
-//       if (testWidth > maxWidth && line) {
-//         lines.push(line);
-//         line = words[n];
-//       } else {
-//         line = testLine;
-//       }
-//     }
-//     lines.push(line);
-//     return lines;
-//   }
-//
-//   async function addTextToImage(imagePath, isMale, userText, outputImagePath) {
-//     const image = await loadImage(imagePath);
-//
-//     const canvasWidth = Math.floor(image.width * 0.75);
-//     const canvasHeight = Math.floor(image.height * 0.75);
-//     const canvas = createCanvas(canvasWidth, canvasHeight);
-//     const ctx = canvas.getContext('2d');
-//
-//     ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvasWidth, canvasHeight);
-//
-//     ctx.font = `bold ${24}px "Times New Roman"`;
-//     ctx.fillStyle = '#282828';
-//     ctx.textAlign = 'center';
-//     ctx.textBaseline = 'top';
-//
-//     ctx.fillText(isMale ? 'Уважаемый' : 'Уважаемая', canvas.width / 2, 440);
-//     ctx.fillText(`${userText.name}!`, canvas.width / 2, 440 + (4 * 8));
-//     ctx.fillText(`(${userText.workPosition})`, canvas.width / 2, 440 + (8 * 8));
-//
-//     ctx.font = `48px "Great Vibes Regular"`;
-//     ctx.fillStyle = '#f44336';
-//     ctx.fillText('С Днем Рождения!', canvas.width / 2, 440 + (13 * 8));
-//
-//     // Стих
-//     ctx.font = `32px "Great Vibes Regular"`;
-//     ctx.fillStyle = '#282828';
-//
-//     const poem = `Сквозь облака плывёт весна,
-// В лугах играет ветер нежный
-// Земля проснулась ото сна
-// И день становится безбрежный
-//
-// В лазури жаворонок пьёт
-// Глотки свободы в пенье звонком
-// И каждый лепесток живёт,
-// Как свет в душе — таким знакомым
-//
-// Ты улыбнись — и мир в ответ
-// Раскроет тайны без усилий
-// Ведь жизнь — не серый силуэт,
-// А праздник, полный доброй пыли`;
-//
-//     const poemLines = poem.split('\n');
-//     const wrappedPoemLines = [];
-//
-//     for (const line of poemLines) {
-//       const wrapped = wrapText(ctx, line, canvas.width * 0.5);
-//       wrappedPoemLines.push(...wrapped);
-//     }
-//
-//     wrappedPoemLines.forEach((line, i) => {
-//       ctx.fillText(line, canvas.width / 2, 440 + (21 * 8) + i * 36);
-//     });
-//
-//     // Текущая дата
-//     const now = new Date();
-//     const day = String(now.getDate()).padStart(2, '0');
-//     const month = String(now.getMonth() + 1).padStart(2, '0');
-//     const year = now.getFullYear();
-//     const formattedDate = `${day}.${month}.${year} г.`;
-//
-//     ctx.font = `22px Georgia`;
-//     ctx.fillText(formattedDate, canvas.width / 2, 440 + 192 + wrappedPoemLines.length * 36 + 30);
-//
-//     const buffer = canvas.toBuffer('image/jpeg');
-//     await fs.promises.writeFile(outputImagePath, buffer);
-//
-//     console.log(`Изображение с текстом сохранено: ${outputImagePath}`);
-//   }
-//
-//   // Пути
-//   const inputImagePath = 'input.jpg';
-//   const outputImagePath = 'output.jpg';
-//
-//   // Примерные данные
-//   const userText = {
-//     name: 'Гуриев Никита',
-//     workPosition: 'программист-разработчик',
-//   };
-//
-//   // Запуск
-//   addTextToImage(inputImagePath, true, userText, outputImagePath)
-//     .catch(err => console.error('Произошла ошибка:', err));
-// });
-
 CRON.schedule("0 22 * * *", clearSeatBooksTable, {
   scheduled: false,
 });
-
-/**
- * WebSocket
- */
-// IO.on('connection', (socket) => {
-//   console.log('New client connected');
-//
-//   socket.on('disconnect', () => {
-//     console.log('Client disconnected');
-//   });
-// });
