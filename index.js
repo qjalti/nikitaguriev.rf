@@ -43,32 +43,35 @@ APP.use(BODY_PARSER.json());
 /**
  * Production mode
  */
+/**
+ * Production mode
+ */
 if (process.env.NODE_ENV === "production") {
-  APP.use(express.static(PATH.join(BUILD_PATH)));
-  APP.use("/who-am-i-game", express.static(PATH.join(BUILD_PATH, "who-am-i-game")));
+  APP.use(express.static(BUILD_PATH));
+
+  APP.use("/rod_game", express.static(PATH.join(BUILD_PATH, "who-am-i-game")));
+
   APP.get("/rod_game", (req, res) => {
-    res.sendFile(
-      PATH.resolve(
-        __dirname,
-        "react-ng",
-        "build",
-        "who-am-i-game",
-        "index.html",
-      ),
-    );
+    res.sendFile(PATH.join(BUILD_PATH, "who-am-i-game", "index.html"));
   });
+
   APP.get("/fst", (req, res) => {
-    res.sendFile(
-      PATH.resolve(__dirname, "react-ng", "build", "fst", "index.html"),
-    );
+    res.sendFile(PATH.join(BUILD_PATH, "fst", "index.html"));
   });
+
   APP.get("/serviceWorker.js", (req, res) => {
     res.sendFile(PATH.resolve(__dirname, "serviceWorker.js"));
   });
+
   APP.get("*", (req, res) => {
-    res.sendFile(PATH.resolve(__dirname, "react-ng", "build", "index.html"));
+    if (req.url.includes('.')) {
+      res.status(404).send("File not found");
+    } else {
+      res.sendFile(PATH.resolve(BUILD_PATH, "index.html"));
+    }
   });
 }
+
 
 const PORT = CONFIG.get("port");
 
