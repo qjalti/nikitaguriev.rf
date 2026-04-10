@@ -25,8 +25,8 @@ const BUILD_PATH = PATH.join(__dirname, "react-ng", "build");
  */
 let qjaltiAPIBot;
 if (process.env.NODE_ENV !== "development") {
-   // qjaltiAPIBot = new Telegraf(CONFIG.get('qjaltiAPIToken'));
-   // qjaltiAPIBot.launch().then(r => console.log(r));
+  // qjaltiAPIBot = new Telegraf(CONFIG.get('qjaltiAPIToken'));
+  // qjaltiAPIBot.launch().then(r => console.log(r));
 }
 
 /**
@@ -59,19 +59,25 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(PATH.join(BUILD_PATH, "fst", "index.html"));
   });
 
+  APP.get("/fsc", (req, res) => {
+    res.sendFile(PATH.join(BUILD_PATH, "fsc", "index.html"));
+  });
+  APP.get("/fs-text", (req, res) => {
+    res.sendFile(PATH.join(BUILD_PATH, "fs-text", "index.html"));
+  });
+
   APP.get("/serviceWorker.js", (req, res) => {
     res.sendFile(PATH.resolve(__dirname, "serviceWorker.js"));
   });
 
   APP.get("*", (req, res) => {
-    if (req.url.includes('.')) {
+    if (req.url.includes(".")) {
       res.status(404).send("File not found");
     } else {
       res.sendFile(PATH.resolve(BUILD_PATH, "index.html"));
     }
   });
 }
-
 
 const PORT = CONFIG.get("port");
 
