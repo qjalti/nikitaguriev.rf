@@ -25,8 +25,8 @@ const BUILD_PATH = PATH.join(__dirname, "react-ng", "build");
  */
 let qjaltiAPIBot;
 if (process.env.NODE_ENV !== "development") {
-   qjaltiAPIBot = new Telegraf(CONFIG.get('qjaltiAPIToken'));
-   qjaltiAPIBot.launch().then(r => console.log(r));
+   // qjaltiAPIBot = new Telegraf(CONFIG.get('qjaltiAPIToken'));
+   // qjaltiAPIBot.launch().then(r => console.log(r));
 }
 
 /**
@@ -235,9 +235,9 @@ APP.post("/api/seat_book/update", async (req, res) => {
 
   try {
     if (req.body.credentials.passengerName) {
-      await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book: ${seatName}, ${req.body.credentials.passengerName}`);
+      // await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book: ${seatName}, ${req.body.credentials.passengerName}`);
     } else {
-      await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book cancel: ${seatName}`);
+      // await qjaltiAPIBot.telegram.sendMessage(TELEGRAM_MY_USER_ID, `Seat Book cancel: ${seatName}`);
     }
   } catch (err) {
     console.error("Ошибка отправки:", err);
