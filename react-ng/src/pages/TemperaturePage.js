@@ -57,7 +57,7 @@ export const Temperature = () => {
 
       const dataset = DATA.map((item) => ({
         temperature: item.temperature,
-        timestamp: moment(item.timestamp).format("HH:mm"),
+        timestamp: moment(item.timestamp).format("DD.MM HH:mm"),
       }));
 
       setElements({
