@@ -17,7 +17,10 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
       rel="stylesheet"
     />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
       /* ── MD3 Dark Tokens ── */
@@ -62,7 +65,7 @@
       #app {
         display: flex;
         flex-direction: column;
-        height: 100dvh;
+        height: 100 dvh;
         padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
           env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
       }
@@ -167,7 +170,7 @@
       }
 
       .md-icon-btn::before {
-        content: '';
+        content: "";
         position: absolute;
         inset: 0;
         border-radius: 50%;
@@ -258,6 +261,10 @@
           opacity: 0.16;
         }
       }
+
+      #topbar.hidden {
+        display: none;
+      }
     </style>
   </head>
 
@@ -281,6 +288,15 @@
 
         <button
           class="md-icon-btn"
+          id="hide-btn"
+          title="Скрыть панель на 15 секунд"
+          aria-label="Скрыть панель"
+        >
+          <span class="material-icons-round">visibility_off</span>
+        </button>
+
+        <button
+          class="md-icon-btn"
           id="fs-btn"
           title="Полный экран"
           aria-label="Полный экран"
@@ -300,12 +316,12 @@
     </div>
 
     <script>
-      const input = document.getElementById('input');
-      const displayText = document.getElementById('display-text');
-      const displayArea = document.getElementById('display-area');
-      const hint = document.getElementById('hint');
-      const fsBtn = document.getElementById('fs-btn');
-      const fsIcon = document.getElementById('fs-icon');
+      const input = document.getElementById("input");
+      const displayText = document.getElementById("display-text");
+      const displayArea = document.getElementById("display-area");
+      const hint = document.getElementById("hint");
+      const fsBtn = document.getElementById("fs-btn");
+      const fsIcon = document.getElementById("fs-icon");
 
       /* ── Fit text ── */
       function fitText() {
@@ -323,7 +339,7 @@
         /* Binary search for the largest font-size that fits */
         while (hi - lo > 1) {
           const mid = (lo + hi) >> 1;
-          displayText.style.fontSize = mid + 'px';
+          displayText.style.fontSize = mid + "px";
           if (
             displayText.scrollWidth <= areaW &&
             displayText.scrollHeight <= areaH
@@ -333,7 +349,7 @@
             hi = mid;
           }
         }
-        displayText.style.fontSize = lo + 'px';
+        displayText.style.fontSize = lo + "px";
       }
 
       /* ── Update display ── */
@@ -341,24 +357,24 @@
         const val = input.value;
 
         if (!val) {
-          displayText.textContent = '';
-          displayText.classList.remove('visible');
-          hint.style.opacity = '1';
+          displayText.textContent = "";
+          displayText.classList.remove("visible");
+          hint.style.opacity = "1";
           return;
         }
 
-        hint.style.opacity = '0';
+        hint.style.opacity = "0";
         displayText.textContent = val;
-        displayText.classList.remove('visible');
+        displayText.classList.remove("visible");
 
         /* Let DOM settle, then fit */
         requestAnimationFrame(() => {
           fitText();
-          displayText.classList.add('visible');
+          displayText.classList.add("visible");
         });
       }
 
-      input.addEventListener('input', update);
+      input.addEventListener("input", update);
 
       /* ── Resize / orientation ── */
       const ro = new ResizeObserver(() => {
@@ -380,17 +396,31 @@
         }
       }
 
-      fsBtn.addEventListener('click', toggleFS);
+      fsBtn.addEventListener("click", toggleFS);
 
       function onFSChange() {
         const isFS = !!(
           document.fullscreenElement || document.webkitFullscreenElement
         );
-        fsIcon.textContent = isFS ? 'fullscreen_exit' : 'fullscreen';
+        fsIcon.textContent = isFS ? "fullscreen_exit" : "fullscreen";
       }
 
-      document.addEventListener('fullscreenchange', onFSChange);
-      document.addEventListener('webkitfullscreenchange', onFSChange);
+      document.addEventListener("fullscreenchange", onFSChange);
+      document.addEventListener("webkitfullscreenchange", onFSChange);
+
+      const topbar = document.getElementById("topbar");
+      const hideBtn = document.getElementById("hide-btn");
+      let hideTimeout = null;
+
+      hideBtn.addEventListener("click", () => {
+        clearTimeout(hideTimeout);
+        topbar.classList.add("hidden");
+        if (displayText.textContent) fitText();
+        hideTimeout = setTimeout(() => {
+          topbar.classList.remove("hidden");
+          if (displayText.textContent) fitText();
+        }, 15000);
+      });
 
       /* ── Focus input on load ── */
       input.focus();

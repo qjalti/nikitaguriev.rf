@@ -26,7 +26,7 @@
         align-items: center;
         background-color: #fafafa;
         color: #1c1b1f;
-        font-family: 'Google Sans', 'Roboto', system-ui, sans-serif;
+        font-family: "Google Sans", "Roboto", system-ui, sans-serif;
         transition:
           background-color 0.5s var(--ease),
           color 0.4s var(--ease);
@@ -70,7 +70,7 @@
 
       /* Bottom indicator line — neutral, не currentColor */
       .field::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 0;
         left: 0;
@@ -111,7 +111,7 @@
         border: none;
         background: transparent;
         color: inherit;
-        font-family: 'Roboto Mono', 'SF Mono', 'Menlo', monospace;
+        font-family: "Roboto Mono", "SF Mono", "Menlo", monospace;
         font-size: 1.5rem;
         font-weight: 400;
         letter-spacing: 4px;
@@ -200,7 +200,7 @@
 
       /* MD3 state layer */
       button::before {
-        content: '';
+        content: "";
         position: absolute;
         inset: 0;
         background: currentColor;
@@ -221,7 +221,7 @@
 
       /* Countdown arc */
       @property --pct {
-        syntax: '<number>';
+        syntax: "<number>";
         inherits: false;
         initial-value: 0;
       }
@@ -238,7 +238,7 @@
       }
 
       button.counting::after {
-        content: '';
+        content: "";
         position: absolute;
         inset: -2px;
         border-radius: 100px;
@@ -333,16 +333,16 @@
       (() => {
         const $ = (id) => document.getElementById(id);
         const body = document.body;
-        const meta = $('theme-meta');
-        const card = $('card');
-        const hexInput = $('hex');
-        const rgbRow = $('rgbRow');
-        const vR = $('vR'),
-          vG = $('vG'),
-          vB = $('vB');
-        const btnHide = $('btnHide');
-        const hideLabel = $('hideLabel');
-        const slash = $('slash');
+        const meta = $("theme-meta");
+        const card = $("card");
+        const hexInput = $("hex");
+        const rgbRow = $("rgbRow");
+        const vR = $("vR"),
+          vG = $("vG"),
+          vB = $("vB");
+        const btnHide = $("btnHide");
+        const hideLabel = $("hideLabel");
+        const slash = $("slash");
 
         let hideTimer = null;
         let cdInterval = null;
@@ -350,9 +350,9 @@
         const expand = (h) =>
           h.length === 3
             ? h
-                .split('')
+                .split("")
                 .map((c) => c + c)
-                .join('')
+                .join("")
             : h;
 
         function yiq(h) {
@@ -360,16 +360,16 @@
           const g = parseInt(h.slice(2, 4), 16);
           const b = parseInt(h.slice(4, 6), 16);
           return (r * 299 + g * 587 + b * 114) / 1000 >= 128
-            ? '#1c1b1f'
-            : '#e6e1e5';
+            ? "#1c1b1f"
+            : "#e6e1e5";
         }
 
         function applyColor(val) {
           if (!val) {
-            body.style.backgroundColor = '#fafafa';
-            body.style.color = '#1c1b1f';
-            meta.content = '#fafafa';
-            rgbRow.classList.remove('on');
+            body.style.backgroundColor = "#fafafa";
+            body.style.color = "#1c1b1f";
+            meta.content = "#fafafa";
+            rgbRow.classList.remove("on");
             return;
           }
           const is3 = /^[0-9A-Fa-f]{3}$/.test(val);
@@ -377,24 +377,24 @@
           if (!is3 && !is6) return;
 
           const h = expand(val).toUpperCase();
-          body.style.backgroundColor = '#' + h;
+          body.style.backgroundColor = "#" + h;
           body.style.color = yiq(h);
-          meta.content = '#' + h;
+          meta.content = "#" + h;
 
           vR.textContent = parseInt(h.slice(0, 2), 16);
           vG.textContent = parseInt(h.slice(2, 4), 16);
           vB.textContent = parseInt(h.slice(4, 6), 16);
-          rgbRow.classList.add('on');
+          rgbRow.classList.add("on");
         }
 
-        hexInput.addEventListener('input', () => applyColor(hexInput.value));
+        hexInput.addEventListener("input", () => applyColor(hexInput.value));
 
-        hexInput.addEventListener('paste', (e) => {
+        hexInput.addEventListener("paste", (e) => {
           e.preventDefault();
-          const raw = (e.clipboardData || window.clipboardData).getData('text');
+          const raw = (e.clipboardData || window.clipboardData).getData("text");
           const clean = raw
-            .replace(/^#/, '')
-            .replace(/[^0-9A-Fa-f]/g, '')
+            .replace(/^#/, "")
+            .replace(/[^0-9A-Fa-f]/g, "")
             .slice(0, 6);
           hexInput.value = clean;
           applyColor(clean);
@@ -404,64 +404,64 @@
           clearTimeout(hideTimer);
           clearInterval(cdInterval);
           hideTimer = null;
-          card.classList.remove('hidden');
-          btnHide.classList.remove('counting');
+          card.classList.remove("hidden");
+          btnHide.classList.remove("counting");
           void btnHide.offsetWidth;
-          hideLabel.textContent = 'Скрыть на 15 секунд';
-          slash.style.display = 'none';
+          hideLabel.textContent = "Скрыть на 15 секунд";
+          slash.style.display = "none";
           setTimeout(() => hexInput.focus(), 380);
         }
 
         function startHide() {
-          card.classList.add('hidden');
-          slash.style.display = '';
-          btnHide.classList.remove('counting');
+          card.classList.add("hidden");
+          slash.style.display = "";
+          btnHide.classList.remove("counting");
           void btnHide.offsetWidth;
-          btnHide.classList.add('counting');
+          btnHide.classList.add("counting");
 
           let t = 15;
-          hideLabel.textContent = t + ' с';
+          hideLabel.textContent = t + " с";
           cdInterval = setInterval(() => {
             t--;
-            hideLabel.textContent = t > 0 ? t + ' с' : 'Скрыть на 15 секунд';
+            hideLabel.textContent = t > 0 ? t + " с" : "Скрыть на 15 секунд";
             if (t <= 0) clearInterval(cdInterval);
           }, 1000);
 
           hideTimer = setTimeout(showUI, 15_000);
         }
 
-        btnHide.addEventListener('click', () =>
+        btnHide.addEventListener("click", () =>
           hideTimer ? showUI() : startHide(),
         );
 
         /* ── Fullscreen ── */
-        const btnFs = $('btnFs');
-        const fsIcon = $('fsIcon');
+        const btnFs = $("btnFs");
+        const fsIcon = $("fsIcon");
 
         const fsPathExpand =
-          'M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3';
+          "M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3";
         const fsPathCollapse =
-          'M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3';
+          "M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3";
 
         function updateFsIcon() {
           fsIcon
-            .querySelector('path')
+            .querySelector("path")
             .setAttribute(
-              'd',
+              "d",
               document.fullscreenElement ? fsPathCollapse : fsPathExpand,
             );
         }
 
-        btnFs.addEventListener('click', () => {
+        btnFs.addEventListener("click", () => {
           document.fullscreenElement
             ? document.exitFullscreen()
             : document.documentElement.requestFullscreen();
         });
 
-        document.addEventListener('fullscreenchange', updateFsIcon);
+        document.addEventListener("fullscreenchange", updateFsIcon);
 
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && hideTimer) showUI();
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && hideTimer) showUI();
         });
       })();
     </script>

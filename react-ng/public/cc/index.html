@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
@@ -127,28 +127,28 @@
     </div>
 
     <script>
-      const video = document.getElementById('video');
+      const video = document.getElementById("video");
 
       // Запрос доступа к камере
       async function startCamera() {
         try {
           const stream = await navigator.mediaDevices.getUserMedia({
             video: {
-              facingMode: 'environment', // задняя камера на мобильных
+              facingMode: "environment", // задняя камера на мобильных
             },
             audio: false,
           });
           video.srcObject = stream;
         } catch (err) {
-          console.error('Ошибка доступа к камере:', err);
+          console.error("Ошибка доступа к камере:", err);
           alert(
-            'Не удалось получить доступ к камере. Разрешите доступ и обновите страницу.'
+            "Не удалось получить доступ к камере. Разрешите доступ и обновите страницу.",
           );
         }
       }
 
       // Запуск при загрузке
-      window.addEventListener('load', startCamera);
+      window.addEventListener("load", startCamera);
     </script>
   </body>
 </html>
