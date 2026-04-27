@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>BigText</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Roboto+Flex:opsz,wght@8..144,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+    <style>
+      /* ── MD3 Dark Tokens ── */
+      :root {
+        --md-sys-color-background: #1c1b1f;
+        --md-sys-color-surface: #1c1b1f;
+        --md-sys-color-surface-container: #211f26;
+        --md-sys-color-surface-variant: #49454f;
+        --md-sys-color-on-background: #e6e1e5;
+        --md-sys-color-on-surface: #e6e1e5;
+        --md-sys-color-on-surface-var: #cac4d0;
+        --md-sys-color-primary: #d0bcff;
+        --md-sys-color-on-primary: #381e72;
+        --md-sys-color-outline: #938f99;
+        --md-sys-color-outline-variant: #49454f;
+        --md-sys-shape-corner-large: 16px;
+        --md-sys-shape-corner-medium: 12px;
+        --md-sys-shape-corner-small: 8px;
+        --md-ref-typeface-plain: "JetBrains Mono", monospace;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--md-sys-color-background);
+        color: var(--md-sys-color-on-background);
+        font-family: var(--md-ref-typeface-plain);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ── Layout ── */
+      #app {
+        display: flex;
+        flex-direction: column;
+        height: 100dvh;
+        padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+          env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+      }
+
+      /* ── Top App Bar (MD3) ── */
+      #topbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        background: var(--md-sys-color-surface-container);
+        border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        flex-shrink: 0;
+        z-index: 10;
+      }
+
+      #topbar-title {
+        font-size: 22px;
+        font-weight: 400;
+        color: var(--md-sys-color-on-surface);
+        letter-spacing: 0;
+        flex-shrink: 0;
+      }
+
+      /* ── Outlined Text Field (MD3) ── */
+      .md-text-field {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .md-text-field input {
+        width: 100%;
+        height: 48px;
+        padding: 0 16px;
+        background: transparent;
+        border: 1px solid var(--md-sys-color-outline);
+        border-radius: var(--md-sys-shape-corner-small);
+        color: var(--md-sys-color-on-surface);
+        font-family: var(--md-ref-typeface-plain);
+        font-size: 16px;
+        outline: none;
+        transition:
+          border-color 0.2s,
+          border-width 0.2s;
+        caret-color: var(--md-sys-color-primary);
+      }
+
+      .md-text-field input::placeholder {
+        color: var(--md-sys-color-outline);
+      }
+
+      .md-text-field input:focus {
+        border: 2px solid var(--md-sys-color-primary);
+      }
+
+      .md-text-field .md-label {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 16px;
+        color: var(--md-sys-color-outline);
+        background: var(--md-sys-color-surface-container);
+        padding: 0 4px;
+        pointer-events: none;
+        transition:
+          top 0.15s,
+          font-size 0.15s,
+          color 0.15s;
+        line-height: 1;
+      }
+
+      .md-text-field input:focus ~ .md-label,
+      .md-text-field input:not(:placeholder-shown) ~ .md-label {
+        top: 0;
+        font-size: 12px;
+        color: var(--md-sys-color-primary);
+      }
+
+      .md-text-field input:not(:focus):not(:placeholder-shown) ~ .md-label {
+        color: var(--md-sys-color-on-surface-var);
+      }
+
+      /* ── Icon Button (MD3) ── */
+      .md-icon-btn {
+        width: 48px;
+        height: 48px;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--md-sys-color-on-surface-var);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition:
+          background 0.15s,
+          color 0.15s;
+        position: relative;
+      }
+
+      .md-icon-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: var(--md-sys-color-on-surface);
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+
+      .md-icon-btn:hover::before {
+        opacity: 0.08;
+      }
+
+      .md-icon-btn:active::before {
+        opacity: 0.12;
+      }
+
+      .md-icon-btn .material-icons-round {
+        font-size: 24px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ── Display Area ── */
+      #display-area {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        padding: 24px;
+        position: relative;
+      }
+
+      #display-text {
+        white-space: nowrap;
+        overflow: hidden;
+        line-height: 1.1;
+        font-family: "JetBrains Mono", var(--md-ref-typeface-plain);
+        font-weight: 700;
+        color: var(--md-sys-color-on-surface);
+        font-size: 48px;
+        /* initial; JS overrides */
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+
+      #display-text.visible {
+        opacity: 1;
+      }
+
+      /* ── Placeholder hint ── */
+      #hint {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        color: var(--md-sys-color-outline);
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+
+      #hint .material-icons-round {
+        font-size: 48px;
+      }
+
+      #hint p {
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+      }
+
+      /* ── Fullscreen adjustments ── */
+      :fullscreen #topbar,
+      :-webkit-full-screen #topbar {
+        background: var(--md-sys-color-background);
+      }
+
+      /* ── Ripple on icon btn (optional CSS only) ── */
+      @media (hover: none) {
+        .md-icon-btn:active::before {
+          opacity: 0.16;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- Top App Bar -->
+      <header id="topbar">
+        <span id="topbar-title">BigText</span>
+
+        <div class="md-text-field">
+          <input
+            type="text"
+            id="input"
+            placeholder=" "
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+          />
+          <label class="md-label" for="input">Введите текст…</label>
+        </div>
+
+        <button
+          class="md-icon-btn"
+          id="fs-btn"
+          title="Полный экран"
+          aria-label="Полный экран"
+        >
+          <span class="material-icons-round" id="fs-icon">fullscreen</span>
+        </button>
+      </header>
+
+      <!-- Display -->
+      <main id="display-area">
+        <div id="hint">
+          <span class="material-icons-round">text_fields</span>
+          <p>Введите текст выше</p>
+        </div>
+        <span id="display-text" role="status" aria-live="polite"></span>
+      </main>
+    </div>
+
+    <script>
+      const input = document.getElementById('input');
+      const displayText = document.getElementById('display-text');
+      const displayArea = document.getElementById('display-area');
+      const hint = document.getElementById('hint');
+      const fsBtn = document.getElementById('fs-btn');
+      const fsIcon = document.getElementById('fs-icon');
+
+      /* ── Fit text ── */
+      function fitText() {
+        const text = displayText.textContent;
+        if (!text) return;
+
+        const areaW = displayArea.clientWidth - 48; /* padding × 2 */
+        const areaH = displayArea.clientHeight - 48;
+
+        if (areaW <= 0 || areaH <= 0) return;
+
+        let lo = 4,
+          hi = 1600;
+
+        /* Binary search for the largest font-size that fits */
+        while (hi - lo > 1) {
+          const mid = (lo + hi) >> 1;
+          displayText.style.fontSize = mid + 'px';
+          if (
+            displayText.scrollWidth <= areaW &&
+            displayText.scrollHeight <= areaH
+          ) {
+            lo = mid;
+          } else {
+            hi = mid;
+          }
+        }
+        displayText.style.fontSize = lo + 'px';
+      }
+
+      /* ── Update display ── */
+      function update() {
+        const val = input.value;
+
+        if (!val) {
+          displayText.textContent = '';
+          displayText.classList.remove('visible');
+          hint.style.opacity = '1';
+          return;
+        }
+
+        hint.style.opacity = '0';
+        displayText.textContent = val;
+        displayText.classList.remove('visible');
+
+        /* Let DOM settle, then fit */
+        requestAnimationFrame(() => {
+          fitText();
+          displayText.classList.add('visible');
+        });
+      }
+
+      input.addEventListener('input', update);
+
+      /* ── Resize / orientation ── */
+      const ro = new ResizeObserver(() => {
+        if (displayText.textContent) fitText();
+      });
+      ro.observe(displayArea);
+
+      /* ── Fullscreen ── */
+      function toggleFS() {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+          (
+            document.documentElement.requestFullscreen ||
+            document.documentElement.webkitRequestFullscreen
+          ).call(document.documentElement);
+        } else {
+          (document.exitFullscreen || document.webkitExitFullscreen).call(
+            document,
+          );
+        }
+      }
+
+      fsBtn.addEventListener('click', toggleFS);
+
+      function onFSChange() {
+        const isFS = !!(
+          document.fullscreenElement || document.webkitFullscreenElement
+        );
+        fsIcon.textContent = isFS ? 'fullscreen_exit' : 'fullscreen';
+      }
+
+      document.addEventListener('fullscreenchange', onFSChange);
+      document.addEventListener('webkitfullscreenchange', onFSChange);
+
+      /* ── Focus input on load ── */
+      input.focus();
+    </script>
+  </body>
+</html>

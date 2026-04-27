@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <meta name="theme-color" content="#191620" />
+    <title>Часы</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+        background: linear-gradient(135deg, rgb(25, 22, 32), rgb(45, 31, 71));
+        color: rgba(250, 250, 250, 0.875);
+        font-family: 'JetBrains Mono', monospace;
+      }
+
+      #container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      #time {
+        font-size: clamp(2rem, 14vw, 24rem);
+      }
+
+      #fullscreen-btn {
+        background: rgba(255, 255, 255, 0.1875);
+        backdrop-filter: blur(8px);
+        border: none;
+        color: rgba(250, 250, 250, 0.875);
+        padding: calc(2 * 8px) calc(3 * 8px);
+        font-size: 1.5rem;
+        border-radius: calc(2 * 8px) 0 0 0;
+        cursor: pointer;
+        transition: background 125ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      #fullscreen-btn:hover {
+        background: rgb(255, 255, 255, 0.125);
+      }
+
+      #fullscreen-btn:active {
+        background: rgb(255, 255, 255, 0.0625);
+      }
+
+      /* На мобильных убираем выделение при касании */
+      #fullscreen-btn {
+        -webkit-tap-highlight-color: transparent;
+        position: fixed;
+        right: 0;
+        bottom: 0;
+      }
+
+      /* На мобильных убираем выделение при касании */
+      #fullscreen-btn svg {
+        fill: rgba(250, 250, 250, 0.875);
+        width: 32px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="time">--:--:--</div>
+      <button id="fullscreen-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+          <path
+            d="M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <script>
+      // Обновление времени
+      function updateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('ru-RU', {
+          hour12: true,
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        });
+        document.getElementById('time').textContent = timeString;
+      }
+
+      // Полноэкранный режим
+      function toggleFullscreen() {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+          const elem = document.documentElement;
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          } else if (elem.webkitRequestFullscreen) {
+            /* Safari */
+            elem.webkitRequestFullscreen();
+          } else if (elem.msRequestFullscreen) {
+            /* IE11 */
+            elem.msRequestFullscreen();
+          }
+        }
+      }
+
+      updateTime();
+      setInterval(updateTime, 1000);
+
+      document
+        .getElementById('fullscreen-btn')
+        .addEventListener('click', toggleFullscreen);
+    </script>
+  </body>
+</html>

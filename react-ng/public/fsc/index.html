@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta id="theme-meta" name="theme-color" content="#fafafa" />
+    <title>HEX Visualizer</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --ease: cubic-bezier(0.2, 0, 0, 1);
+        --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      body {
+        min-height: 100svh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fafafa;
+        color: #1c1b1f;
+        font-family: 'Google Sans', 'Roboto', system-ui, sans-serif;
+        transition:
+          background-color 0.5s var(--ease),
+          color 0.4s var(--ease);
+        overflow: hidden;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+      }
+
+      /* ── Card (MD3 Surface) ── */
+      .card {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 24px;
+        width: 320px;
+        border-radius: 28px;
+        background: rgba(128, 128, 128, 0.12);
+        backdrop-filter: blur(32px);
+        -webkit-backdrop-filter: blur(32px);
+        transition:
+          opacity 0.35s var(--ease),
+          transform 0.4s var(--ease),
+          visibility 0.35s;
+      }
+
+      .card.hidden {
+        opacity: 0;
+        transform: scale(0.94) translateY(8px);
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      /* ── MD3 Filled Text Field ── */
+      .field {
+        position: relative;
+        border-radius: 12px 12px 0 0;
+        background: rgba(128, 128, 128, 0.12);
+        overflow: hidden;
+      }
+
+      /* Bottom indicator line — neutral, не currentColor */
+      .field::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: rgba(128, 128, 128, 0.45);
+        transition:
+          height 0.15s var(--ease),
+          background 0.15s;
+      }
+
+      .field:focus-within::after {
+        height: 2px;
+        background: rgba(128, 128, 128, 0.75);
+      }
+
+      .field-inner {
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        height: 56px;
+      }
+
+      .hash {
+        font-size: 1.5rem;
+        font-weight: 400;
+        opacity: 0.32;
+        margin-right: 2px;
+        line-height: 1;
+        transition: opacity 0.15s;
+      }
+
+      .field:focus-within .hash {
+        opacity: 0.55;
+      }
+
+      input {
+        border: none;
+        background: transparent;
+        color: inherit;
+        font-family: 'Roboto Mono', 'SF Mono', 'Menlo', monospace;
+        font-size: 1.5rem;
+        font-weight: 400;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        outline: none;
+        width: 100%;
+        padding: 0;
+      }
+
+      input::placeholder {
+        opacity: 0.22;
+        letter-spacing: 2px;
+      }
+
+      /* ── RGB row ── */
+      .rgb-row {
+        display: flex;
+        overflow: hidden;
+        height: 0;
+        opacity: 0;
+        transition:
+          height 0.25s var(--ease),
+          opacity 0.25s;
+        padding: 0 4px;
+      }
+
+      .rgb-row.on {
+        height: 32px;
+        opacity: 1;
+      }
+
+      .rgb-chip {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 0.63rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0.5;
+        line-height: 1.3;
+        padding-top: 6px;
+      }
+
+      .rgb-chip b {
+        font-size: 0.78rem;
+        font-weight: 600;
+        opacity: 0.9;
+      }
+
+      /* ── Actions row ── */
+      .actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+      }
+
+      /* ── MD3 Tonal Button ── */
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex: 1;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 100px;
+        background: rgba(128, 128, 128, 0.12);
+        color: inherit;
+        font-family: inherit;
+        font-size: 0.875rem;
+        font-weight: 500;
+        letter-spacing: 0.006em;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.2s var(--spring);
+      }
+
+      /* Fullscreen button — icon only */
+      #btnFs {
+        flex: 0 0 44px;
+        padding: 10px;
+      }
+
+      /* MD3 state layer */
+      button::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: currentColor;
+        opacity: 0;
+        transition: opacity 0.2s;
+        pointer-events: none;
+      }
+
+      button:hover::before {
+        opacity: 0.08;
+      }
+      button:active::before {
+        opacity: 0.12;
+      }
+      button:active {
+        transform: scale(0.97);
+      }
+
+      /* Countdown arc */
+      @property --pct {
+        syntax: '<number>';
+        inherits: false;
+        initial-value: 0;
+      }
+
+      button.counting {
+        --pct: 0;
+        animation: drain 15s linear forwards;
+      }
+
+      @keyframes drain {
+        to {
+          --pct: 100;
+        }
+      }
+
+      button.counting::after {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border-radius: 100px;
+        background: conic-gradient(
+          currentColor calc(var(--pct) * 1%),
+          transparent calc(var(--pct) * 1%)
+        );
+        mask:
+          linear-gradient(#000 0 0) content-box,
+          linear-gradient(#000 0 0);
+        mask-composite: exclude;
+        -webkit-mask:
+          linear-gradient(#000 0 0) content-box,
+          linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        padding: 2px;
+        opacity: 0.35;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card" id="card">
+      <div class="field">
+        <div class="field-inner">
+          <span class="hash">#</span>
+          <input
+            id="hex"
+            type="text"
+            maxlength="6"
+            placeholder="000000"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            autofocus
+          />
+        </div>
+      </div>
+
+      <div class="rgb-row" id="rgbRow">
+        <div class="rgb-chip">R<b id="vR">—</b></div>
+        <div class="rgb-chip">G<b id="vG">—</b></div>
+        <div class="rgb-chip">B<b id="vB">—</b></div>
+      </div>
+
+      <div class="actions">
+        <button id="btnHide">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z" />
+            <circle cx="12" cy="12" r="3" />
+            <line
+              x1="3"
+              y1="3"
+              x2="21"
+              y2="21"
+              id="slash"
+              style="display: none"
+            />
+          </svg>
+          <span id="hideLabel">Скрыть 15с</span>
+        </button>
+        <button id="btnFs" title="Полный экран">
+          <svg
+            id="fsIcon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      (() => {
+        const $ = (id) => document.getElementById(id);
+        const body = document.body;
+        const meta = $('theme-meta');
+        const card = $('card');
+        const hexInput = $('hex');
+        const rgbRow = $('rgbRow');
+        const vR = $('vR'),
+          vG = $('vG'),
+          vB = $('vB');
+        const btnHide = $('btnHide');
+        const hideLabel = $('hideLabel');
+        const slash = $('slash');
+
+        let hideTimer = null;
+        let cdInterval = null;
+
+        const expand = (h) =>
+          h.length === 3
+            ? h
+                .split('')
+                .map((c) => c + c)
+                .join('')
+            : h;
+
+        function yiq(h) {
+          const r = parseInt(h.slice(0, 2), 16);
+          const g = parseInt(h.slice(2, 4), 16);
+          const b = parseInt(h.slice(4, 6), 16);
+          return (r * 299 + g * 587 + b * 114) / 1000 >= 128
+            ? '#1c1b1f'
+            : '#e6e1e5';
+        }
+
+        function applyColor(val) {
+          if (!val) {
+            body.style.backgroundColor = '#fafafa';
+            body.style.color = '#1c1b1f';
+            meta.content = '#fafafa';
+            rgbRow.classList.remove('on');
+            return;
+          }
+          const is3 = /^[0-9A-Fa-f]{3}$/.test(val);
+          const is6 = /^[0-9A-Fa-f]{6}$/.test(val);
+          if (!is3 && !is6) return;
+
+          const h = expand(val).toUpperCase();
+          body.style.backgroundColor = '#' + h;
+          body.style.color = yiq(h);
+          meta.content = '#' + h;
+
+          vR.textContent = parseInt(h.slice(0, 2), 16);
+          vG.textContent = parseInt(h.slice(2, 4), 16);
+          vB.textContent = parseInt(h.slice(4, 6), 16);
+          rgbRow.classList.add('on');
+        }
+
+        hexInput.addEventListener('input', () => applyColor(hexInput.value));
+
+        hexInput.addEventListener('paste', (e) => {
+          e.preventDefault();
+          const raw = (e.clipboardData || window.clipboardData).getData('text');
+          const clean = raw
+            .replace(/^#/, '')
+            .replace(/[^0-9A-Fa-f]/g, '')
+            .slice(0, 6);
+          hexInput.value = clean;
+          applyColor(clean);
+        });
+
+        function showUI() {
+          clearTimeout(hideTimer);
+          clearInterval(cdInterval);
+          hideTimer = null;
+          card.classList.remove('hidden');
+          btnHide.classList.remove('counting');
+          void btnHide.offsetWidth;
+          hideLabel.textContent = 'Скрыть на 15 секунд';
+          slash.style.display = 'none';
+          setTimeout(() => hexInput.focus(), 380);
+        }
+
+        function startHide() {
+          card.classList.add('hidden');
+          slash.style.display = '';
+          btnHide.classList.remove('counting');
+          void btnHide.offsetWidth;
+          btnHide.classList.add('counting');
+
+          let t = 15;
+          hideLabel.textContent = t + ' с';
+          cdInterval = setInterval(() => {
+            t--;
+            hideLabel.textContent = t > 0 ? t + ' с' : 'Скрыть на 15 секунд';
+            if (t <= 0) clearInterval(cdInterval);
+          }, 1000);
+
+          hideTimer = setTimeout(showUI, 15_000);
+        }
+
+        btnHide.addEventListener('click', () =>
+          hideTimer ? showUI() : startHide(),
+        );
+
+        /* ── Fullscreen ── */
+        const btnFs = $('btnFs');
+        const fsIcon = $('fsIcon');
+
+        const fsPathExpand =
+          'M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3';
+        const fsPathCollapse =
+          'M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3';
+
+        function updateFsIcon() {
+          fsIcon
+            .querySelector('path')
+            .setAttribute(
+              'd',
+              document.fullscreenElement ? fsPathCollapse : fsPathExpand,
+            );
+        }
+
+        btnFs.addEventListener('click', () => {
+          document.fullscreenElement
+            ? document.exitFullscreen()
+            : document.documentElement.requestFullscreen();
+        });
+
+        document.addEventListener('fullscreenchange', updateFsIcon);
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && hideTimer) showUI();
+        });
+      })();
+    </script>
+  </body>
+</html>

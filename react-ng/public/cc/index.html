@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Камера с контуром</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #000;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        height: 100vh;
+      }
+
+      h1 {
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .camera-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        border: 2px solid #333;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      #video {
+        width: 100%;
+        display: block;
+        background: #111;
+      }
+
+      /* Контур по центру */
+      .scan-frame {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 240px;
+        height: 180px;
+        border: 3px solid #0f0;
+        /* зелёный контур */
+        border-radius: 8px;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        /* не мешает взаимодействию */
+        box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.6);
+        /* затемнение вокруг */
+      }
+
+      /* Уголки (опционально, для стиля) */
+      .corner {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border-color: #0f0;
+        border-style: solid;
+      }
+
+      .top-left {
+        top: 0;
+        left: 0;
+        border-width: 3px 0 0 3px;
+      }
+
+      .top-right {
+        top: 0;
+        right: 0;
+        border-width: 3px 3px 0 0;
+      }
+
+      .bottom-left {
+        bottom: 0;
+        left: 0;
+        border-width: 0 0 3px 3px;
+      }
+
+      .bottom-right {
+        bottom: 0;
+        right: 0;
+        border-width: 0 3px 3px 0;
+      }
+
+      .info {
+        margin-top: 20px;
+        text-align: center;
+        max-width: 600px;
+        color: #aaa;
+      }
+
+      @media (max-width: 600px) {
+        .scan-frame {
+          width: 85vw;
+          height: 25vh;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Наведите камеру на объект</h1>
+
+    <div class="camera-container">
+      <video id="video" autoplay playsinline muted></video>
+      <div class="scan-frame">
+        <div class="corner top-left"></div>
+        <div class="corner top-right"></div>
+        <div class="corner bottom-left"></div>
+        <div class="corner bottom-right"></div>
+      </div>
+    </div>
+
+    <div class="info">
+      Контур показывает целевую зону. Убедитесь, что объект полностью в нём.
+    </div>
+
+    <script>
+      const video = document.getElementById('video');
+
+      // Запрос доступа к камере
+      async function startCamera() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: 'environment', // задняя камера на мобильных
+            },
+            audio: false,
+          });
+          video.srcObject = stream;
+        } catch (err) {
+          console.error('Ошибка доступа к камере:', err);
+          alert(
+            'Не удалось получить доступ к камере. Разрешите доступ и обновите страницу.'
+          );
+        }
+      }
+
+      // Запуск при загрузке
+      window.addEventListener('load', startCamera);
+    </script>
+  </body>
+</html>
