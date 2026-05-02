@@ -38,7 +38,11 @@ import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 /* import LocalGasStationOutlinedIcon from
   '@mui/icons-material/LocalGasStationOutlined';*/
-import { ArticleOutlined, DeviceThermostat } from "@mui/icons-material";
+import {
+  ArticleOutlined,
+  DeviceThermostat,
+  VideocamOutlined,
+} from "@mui/icons-material";
 
 export const Index = () => {
   const { openSpeedDial } = useContext(Context);
@@ -121,6 +125,11 @@ export const Index = () => {
       link_title: "Температура в квартире",
       to: "/temperature",
       icon: <DeviceThermostat fontSize={"large"} />,
+    },
+    {
+      link_title: "Веб-камера",
+      to: "/wcam",
+      icon: <VideocamOutlined fontSize={"large"} />,
     },
   ];
 

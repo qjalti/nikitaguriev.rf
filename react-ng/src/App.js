@@ -45,6 +45,7 @@ import { GasCalc } from "./pages/GasCalculatorPage";
 import { Wishlist } from "./pages/WishlistPage";
 import { Temperature } from "./pages/TemperaturePage";
 import { SeatBook } from "./pages/SeatBookPage";
+import { WCam } from "./pages/WCamPage";
 
 import { LightRope } from "./components/layout/LightRope";
 
@@ -205,6 +206,7 @@ function App() {
                   <Route path="/wishlist" element={<Wishlist />} exact />
                   <Route path="/temperature" element={<Temperature />} exact />
                   <Route path={"/seat_book"} element={<SeatBook />} exact />
+                  <Route path={"/wcam"} element={<WCam />} exact />
                 </Routes>
               </Container>
               <Footer />
