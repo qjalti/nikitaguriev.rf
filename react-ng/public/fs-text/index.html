@@ -65,7 +65,7 @@
       #app {
         display: flex;
         flex-direction: column;
-        height: 100 dvh;
+        height: 100dvh;
         padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
           env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
       }
@@ -205,16 +205,18 @@
       }
 
       #display-text {
-        white-space: nowrap;
-        overflow: hidden;
+        /* Перенос только по пробелам и символам \n, не по символам */
+        white-space: pre-wrap;
+        word-break: normal;
+        overflow-wrap: normal;
+        /* Занимаем всю доступную ширину, чтобы бинарный поиск корректно
+           учитывал многострочный текст */
+        width: 100%;
         line-height: 1.1;
         font-family: "JetBrains Mono", var(--md-ref-typeface-plain);
         font-weight: 700;
         color: var(--md-sys-color-on-surface);
-        font-size: 48px;
-        /* initial; JS overrides */
-        max-width: 100%;
-        max-height: 100%;
+        font-size: 48px; /* начальное; JS переопределяет */
         display: block;
         text-align: center;
         opacity: 0;
